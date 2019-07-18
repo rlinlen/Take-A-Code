@@ -2,39 +2,18 @@ const express = require('express');
 const helmet = require('helmet');
 const bodyParser = require('body-parser'); 
 
-var Sequelize = require('sequelize')
-var cookieParser = require('cookie-parser')
+var cookieParser = require('cookie-parser');
 const passport = require('passport');
 var expressSession = require('express-session');
-
-// initalize sequelize with session store
-const SequelizeStore = require('connect-session-sequelize')(expressSession.Store);
 
 const https = require('https');
 const fs = require('fs');
 const keys = require('./config/keys');
 const conf = require('./config/conf');
 
-// create database
-const sequelize = new Sequelize(
-    keys.dbInstance,
-    keys.dbAccount,
-    keys.dbPassword, 
-    {
-        "dialect": keys.dbType,
-        "host": keys.dbHost,
-    }
-);
-
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log('Connection has been established successfully.');
-  })
-  .catch(err => {
-    console.error('Unable to connect to the database:', err);
-  });
-
+const {sequelize, Project} = require('./services/sequelize');
+// initalize sequelize with session store
+const SequelizeStore = require('connect-session-sequelize')(expressSession.Store);
 
 ////Init express
 const app = express();
@@ -65,7 +44,7 @@ const app = express();
   app.use(passport.session());
 
   ////Routing
-
+  require('./routes/projectRoutes')(app, Project);
 
   ////Start Server
   
