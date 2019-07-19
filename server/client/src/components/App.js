@@ -2,9 +2,14 @@ import React from 'react';
 import {Router, Route, Switch} from 'react-router-dom';
 import {connect} from 'react-redux';
 import history from '../history';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Header from './Header';
 import Landing from './Landing';
+import Admin from './Admin/Admin';
+import ProjectAdmin from './Admin/Project/ProjectAdmin';
+import ProjectAdminNew from './Admin/Project/ProjectAdminNew';
 
 class App extends React.Component {
 
@@ -16,9 +21,13 @@ class App extends React.Component {
                         <Header />
                         <Switch>
                             <Route path='/' exact component={Landing} />
+                            <Route path='/admin' exact component={Admin} />
+                            <Route path='/admin/projects' exact component={ProjectAdmin} />
+                            <Route path='/admin/project/new' exact component={ProjectAdminNew} />
                         </Switch>
                     </>
                 </Router>
+                <ToastContainer />
             </div>
             );
     }
