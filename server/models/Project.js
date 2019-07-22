@@ -5,8 +5,6 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
     }, {
-        sequelize,
-        modelName: 'project',
         timestamps: false,
         freezeTableName: true,
         tableName: 'TAC_Project',

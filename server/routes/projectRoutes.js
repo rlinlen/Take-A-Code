@@ -3,15 +3,25 @@ module.exports = (app, Model) => {
     //list studies
     app.get('/api/projects',
         async (req, res, next) => { 
-            const response = await Model.findAll();
-            res.send(response);
+            try{
+                const response = await Model.findAll();
+                res.send(response);
+            }
+            catch (err){
+                res.send(err);
+            }
         }
     );
 
     app.get('/api/project/:projectId',
         async (req, res) => { 
-            const response = await Model.findByPk(req.params.projectId);
-            res.send(response);
+            try{
+                const response = await Model.findByPk(req.params.projectId);
+                res.send(response);
+            }
+            catch (err){
+                res.send(err);
+            }
     });
 
     //create audit
@@ -22,6 +32,23 @@ module.exports = (app, Model) => {
                 const project = await Model.create(req.body);
                 
                 res.send(project);
+            }
+            catch (err){
+                res.send(err);
+            }
+    });
+
+    app.patch('/api/project/:projectId',
+        async (req, res) => { 
+            try{
+                console.log(req.body);
+                const result = await Model.update(req.body, {
+                    where: {
+                        id: req.params.projectId
+                    }
+                })
+
+                res.send(result);
             }
             catch (err){
                 res.send(err);

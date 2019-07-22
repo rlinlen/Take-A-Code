@@ -4,11 +4,11 @@ import ReactTable from "react-table";
 import 'react-table/react-table.css'
 import { Link } from 'react-router-dom'
 
-class ProjectAdmin extends React.Component {
+class DictAdmin extends React.Component {
     constructor(props){
         super(props);
         //this.state = {};
-        this.state = { selected: {}, selectAll: 0, projects: [], isLoading: true, columns: [{
+        this.state = { selected: {}, selectAll: 0, items: [], isLoading: true, columns: [{
               accessor: "",
               Cell: ({original}) => {
                   //console.log(original);
@@ -39,38 +39,22 @@ class ProjectAdmin extends React.Component {
               sortable: false,
               width: 45
             },{
-              Header: 'Project ID',
+              Header: 'Items ID',
               accessor: 'id',
               style: { 'whiteSpace': 'unset' },
               Cell: row => {
                   //console.log(row);
                   if(row.value){
                       return(
-                          <Link to={`/admin/project/${row.value}`}>{row.value}</Link>
+                          <Link to={`/admin/dict/${row.value}`}>{row.value}</Link>
                       )
                   }
                   return null;
                   }
             },{
-                Header: 'Project Name',
+                Header: 'Dictionary Name',
                 accessor: 'Name',
                 style: { 'whiteSpace': 'unset' }
-            },{
-                Header: 'Manage',
-                accessor: 'id',
-                style: { 'whiteSpace': 'unset' },
-                Cell: row => {
-                    //console.log(row);
-                    if(row.value){
-                        return(
-                            <div className="btn-group">
-                                <Link to={`/admin/project/${row.value}`} className="btn btn-primary">Manage Project {row.value}</Link>
-                                <Link to={`/admin/projectitem/${row.value}`} className="btn btn-secondary">Manage ProjectItem Definetion</Link>
-                            </div>
-                        )
-                    }
-                    return null;
-                }
             }]
         }
     }
@@ -81,10 +65,10 @@ class ProjectAdmin extends React.Component {
     }
 
     fetchList = () => {
-        axios.get('/api/projects').then(
+        axios.get('/api/dicts').then(
             res => {
                 //console.log(res);
-                this.setState({projects: res.data, selected: {}, selectAll: 0}, 
+                this.setState({items: res.data, selected: {}, selectAll: 0}, 
                         () => {this.setState({ isLoading: false })});
             }
         );        
@@ -104,7 +88,7 @@ class ProjectAdmin extends React.Component {
 		let newSelected = {};
 
 		if (this.state.selectAll === 0) {
-			this.state.projects.forEach(item => {
+			this.state.items.forEach(item => {
 				newSelected[item.id] = true;
 			});
 		}
@@ -118,7 +102,7 @@ class ProjectAdmin extends React.Component {
     handleDelete = () => {
         this.setState({isLoading: true},  () => {
             Object.entries(this.state.selected).forEach(
-                ([key, value]) => { if(value===true) {axios.delete(`/api/project/${key}`)}}
+                ([key, value]) => { if(value===true) {axios.delete(`/api/dict/${key}`)}}
             )
             this.fetchList();
         })
@@ -126,19 +110,19 @@ class ProjectAdmin extends React.Component {
     }
 
     renderList (){
-        if (this.state.projects && this.state.columns){
+        if (this.state.items && this.state.columns){
 
             return (
                 <>
-                    <Link to="/admin/project/new" className="btn btn-primary">Add Project</Link>
+                    <Link to="/admin/dict/new" className="btn btn-primary">Add Dictionary</Link>
                     <button type="button" 
                         className="btn btn-danger" 
                         disabled={this.state.isLoading} 
-                        onClick={ this.handleDelete }>Delete Project</button> 
-                    <h4> Total projects: {this.state.projects.length}</h4>
+                        onClick={ this.handleDelete }>Delete Dictionary</button> 
+                    <h4> Total items: {this.state.items.length}</h4>
                     <div>
                         <ReactTable 
-                            data={this.state.projects}
+                            data={this.state.items}
                             columns={this.state.columns}
                             filterable={true}
                             defaultPageSize = {50}
@@ -171,4 +155,4 @@ class ProjectAdmin extends React.Component {
     }
 }
 
-export default (ProjectAdmin);
+export default (DictAdmin);

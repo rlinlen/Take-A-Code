@@ -1,6 +1,5 @@
 import React from 'react';
 import { Form, Field } from 'react-final-form'
-import {connect} from 'react-redux';
 
 class ProjectAdminForm extends React.Component {
     constructor(props){
@@ -19,7 +18,7 @@ class ProjectAdminForm extends React.Component {
     renderInput = ({ input, label, meta, id , placeholder}) => {
         return (
           <div className="form-group">
-            <label for={id}>{label}</label>
+            <label htmlFor={id}>{label}</label>
             <input {...input} className="form-control" type="text" id={id} autoComplete="off" placeholder={placeholder}/>
             {meta.error && meta.touched && <span className="text-danger">{meta.error}</span>}
           </div>
@@ -30,13 +29,14 @@ class ProjectAdminForm extends React.Component {
       return (
         <Form
           onSubmit={this.onSubmit}
+          initialValues={this.props.initialValues}  
           render={({ handleSubmit, form, submitting, pristine, values }) => (
             <form onSubmit={handleSubmit}>
               {/* <div className="form-group">
                 <label for="projectName">Name</label>
                 <Field className="form-control" id="projectName" name="Name" component="input" type="text" placeholder="Input Project Name"/>
               </div> */}
-              <Field name="Name" component={this.renderInput} id="projectName" placeholder="Input Project Name" validate={this.required}/>
+              <Field name="Name" component={this.renderInput} label="Name" id="projectName" placeholder="Input Project Name" validate={this.required}/>
 
               <button className="btn btn-primary" type="submit" disabled={submitting || pristine} >Submit</button>
               

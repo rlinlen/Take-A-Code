@@ -42,17 +42,17 @@ const Admin = () => {
                     </div> 
                 </Link>
             </div>
-{/*             <div className="card text-center mt-3 border-danger">
-                <Link to="/admin/studies" style={style.LinkStyle}>
+             <div className="card text-center mt-3 border-danger">
+                <Link to="/admin/dicts" style={style.LinkStyle}>
                     <div className="card-body" onMouseEnter={handleCardEnter} onMouseLeave={handleCardLeave}>
-                        <h5 className="card-title">Studies Admin</h5>
+                        <h5 className="card-title">Dictionary Admin</h5>
                         <div className="mb-2"><i className="fas fa-file-medical text-danger" style={style.IconStyle}></i></div>
-                        <p className="card-text">Manage Studies Detail</p>
+                        <p className="card-text">Manage Dictionary Detail</p>
                     </div>    
                 </Link>
             </div>
             <div className="w-100 d-none d-lg-block my-1"></div>
-            <div className="card text-center mt-3 border-warning">
+            {/*<div className="card text-center mt-3 border-warning">
                 <Link to="/admin/news" style={style.LinkStyle}>
                     <div className="card-body" onMouseEnter={handleCardEnter} onMouseLeave={handleCardLeave}>
                         <h5 className="card-title">News Admin</h5>

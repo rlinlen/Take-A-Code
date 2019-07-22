@@ -10,6 +10,9 @@ import Landing from './Landing';
 import Admin from './Admin/Admin';
 import ProjectAdmin from './Admin/Project/ProjectAdmin';
 import ProjectAdminNew from './Admin/Project/ProjectAdminNew';
+import ProjectAdminEdit from './Admin/Project/ProjectAdminEdit';
+import DictAdmin from './Admin/Dict/DictAdmin';
+import DictAdminNew from './Admin/Dict/DictAdminNew';
 
 class App extends React.Component {
 
@@ -24,6 +27,9 @@ class App extends React.Component {
                             <Route path='/admin' exact component={Admin} />
                             <Route path='/admin/projects' exact component={ProjectAdmin} />
                             <Route path='/admin/project/new' exact component={ProjectAdminNew} />
+                            <Route path='/admin/project/:id' exact component={ProjectAdminEdit}  />
+                            <Route path='/admin/dicts' exact component={DictAdmin} />
+                            <Route path='/admin/dict/new' exact component={DictAdminNew} />
                         </Switch>
                     </>
                 </Router>
