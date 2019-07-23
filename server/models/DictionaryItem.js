@@ -1,13 +1,19 @@
 module.exports = (sequelize, DataTypes, Dictionary) => {
     const DictionaryItem = sequelize.define('dictionaryItem', {
-        Dict_Id: {
+        id:{
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true,
+            field: 'ID'   //in DB it's ID. Specify it so that when created one can get the returned id.
+        },
+        DICT_ID: {
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        Value: {
+        VALUE: {
             type: DataTypes.STRING
         },
-        Display: {
+        DISPLAY: {
             type: DataTypes.STRING
         },
     }, {

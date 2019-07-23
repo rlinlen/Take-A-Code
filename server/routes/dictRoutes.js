@@ -16,7 +16,16 @@ module.exports = (app, Model) => {
     app.get('/api/dict/:id',
         async (req, res) => { 
             try{
-                const response = await Model.Parent.findByPk(req.params.id);
+                const Dictionary = await Model.Parent.findByPk(req.params.id);
+                const DictionaryItems = await Model.Child.findAll({ where: { DICT_ID: req.params.id } });
+                //console.log(Dictionary.dataValues);
+                //console.log(DictionaryItem);
+
+                //DictionaryItem:[{dataValues:{blabla}},]
+                let items = DictionaryItems.map(i => {return i.dataValues})
+                
+                response = {...Dictionary.dataValues, DictionaryItem:items}
+
                 res.send(response);
             }
             catch (err){
@@ -24,7 +33,7 @@ module.exports = (app, Model) => {
             }
     });
 
-    //create audit
+    //create
     app.post("/api/dict/new",
         async (req, res) => {
             console.log(req.body);
@@ -32,35 +41,22 @@ module.exports = (app, Model) => {
                 //const project = await Model.Parent.create(req.body);
 
                 let {DictionaryItem, ...Dictionary} = req.body;
-                console.log('Dictionary');
-                console.log(Dictionary);
+                //DictionaryItem: [ { Display: 'ddd', Value: '234' } ]
+                //console.log('Dictionary');
+                //console.log(Dictionary);
 
+                //Insert Parent to get PK
                 const dictionary = await Model.Parent.create(Dictionary);
                 //console.log(dictionary);
-                console.log(dictionary.id);
-                res.send(dictionary);
-
-                
-                //Create Child//
+                //console.log(dictionary.id);
 
 
-                
+                //Insert parent id to each child item (FK)
+                let items = DictionaryItem.map(i => {return {...i, DICT_ID:dictionary.id}});
+                const dictionaryItem = await Model.Child.bulkCreate(items);
 
-                /* Model.Parent.create(Dictionary).then(function(item){
-                    console.log(item);
-                    res.json( item );
-                }) */
-                /* Model.Parent.create(Dictionary).then(function(item){
-                    res.json({
-                      "Message" : "Created item.",
-                      "Item" : item
-                    });
-                  }).catch(function (err) {
-                    console.log(err);
-                  }); */
-                
-                
-                //const dictionaryItem = await Model.Child.create(DictionaryItem);
+                res.send({result:"ok"});
+
                 
             }
             catch (err){
@@ -71,26 +67,65 @@ module.exports = (app, Model) => {
     app.patch('/api/dict/:id',
         async (req, res) => { 
             try{
+                //Get DB items
+                const DictionaryItems = await Model.Child.findAll({ where: { DICT_ID: req.params.id } });
+                let dbItems = DictionaryItems.map(i => {return i.dataValues})
+                
                 console.log(req.body);
-                const result = await Model.Parent.update(req.body, {
-                    where: {
-                        id: req.params.projectId
-                    }
-                })
+/*                 { Name: 'dn12',
+                   Dict_Rule: 'dr12',
+                   Dict_Current: null,
+                   DictionaryItem:
+                    [ { id: 3, Dict_Id: 12, Value: 'dv1', Display: 'dd1', DICT_ID: 12 },   <-- already exists
+                      { Display: 'dd2', Value: 'dv2' } ] } */  // <-- new added
 
-                res.send(result);
+                //Get Form items
+                let {DictionaryItem, ...Dictionary} = req.body;
+                
+
+                //separete the newly added item
+                let addedItems = DictionaryItem.map(i => {if (!(i.hasOwnProperty('id'))) return {...i, DICT_ID:req.params.id} });
+                
+                //update and delete based on DB id
+                dbItems.forEach(i => {
+                    //update
+                    const result = DictionaryItem.find( item => item.id == i.id );
+                    if(result){
+                        Model.Child.update(result, {
+                            where: {
+                                id: i.id
+                            }
+                        })
+                    }
+                    //being removed
+                    else{
+                        Model.Child.destroy({
+                            where:  { id: i.id }
+                        })
+                    }
+                });
+                //create newly added item
+                await Model.Child.bulkCreate(addedItems);
+
+                res.send({result:"ok"});
             }
             catch (err){
                 res.send(err);
             }
     });
 
-    //delete audit
+    //delete
     app.delete('/api/dict/:id',
         async (req, res) => { 
             try{
-                //console.log(req.params.projectId);
-                const response = await Model.Parent.destroy({
+                //delete child first then parent
+                //must return promise so that the item can be flushed using await outside
+                const r = await Model.Child.destroy({
+                    where:  { DICT_ID: req.params.id }
+                })
+                //console.log(r);   //r -> number of deleted rows
+
+                const response = Model.Parent.destroy({
                     where: {
                         id: req.params.id
                     }

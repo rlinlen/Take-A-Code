@@ -53,7 +53,7 @@ class DictAdmin extends React.Component {
                   }
             },{
                 Header: 'Dictionary Name',
-                accessor: 'Name',
+                accessor: 'NAME',
                 style: { 'whiteSpace': 'unset' }
             }]
         }
@@ -100,11 +100,22 @@ class DictAdmin extends React.Component {
     }
 
     handleDelete = () => {
-        this.setState({isLoading: true},  () => {
-            Object.entries(this.state.selected).forEach(
+        this.setState({isLoading: true}, async () => {
+            let kv = Object.entries(this.state.selected);
+            //async version
+            for (let i = 0; i < kv.length; i++){
+                if(kv[i][1]===true){
+                    await axios.delete(`/api/dict/${kv[i][0]}`)
+                }
+            }
+
+            //console.log('deleted')
+            this.fetchList();
+
+            /* Object.entries(this.state.selected).forEach(
                 ([key, value]) => { if(value===true) {axios.delete(`/api/dict/${key}`)}}
             )
-            this.fetchList();
+            this.fetchList(); */
         })
         
     }

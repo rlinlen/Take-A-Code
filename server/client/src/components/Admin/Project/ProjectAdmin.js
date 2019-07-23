@@ -53,7 +53,7 @@ class ProjectAdmin extends React.Component {
                   }
             },{
                 Header: 'Project Name',
-                accessor: 'Name',
+                accessor: 'NAME',
                 style: { 'whiteSpace': 'unset' }
             },{
                 Header: 'Manage',
@@ -116,11 +116,17 @@ class ProjectAdmin extends React.Component {
     }
 
     handleDelete = () => {
-        this.setState({isLoading: true},  () => {
-            Object.entries(this.state.selected).forEach(
-                ([key, value]) => { if(value===true) {axios.delete(`/api/project/${key}`)}}
-            )
+        this.setState({isLoading: true}, async () => {
+            let kv = Object.entries(this.state.selected);
+            //async version
+            for (let i = 0; i < kv.length; i++){
+                if(kv[i][1]===true){
+                    await axios.delete(`/api/project/${kv[i][0]}`)
+                }
+            }
+
             this.fetchList();
+
         })
         
     }

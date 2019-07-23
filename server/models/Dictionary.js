@@ -6,14 +6,14 @@ module.exports = (sequelize, DataTypes) => {
             autoIncrement: true,
             field: 'ID'   //in DB it's ID. Specify it so that when created one can get the returned id.
         },
-        Name: {
+        NAME: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        Dict_Rule: {
+        DICT_RULE: {
             type: DataTypes.STRING
         },
-        Dict_Current: {
+        DICT_CURRENT: {
             type: DataTypes.INTEGER
         },
     }, {

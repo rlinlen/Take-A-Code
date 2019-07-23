@@ -36,7 +36,7 @@ class ProjectAdminForm extends React.Component {
                 <label for="projectName">Name</label>
                 <Field className="form-control" id="projectName" name="Name" component="input" type="text" placeholder="Input Project Name"/>
               </div> */}
-              <Field name="Name" component={this.renderInput} label="Name" id="projectName" placeholder="Input Project Name" validate={this.required}/>
+              <Field name="NAME" component={this.renderInput} label="Name" id="projectName" placeholder="Input Project Name" validate={this.required}/>
 
               <button className="btn btn-primary" type="submit" disabled={submitting || pristine} >Submit</button>
               

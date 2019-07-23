@@ -42,13 +42,13 @@ class DictAdminForm extends React.Component {
                 className="btn btn-danger"
                 onClick={() => fields.remove(index)}>Remove {member}</button>
               <Field
-                name={`${member}.Display`}
+                name={`${member}.DISPLAY`}
                 component={this.renderInput}
                 label={`#${index + 1} Display`}
                 placeholder="Input Display"
               />
               <Field
-                name={`${member}.Value`}
+                name={`${member}.VALUE`}
                 component={this.renderInput}
                 label={`#${index + 1} Value`}
                 placeholder="Input Value"
@@ -79,8 +79,8 @@ class DictAdminForm extends React.Component {
                 <label for="DictName">Name</label>
                 <Field className="form-control" id="DictName" name="Name" component="input" type="text" placeholder="Input Dict Name"/>
               </div> */}
-              <Field name="Name" component={this.renderInput} label="Name" id="dictName" placeholder="Input Dict Name" validate={this.required}/>
-              <Field name="Dict_Rule" component={this.renderInput} label="Dict_Rule" id="dictRule" placeholder="Input Dict Rule" />
+              <Field name="NAME" component={this.renderInput} label="Name" id="dictName" placeholder="Input Dict Name" validate={this.required}/>
+              <Field name="DICT_RULE" component={this.renderInput} label="Dict_Rule" id="dictRule" placeholder="Input Dict Rule" />
 
               <FieldArray name="DictionaryItem" component={this.renderFieldArray}/>
               

@@ -13,10 +13,10 @@ module.exports = (app, Model) => {
         }
     );
 
-    app.get('/api/project/:projectId',
+    app.get('/api/project/:id',
         async (req, res) => { 
             try{
-                const response = await Model.findByPk(req.params.projectId);
+                const response = await Model.findByPk(req.params.id);
                 res.send(response);
             }
             catch (err){
@@ -38,13 +38,13 @@ module.exports = (app, Model) => {
             }
     });
 
-    app.patch('/api/project/:projectId',
+    app.patch('/api/project/:id',
         async (req, res) => { 
             try{
                 console.log(req.body);
                 const result = await Model.update(req.body, {
                     where: {
-                        id: req.params.projectId
+                        id: req.params.id
                     }
                 })
 
@@ -56,13 +56,13 @@ module.exports = (app, Model) => {
     });
 
     //delete audit
-    app.delete('/api/project/:projectId',
-        async (req, res) => { 
+    app.delete('/api/project/:id',
+        (req, res) => { 
             try{
                 //console.log(req.params.projectId);
-                const response = await Model.destroy({
+                const response = Model.destroy({
                     where: {
-                        id: req.params.projectId
+                        id: req.params.id
                     }
                 })
 
