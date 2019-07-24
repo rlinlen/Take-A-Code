@@ -1,27 +1,29 @@
 module.exports = (sequelize, DataTypes) => {
-    const Dictionary = sequelize.define('dictionary', {
+    const ProjItemDict = sequelize.define('projItemDict', {
         id:{
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true,
             field: 'ID'   //in DB it's ID. Specify it so that when created one can get the returned id.
         },
-        NAME: {
-            type: DataTypes.STRING,
+        PROJECT_ID: {
+            type: DataTypes.INTEGER,
             allowNull: false
         },
-        DICT_TYPE: {
-            type: DataTypes.STRING,
+        DICTIONARY_ID: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        SEQ: {
+            type: DataTypes.INTEGER,
             allowNull: false
         },
     }, {
         timestamps: false,
         freezeTableName: true,
-        tableName: 'TAC_Dictionary',
+        tableName: 'TAC_ProjItemDict',
         // options
     });
 
-    
-
-    return Dictionary;
+    return ProjItemDict;
 }

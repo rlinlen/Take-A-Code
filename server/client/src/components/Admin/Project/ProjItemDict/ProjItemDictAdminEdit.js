@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-import ProjectItemAdminForm from './ProjectItemAdminForm';
+import ProjectItemAdminForm from './ProjDictAdminForm';
 import history from '../../../../history';
 
 class ProjectItemAdminEdit extends React.Component {
@@ -13,7 +13,7 @@ class ProjectItemAdminEdit extends React.Component {
     }
 
     componentDidMount() {
-        axios.get(`/api/projectItem/${this.props.match.params.projectId}`).then(
+        axios.get(`/api/projDict/${this.props.match.params.projectId}`).then(
             res => {
                 //console.log(res);
                 this.setState({item: res.data})
@@ -34,7 +34,7 @@ class ProjectItemAdminEdit extends React.Component {
     onSubmit = formValues => {
       let {id, ...idRemoved} = formValues;
 
-      axios.patch(`/api/projectItem/${this.props.match.params.projectId}`, idRemoved, {headers: { "Content-Type": "application/json"}}).then(
+      axios.patch(`/api/projDict/${this.props.match.params.projectId}`, idRemoved, {headers: { "Content-Type": "application/json"}}).then(
         res => {
             //console.log(res);
             toast.success("Done!");

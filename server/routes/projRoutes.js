@@ -1,7 +1,7 @@
 module.exports = (app, Model) => {
     
     //list studies
-    app.get('/api/dicts',
+    app.get('/api/projs',
         async (req, res, next) => { 
             try{
                 const response = await Model.Parent.findAll();
@@ -13,18 +13,15 @@ module.exports = (app, Model) => {
         }
     );
 
-    app.get('/api/dict/:id',
+    app.get('/api/proj/:id',
         async (req, res) => { 
             try{
-                const Dictionary = await Model.Parent.findByPk(req.params.id);
-                const DictionaryItems = await Model.Child.findAll({ where: { DICT_ID: req.params.id } });
-                //console.log(Dictionary.dataValues);
-                //console.log(DictionaryItem);
+                const Project = await Model.Parent.findByPk(req.params.id);
+                const ProjectItems = await Model.Child.findAll({ where: { PROJECT_ID: req.params.id } });
 
-                //DictionaryItem:[{dataValues:{blabla}},]
-                let items = DictionaryItems.map(i => {return i.dataValues})
-                
-                response = {...Dictionary.dataValues, DictionaryItem:items}
+                let items = ProjectItems.map(i => {return i.dataValues})
+
+                response = {...Project.dataValues, ProjectItem:items}
 
                 res.send(response);
             }
@@ -33,43 +30,35 @@ module.exports = (app, Model) => {
             }
     });
 
-    //create
-    app.post("/api/dict/new",
+    //create audit
+    app.post("/api/proj/new",
         async (req, res) => {
             //console.log(req.body);
             try{
-                //const project = await Model.Parent.create(req.body);
-
-                let {DictionaryItem, ...Dictionary} = req.body;
-                //DictionaryItem: [ { Display: 'ddd', Value: '234' } ]
-                //console.log('Dictionary');
-                //console.log(Dictionary);
+                let {ProjectItem, ...Project} = req.body;
 
                 //Insert Parent to get PK
-                const dictionary = await Model.Parent.create(Dictionary);
-                //console.log(dictionary);
-                //console.log(dictionary.id);
-
+                const project = await Model.Parent.create(Project);
 
                 //Insert parent id to each child item (FK)
-                let items = DictionaryItem.map(i => {return {...i, DICT_ID:dictionary.id}});
-                const dictionaryItem = await Model.Child.bulkCreate(items);
+                let items = ProjectItem.map(i => {return {...i, PROJECT_ID:project.id}});
+                const projectItems = await Model.Child.bulkCreate(items);
 
-                res.send({result:"ok"});
-
+                //const project = await Model.create(req.body);
                 
+                res.send({result:"ok"});
             }
             catch (err){
                 res.send(err);
             }
     });
 
-    app.patch('/api/dict/:id',
+    app.patch('/api/proj/:id',
         async (req, res) => { 
             try{
                 //Get DB Child items
-                const DictionaryItems = await Model.Child.findAll({ where: { DICT_ID: req.params.id } });
-                let dbItems = DictionaryItems.map(i => {return i.dataValues})
+                const ProjectItems = await Model.Child.findAll({ where: { PROJECT_ID: req.params.id } });
+                let dbItems = ProjectItems.map(i => {return i.dataValues})
                 
                 //console.log(req.body);
 /*                 { Name: 'dn12',
@@ -80,10 +69,10 @@ module.exports = (app, Model) => {
                       { Display: 'dd2', Value: 'dv2' } ] } */  // <-- new added
 
                 //Get Form items
-                let {DictionaryItem, ...Dictionary} = req.body;
+                let {ProjectItem, ...Project} = req.body;
                 
                 //Update Parent items
-                 Model.Parent.update(Dictionary, {
+                 Model.Parent.update(Project, {
                     where: {
                         id: req.params.id
                     }
@@ -91,13 +80,13 @@ module.exports = (app, Model) => {
 
                 //separete child newly added item
                 let addedItems = []
-                DictionaryItem.foreach(i => {if (!(i.hasOwnProperty('id'))) addedItems.push({...i, DICT_ID:req.params.id} ) });
+                ProjectItem.foreach(i => {if (!(i.hasOwnProperty('id'))) addedItems.push({...i, PROJECT_ID:req.params.id} ) });
                 //let addedItems = DictionaryItem.map(i => {if (!(i.hasOwnProperty('id'))) return {...i, DICT_ID:req.params.id} });
                 
                 //update and delete based on DB id
                 dbItems.forEach(i => {
                     //update
-                    const result = DictionaryItem.find( item => item.id == i.id );
+                    const result = ProjectItem.find( item => item.id == i.id );
                     if(result){
                         Model.Child.update(result, {
                             where: {
@@ -115,9 +104,6 @@ module.exports = (app, Model) => {
                 //create newly added item
                 await Model.Child.bulkCreate(addedItems);
 
-
-
-
                 res.send({result:"ok"});
             }
             catch (err){
@@ -125,14 +111,14 @@ module.exports = (app, Model) => {
             }
     });
 
-    //delete
-    app.delete('/api/dict/:id',
-        async (req, res) => { 
+    //delete audit
+    app.delete('/api/proj/:id',
+        (req, res) => { 
             try{
                 //delete child first then parent
                 //must return promise so that the item can be flushed using await outside
                 const r = await Model.Child.destroy({
-                    where:  { DICT_ID: req.params.id }
+                    where:  { PROJECT_ID: req.params.id }
                 })
                 //console.log(r);   //r -> number of deleted rows
 
@@ -141,6 +127,7 @@ module.exports = (app, Model) => {
                         id: req.params.id
                     }
                 })
+
 
                 res.send(response);
             }

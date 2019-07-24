@@ -4,7 +4,7 @@ import ReactTable from "react-table";
 import 'react-table/react-table.css'
 import { Link } from 'react-router-dom'
 
-class ProjectItemAdmin extends React.Component {
+class ProjDictAdmin extends React.Component {
     constructor(props){
         super(props);
         //this.state = {};
@@ -46,7 +46,7 @@ class ProjectItemAdmin extends React.Component {
                   //console.log(row);
                   if(row.value){
                       return(
-                          <Link to={`/admin/projectItem/${this.props.match.params.projectId}/${row.value}`}>{row.value}</Link>
+                          <Link to={`/admin/projDict/${this.props.match.params.projectId}/${row.value}`}>{row.value}</Link>
                       )
                   }
                   return null;
@@ -70,7 +70,7 @@ class ProjectItemAdmin extends React.Component {
     }
 
     fetchList = () => {
-        axios.get(`/api/projectItems/${this.props.match.params.projectId}`).then(
+        axios.get(`/api/projDicts/${this.props.match.params.projectId}`).then(
             res => {
                 //console.log(res);
                 this.setState({items: res.data, selected: {}, selectAll: 0}, 
@@ -110,7 +110,7 @@ class ProjectItemAdmin extends React.Component {
             //async version
             for (let i = 0; i < kv.length; i++){
                 if(kv[i][1]===true){
-                    await axios.delete(`/api/projectItem/${this.props.match.params.projectId}/${kv[i][0]}`)
+                    await axios.delete(`/api/projDict/${this.props.match.params.projectId}/${kv[i][0]}`)
                 }
             }
 
@@ -130,8 +130,8 @@ class ProjectItemAdmin extends React.Component {
 
             return (
                 <>
-                    <Link to={`/admin/projectItem/${this.props.match.params.projectId}/new`} className="btn btn-primary">Add ProjectItem</Link>
-                    <Link to={`/admin/projectItem/${this.props.match.params.projectId}`} className="btn btn-info">Edit ProjectItem</Link>
+                    <Link to={`/admin/projDict/${this.props.match.params.projectId}/new`} className="btn btn-primary">Add ProjectItem</Link>
+                    <Link to={`/admin/projDict/${this.props.match.params.projectId}`} className="btn btn-info">Edit ProjectItem</Link>
                     <button type="button" 
                         className="btn btn-danger" 
                         disabled={this.state.isLoading} 
@@ -172,4 +172,4 @@ class ProjectItemAdmin extends React.Component {
     }
 }
 
-export default (ProjectItemAdmin);
+export default (ProjDictAdmin);

@@ -95,7 +95,6 @@ class DictAdminForm extends React.Component {
               </div> */}
               <Field name="NAME" component={this.renderInput} label="Name" id="dictName" placeholder="Input Dict Name" validate={this.required}/>
               <Field name="DICT_TYPE" component={this.renderSelect} label="DICT_TYPE" id="dictType" options={this.dictType} />
-              <Field name="DICT_RULE" component={this.renderInput} label="Dict_Rule" id="dictRule" placeholder="Input Dict Rule" />
               
 
               <FieldArray name="DictionaryItem" component={this.renderFieldArray}/>

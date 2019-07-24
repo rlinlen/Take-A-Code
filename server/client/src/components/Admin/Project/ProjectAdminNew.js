@@ -12,7 +12,7 @@ class ProjectAdminNew extends React.Component {
 
     onSubmit = formValues => {
         //console.log(formValues);
-        axios.post('/api/project/new', formValues, {headers: { "Content-Type": "application/json"}}).then(
+        axios.post('/api/proj/new', formValues, {headers: { "Content-Type": "application/json"}}).then(
             res => {
                 //console.log(res);
                 toast.success("Done!");

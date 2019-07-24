@@ -38,7 +38,7 @@ class ProjectItemAdminNew extends React.Component {
 
     onSubmit = formValues => {
         //console.log(formValues);
-        axios.post(`/api/projectItem/${this.props.match.params.projectId}/new`, formValues, {headers: { "Content-Type": "application/json"}}).then(
+        axios.post(`/api/projDict/${this.props.match.params.projectId}/new`, formValues, {headers: { "Content-Type": "application/json"}}).then(
             res => {
                 //console.log(res);
                 toast.success("Done!");

@@ -46,7 +46,7 @@ class ProjectAdmin extends React.Component {
                   //console.log(row);
                   if(row.value){
                       return(
-                          <Link to={`/admin/project/${row.value}`}>{row.value}</Link>
+                          <Link to={`/admin/proj/${row.value}`}>{row.value}</Link>
                       )
                   }
                   return null;
@@ -55,7 +55,7 @@ class ProjectAdmin extends React.Component {
                 Header: 'Project Name',
                 accessor: 'NAME',
                 style: { 'whiteSpace': 'unset' }
-            },{
+            }/* ,{
                 Header: 'Manage',
                 accessor: 'id',
                 style: { 'whiteSpace': 'unset' },
@@ -71,7 +71,7 @@ class ProjectAdmin extends React.Component {
                     }
                     return null;
                 }
-            }]
+            } */]
         }
     }
         
@@ -81,7 +81,7 @@ class ProjectAdmin extends React.Component {
     }
 
     fetchList = () => {
-        axios.get('/api/projects').then(
+        axios.get('/api/projs').then(
             res => {
                 //console.log(res);
                 this.setState({projects: res.data, selected: {}, selectAll: 0}, 
@@ -121,7 +121,7 @@ class ProjectAdmin extends React.Component {
             //async version
             for (let i = 0; i < kv.length; i++){
                 if(kv[i][1]===true){
-                    await axios.delete(`/api/project/${kv[i][0]}`)
+                    await axios.delete(`/api/proj/${kv[i][0]}`)
                 }
             }
 
@@ -136,7 +136,7 @@ class ProjectAdmin extends React.Component {
 
             return (
                 <>
-                    <Link to="/admin/project/new" className="btn btn-primary">Add Project</Link>
+                    <Link to="/admin/proj/new" className="btn btn-primary">Add Project</Link>
                     <button type="button" 
                         className="btn btn-danger" 
                         disabled={this.state.isLoading} 

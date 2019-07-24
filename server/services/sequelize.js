@@ -29,18 +29,18 @@ Project.findAll().then( (result) => {
 
 ////Initialize Model
 const Project = require("../models/Project")(sequelize, Sequelize);
+const ProjectItem = require("../models/ProjectItem")(sequelize, Sequelize);
+const Proj =  {Parent: Project, Child: ProjectItem};
 
 const Dictionary = require("../models/Dictionary")(sequelize, Sequelize);
 const DictionaryItem = require("../models/DictionaryItem")(sequelize, Sequelize, Dictionary);
 const Dict = {Parent: Dictionary, Child: DictionaryItem};
 
-const ProjectItem = require("../models/ProjectItem")(sequelize, Sequelize);
 
 ////Export
 module.exports = {
     sequelize,
-    Project,
+    Proj,
     Dict,
-    ProjectItem
 }
 

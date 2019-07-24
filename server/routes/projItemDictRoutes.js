@@ -1,7 +1,7 @@
 module.exports = (app, Model, Project) => {
     
     //list studies
-    app.get('/api/projectItems/:projectId',
+    app.get('/api/projItemDicts/:projectItemId',
         async (req, res, next) => { 
             try{
                 const response = await Model.findAll({where: {
@@ -16,28 +16,29 @@ module.exports = (app, Model, Project) => {
     );
 
     //Currently same with project -> creating Form concept in the future @ 20190723
-    app.get('/api/projectItem/:projectId',
+    app.get('/api/projItemDict/:projectItemId',
         async (req, res, next) => { 
             try{
-                const ProjectItems = await Model.findAll({where: {
-                    PROJECT_ID: req.params.projectId
+                const ProjItemDicts = await Model.findAll({where: {
+                    PROJECTITEM_ID: req.params.projectId
                 }});
                 //console.log(ProjectItems);
                
 
-                const Dictionaries = ProjectItems.map(i => {return {
+                const Dictionaries = ProjItemDicts.map(i => {return {
                     id:i.dataValues.id, 
                     DICTIONARY_ID: i.dataValues.DICTIONARY_ID,
                     SEQ: i.dataValues.SEQ
                 }});
                 //console.log(Dictionaries);
 
-                const ProjectModel = await Project.findByPk(req.params.projectId);
+                const ProjectItemModel = await ProjectItem.findByPk(req.params.projectItemId);
                 //console.log(ProjectModel);
 
                 const response = {
-                    PROJECT_ID: req.params.projectId,
-                    PROJECT_NAME: ProjectModel.dataValues.NAME,
+                    PROJECTITEM_ID: req.params.projectItemId,
+                    PROJECTITEM_NAME: ProjectItemModel.dataValues.NAME,
+                    PROJECTITEM_RULE: ProjectItemModel.dataValues.PROJECTITEM_RULE,
                     Dictionaries: Dictionaries
                 }
                 //console.log(response);
@@ -51,7 +52,7 @@ module.exports = (app, Model, Project) => {
     );
 
     //create
-    app.post("/api/projectItem/:projectId/new",
+    app.post("/api/projItemDict/:projectItemId/new",
         async (req, res) => {
 /*             { PROJECT_ID: 4,
                 PROJECT_NAME: 't12312321',
@@ -61,7 +62,7 @@ module.exports = (app, Model, Project) => {
                 //console.log(req.body);
                 let {Dictionaries, ...rest} = req.body
 
-                let items = Dictionaries.map(i => {return {...i, PROJECT_ID: rest.PROJECT_ID}});
+                let items = Dictionaries.map(i => {return {...i, PROJECTITEM_ID: rest.PROJECTITEM_ID}});
                 await Model.bulkCreate(items);
                 
                 res.send({result:"ok"});
@@ -72,11 +73,11 @@ module.exports = (app, Model, Project) => {
             }
     });
 
-    app.patch('/api/projectItem/:projectId',
+    app.patch('/api/projItemDict/:projectItemId',
         async (req, res) => { 
             try{
                 //Get DB items
-                const Items = await Model.findAll({ where: { PROJECT_ID: req.params.projectId } });
+                const Items = await Model.findAll({ where: { PROJECTITEM_ID: req.params.projectItemId } });
                 let dbItems = Items.map(i => {return i.dataValues})
                 
                 console.log(req.body);
@@ -87,7 +88,7 @@ module.exports = (app, Model, Project) => {
 
                 //separete the newly added item
                 let addedItems = [];
-                Dictionaries.foreach(i => {if (!(i.hasOwnProperty('id'))) addedItems.push({...i, PROJECT_ID:req.params.projectId} ) });
+                Dictionaries.foreach(i => {if (!(i.hasOwnProperty('id'))) addedItems.push({...i, PROJECTITEM_ID:req.params.projectItemId} ) });
                 
                 //update and delete based on DB id
                 dbItems.forEach(i => {

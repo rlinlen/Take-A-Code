@@ -13,7 +13,7 @@ class ProjectAdminEdit extends React.Component {
     }
 
     componentDidMount() {
-        axios.get(`/api/project/${this.props.match.params.id}`).then(
+        axios.get(`/api/proj/${this.props.match.params.id}`).then(
             res => {
                 //console.log(res);
                 this.setState({project: res.data})
@@ -24,7 +24,7 @@ class ProjectAdminEdit extends React.Component {
     onSubmit = formValues => {
       let {id, ...idRemoved} = formValues;
 
-      axios.patch(`/api/project/${this.props.match.params.id}`, idRemoved, {headers: { "Content-Type": "application/json"}}).then(
+      axios.patch(`/api/proj/${this.props.match.params.id}`, idRemoved, {headers: { "Content-Type": "application/json"}}).then(
         res => {
             //console.log(res);
             toast.success("Done!");

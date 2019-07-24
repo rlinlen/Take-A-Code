@@ -10,13 +10,19 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        DICTIONARY_ID: {
-            type: DataTypes.INTEGER,
+        NAME: {
+            type: DataTypes.STRING,
             allowNull: false
+        },
+        PROJECTITEM_RULE: {
+            type: DataTypes.STRING
         },
         SEQ: {
             type: DataTypes.INTEGER,
             allowNull: false
+        },
+        DICT_CURRENT: {
+            type: DataTypes.INTEGER
         },
     }, {
         timestamps: false,
