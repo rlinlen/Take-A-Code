@@ -11,7 +11,7 @@ const fs = require('fs');
 const keys = require('./config/keys');
 const conf = require('./config/conf');
 
-const {sequelize, Project, Dict} = require('./services/sequelize');
+const {sequelize, Project, Dict, ProjectItem} = require('./services/sequelize');
 // initalize sequelize with session store
 const SequelizeStore = require('connect-session-sequelize')(expressSession.Store);
 
@@ -46,6 +46,7 @@ const app = express();
   ////Routing
   require('./routes/projectRoutes')(app, Project);
   require('./routes/dictRoutes')(app, Dict);
+  require('./routes/projectItemRoutes')(app, ProjectItem, Project);
 
   ////Start Server
   

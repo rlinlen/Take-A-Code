@@ -4,7 +4,7 @@ import ReactTable from "react-table";
 import 'react-table/react-table.css'
 import { Link } from 'react-router-dom'
 
-class DictAdmin extends React.Component {
+class ProjectItemAdmin extends React.Component {
     constructor(props){
         super(props);
         //this.state = {};
@@ -46,18 +46,19 @@ class DictAdmin extends React.Component {
                   //console.log(row);
                   if(row.value){
                       return(
-                          <Link to={`/admin/dict/${row.value}`}>{row.value}</Link>
+                          <Link to={`/admin/projectItem/${this.props.match.params.projectId}/${row.value}`}>{row.value}</Link>
                       )
                   }
                   return null;
                   }
             },{
-                Header: 'Dictionary Name',
+                //for easy identify
+                Header: 'Dictionary Name',    
                 accessor: 'NAME',
                 style: { 'whiteSpace': 'unset' }
             },{
-                Header: 'Dictionary Type',
-                accessor: 'DICT_TYPE',
+                Header: 'Sequence',
+                accessor: 'SEQ',
                 style: { 'whiteSpace': 'unset' }
             }]
         }
@@ -69,7 +70,7 @@ class DictAdmin extends React.Component {
     }
 
     fetchList = () => {
-        axios.get('/api/dicts').then(
+        axios.get(`/api/projectItems/${this.props.match.params.projectId}`).then(
             res => {
                 //console.log(res);
                 this.setState({items: res.data, selected: {}, selectAll: 0}, 
@@ -109,7 +110,7 @@ class DictAdmin extends React.Component {
             //async version
             for (let i = 0; i < kv.length; i++){
                 if(kv[i][1]===true){
-                    await axios.delete(`/api/dict/${kv[i][0]}`)
+                    await axios.delete(`/api/projectItem/${this.props.match.params.projectId}/${kv[i][0]}`)
                 }
             }
 
@@ -129,11 +130,12 @@ class DictAdmin extends React.Component {
 
             return (
                 <>
-                    <Link to="/admin/dict/new" className="btn btn-primary">Add Dictionary</Link>
+                    <Link to={`/admin/projectItem/${this.props.match.params.projectId}/new`} className="btn btn-primary">Add ProjectItem</Link>
+                    <Link to={`/admin/projectItem/${this.props.match.params.projectId}`} className="btn btn-info">Edit ProjectItem</Link>
                     <button type="button" 
                         className="btn btn-danger" 
                         disabled={this.state.isLoading} 
-                        onClick={ this.handleDelete }>Delete Dictionary</button> 
+                        onClick={ this.handleDelete }>Delete ProjectItem</button> 
                     <h4> Total items: {this.state.items.length}</h4>
                     <div>
                         <ReactTable 
@@ -170,4 +172,4 @@ class DictAdmin extends React.Component {
     }
 }
 
-export default (DictAdmin);
+export default (ProjectItemAdmin);

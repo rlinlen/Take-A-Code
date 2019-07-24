@@ -34,10 +34,13 @@ const Dictionary = require("../models/Dictionary")(sequelize, Sequelize);
 const DictionaryItem = require("../models/DictionaryItem")(sequelize, Sequelize, Dictionary);
 const Dict = {Parent: Dictionary, Child: DictionaryItem};
 
+const ProjectItem = require("../models/ProjectItem")(sequelize, Sequelize);
+
 ////Export
 module.exports = {
     sequelize,
     Project,
-    Dict
+    Dict,
+    ProjectItem
 }
 

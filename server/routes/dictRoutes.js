@@ -67,11 +67,11 @@ module.exports = (app, Model) => {
     app.patch('/api/dict/:id',
         async (req, res) => { 
             try{
-                //Get DB items
+                //Get DB Child items
                 const DictionaryItems = await Model.Child.findAll({ where: { DICT_ID: req.params.id } });
                 let dbItems = DictionaryItems.map(i => {return i.dataValues})
                 
-                console.log(req.body);
+                //console.log(req.body);
 /*                 { Name: 'dn12',
                    Dict_Rule: 'dr12',
                    Dict_Current: null,
@@ -82,9 +82,17 @@ module.exports = (app, Model) => {
                 //Get Form items
                 let {DictionaryItem, ...Dictionary} = req.body;
                 
+                //Update Parent items
+                 Model.Parent.update(Dictionary, {
+                    where: {
+                        id: req.params.id
+                    }
+                })
 
-                //separete the newly added item
-                let addedItems = DictionaryItem.map(i => {if (!(i.hasOwnProperty('id'))) return {...i, DICT_ID:req.params.id} });
+                //separete child newly added item
+                let addedItems = []
+                DictionaryItem.foreach(i => {if (!(i.hasOwnProperty('id'))) addedItems.push({...i, DICT_ID:req.params.id} ) });
+                //let addedItems = DictionaryItem.map(i => {if (!(i.hasOwnProperty('id'))) return {...i, DICT_ID:req.params.id} });
                 
                 //update and delete based on DB id
                 dbItems.forEach(i => {
@@ -106,6 +114,9 @@ module.exports = (app, Model) => {
                 });
                 //create newly added item
                 await Model.Child.bulkCreate(addedItems);
+
+
+
 
                 res.send({result:"ok"});
             }

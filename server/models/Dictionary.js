@@ -16,6 +16,9 @@ module.exports = (sequelize, DataTypes) => {
         DICT_CURRENT: {
             type: DataTypes.INTEGER
         },
+        DICT_TYPE: {
+            type: DataTypes.STRING
+        },
     }, {
         timestamps: false,
         freezeTableName: true,

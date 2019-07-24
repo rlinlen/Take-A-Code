@@ -65,7 +65,7 @@ class ProjectAdmin extends React.Component {
                         return(
                             <div className="btn-group">
                                 <Link to={`/admin/project/${row.value}`} className="btn btn-primary">Manage Project {row.value}</Link>
-                                <Link to={`/admin/projectitem/${row.value}`} className="btn btn-secondary">Manage ProjectItem Definetion</Link>
+                                <Link to={`/admin/projectItems/${row.value}`} className="btn btn-secondary">Manage ProjectItem Definetion</Link>
                             </div>
                         )
                     }
