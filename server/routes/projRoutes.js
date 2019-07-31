@@ -113,7 +113,7 @@ module.exports = (app, Model) => {
 
     //delete audit
     app.delete('/api/proj/:id',
-        (req, res) => { 
+        async (req, res) => { 
             try{
                 //delete child first then parent
                 //must return promise so that the item can be flushed using await outside

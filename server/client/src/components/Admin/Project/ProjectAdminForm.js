@@ -1,5 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 import { Form, Field } from 'react-final-form'
+import arrayMutators from 'final-form-arrays'
+import { FieldArray } from 'react-final-form-arrays'
 
 class ProjectAdminForm extends React.Component {
     constructor(props){
@@ -50,6 +53,12 @@ class ProjectAdminForm extends React.Component {
               className="btn btn-danger"
               onClick={() => fields.remove(index)}>Remove {member}</button>
             <Field
+              name={`${member}.NAME`}
+              component={this.renderInput}
+              label={`#${index + 1} NAME`}
+              placeholder="Input NAME"
+            />
+            <Field
               name={`${member}.PROJECTITEM_RULE`}
               component={this.renderInput}
               label={`#${index + 1} PROJECTITEM_RULE`}
@@ -58,12 +67,19 @@ class ProjectAdminForm extends React.Component {
             <Field
               name={`${member}.SEQ`}
               component={this.renderNumber}
-              label={`#${index + 1} Value`}
+              label={`#${index + 1} SEQ`}
               min="1"
               validate={this.required}
             />
-            //Link to projItemDict!
-            <Link to={`/admin/projItemDict/${this.props.match.params.id}`} className="btn btn-secondary">Manage ProjectItem Definition</Link>
+            <Field
+              name={`${member}.id`}
+              render={({ input, meta }) => (
+                <div>
+                   <Link to={`/admin/projItemDict/${input.value}`} className="btn btn-secondary">Manage ProjectItem Definition</Link>
+                </div>
+              )}
+              readOnly={true}
+            />
           </li>
         ))}
       </ul>
@@ -74,6 +90,9 @@ class ProjectAdminForm extends React.Component {
         <Form
           onSubmit={this.onSubmit}
           initialValues={this.props.initialValues}  
+          mutators={{
+            ...arrayMutators
+          }}
           render={({ handleSubmit, form, submitting, pristine, values }) => (
             <form onSubmit={handleSubmit}>
               {/* <div className="form-group">

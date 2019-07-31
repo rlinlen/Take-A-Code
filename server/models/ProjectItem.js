@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        DICT_CURRENT: {
+        PROJECTITEM_CURRENT: {
             type: DataTypes.INTEGER
         },
     }, {

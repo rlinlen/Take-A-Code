@@ -34,7 +34,7 @@ const Admin = () => {
     <div className="container">
         <div className="card-deck">
             <div className="card text-center mt-3 border-primary">
-                <Link to="/admin/projects" style={style.LinkStyle}>
+                <Link to="/admin/projs" style={style.LinkStyle}>
                     <div className="card-body" onMouseEnter={handleCardEnter} onMouseLeave={handleCardLeave}>
                         <h5 className="card-title">Project Admin</h5>
                         <div className="mb-2"><i className="fas fa-users text-primary" style={style.IconStyle}></i></div>

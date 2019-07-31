@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
             autoIncrement: true,
             field: 'ID'   //in DB it's ID. Specify it so that when created one can get the returned id.
         },
-        PROJECT_ID: {
+        PROJECTITEM_ID: {
             type: DataTypes.INTEGER,
             allowNull: false
         },

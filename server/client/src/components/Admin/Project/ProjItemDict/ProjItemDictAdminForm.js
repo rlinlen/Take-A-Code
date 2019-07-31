@@ -104,8 +104,8 @@ class ProjectItemAdminForm extends React.Component {
                 <label for="ProjectItemName">Name</label>
                 <Field className="form-control" id="ProjectItemName" name="Name" component="input" type="text" placeholder="Input ProjectItem Name"/>
               </div> */}
-              <Field name="PROJECT_ID" component={this.renderInput} label="PROJECT_ID" id="PROJECT_ID" validate={this.required} readonly={true}/>
-              <Field name="PROJECT_NAME" component={this.renderInput} label="PROJECT_NAME" id="PROJECT_NAME" validate={this.required} readonly={true}/>
+              <Field name="PROJECTITEM_ID" component={this.renderInput} label="PROJECTITEM_ID" id="PROJECTITEM_ID" validate={this.required} readonly={true}/>
+              <Field name="PROJECTITEM_NAME" component={this.renderInput} label="PROJECTITEM_NAME" id="PROJECTITEM_NAME" validate={this.required} readonly={true}/>
 
               <FieldArray name="Dictionaries" component={this.renderFieldArray}/>
               

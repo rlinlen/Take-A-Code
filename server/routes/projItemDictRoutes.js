@@ -4,8 +4,8 @@ module.exports = (app, Model, Project) => {
     app.get('/api/projItemDicts/:projectItemId',
         async (req, res, next) => { 
             try{
-                const response = await Model.findAll({where: {
-                    PROJECT_ID: req.params.projectId
+                const response = await Model.Child.findAll({where: {
+                    PROJECTITEM_ID: req.params.projectItemId
                 }});
                 res.send(response);
             }
@@ -19,8 +19,8 @@ module.exports = (app, Model, Project) => {
     app.get('/api/projItemDict/:projectItemId',
         async (req, res, next) => { 
             try{
-                const ProjItemDicts = await Model.findAll({where: {
-                    PROJECTITEM_ID: req.params.projectId
+                const ProjItemDicts = await Model.Child.findAll({where: {
+                    PROJECTITEM_ID: req.params.projectItemId
                 }});
                 //console.log(ProjectItems);
                
@@ -32,7 +32,7 @@ module.exports = (app, Model, Project) => {
                 }});
                 //console.log(Dictionaries);
 
-                const ProjectItemModel = await ProjectItem.findByPk(req.params.projectItemId);
+                const ProjectItemModel = await Model.Parent.findByPk(req.params.projectItemId);
                 //console.log(ProjectModel);
 
                 const response = {
@@ -46,6 +46,7 @@ module.exports = (app, Model, Project) => {
                 res.send(response);
             }
             catch (err){
+                //console.log(err)
                 res.send(err);
             }
         }
@@ -63,7 +64,7 @@ module.exports = (app, Model, Project) => {
                 let {Dictionaries, ...rest} = req.body
 
                 let items = Dictionaries.map(i => {return {...i, PROJECTITEM_ID: rest.PROJECTITEM_ID}});
-                await Model.bulkCreate(items);
+                await Model.Child.bulkCreate(items);
                 
                 res.send({result:"ok"});
             }
@@ -77,7 +78,7 @@ module.exports = (app, Model, Project) => {
         async (req, res) => { 
             try{
                 //Get DB items
-                const Items = await Model.findAll({ where: { PROJECTITEM_ID: req.params.projectItemId } });
+                const Items = await Model.Child.findAll({ where: { PROJECTITEM_ID: req.params.projectItemId } });
                 let dbItems = Items.map(i => {return i.dataValues})
                 
                 console.log(req.body);
@@ -88,14 +89,14 @@ module.exports = (app, Model, Project) => {
 
                 //separete the newly added item
                 let addedItems = [];
-                Dictionaries.foreach(i => {if (!(i.hasOwnProperty('id'))) addedItems.push({...i, PROJECTITEM_ID:req.params.projectItemId} ) });
+                Dictionaries.forEach(i => {if (!(i.hasOwnProperty('id'))) addedItems.push({...i, PROJECTITEM_ID:req.params.projectItemId} ) });
                 
                 //update and delete based on DB id
                 dbItems.forEach(i => {
                     //update
                     const result = Dictionaries.find( item => item.id == i.id );
                     if(result){
-                        Model.update(result, {
+                        Model.Child.update(result, {
                             where: {
                                 id: i.id
                             }
@@ -103,17 +104,18 @@ module.exports = (app, Model, Project) => {
                     }
                     //being removed
                     else{
-                        Model.destroy({
+                        Model.Child.destroy({
                             where:  { id: i.id }
                         })
                     }
                 });
                 //create newly added item
-                await Model.bulkCreate(addedItems);
+                await Model.Child.bulkCreate(addedItems);
 
                 res.send({result:"ok"});
             }
             catch (err){
+                console.log(err);
                 res.send(err);
             }
     });
