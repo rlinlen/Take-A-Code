@@ -11,7 +11,7 @@ class DictAdminForm extends React.Component {
         this.number = value => (value && !/^[0-9]*$/i.test(value)
                                 ? 'Invalid Number!'
                                 : undefined)
-        this.dictType = [{value:'select',label:'select'},{value:'number',label:'number'},{value:'text',label:'text'}]
+        this.dictType = [{value:'select',label:'select'},{value:'number',label:'number'},{value:'text',label:'text'},{value:'date',label:'date'}]
     }
 
     onSubmit = formValues => {

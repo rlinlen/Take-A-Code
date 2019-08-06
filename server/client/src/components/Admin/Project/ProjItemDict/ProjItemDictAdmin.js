@@ -4,7 +4,7 @@ import ReactTable from "react-table";
 import 'react-table/react-table.css'
 import { Link } from 'react-router-dom'
 
-class ProjDictAdmin extends React.Component {
+class ProjItemDictAdmin extends React.Component {
     constructor(props){
         super(props);
         //this.state = {};
@@ -172,4 +172,4 @@ class ProjDictAdmin extends React.Component {
     }
 }
 
-export default (ProjDictAdmin);
+export default (ProjItemDictAdmin);

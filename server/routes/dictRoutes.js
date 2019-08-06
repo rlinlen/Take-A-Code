@@ -91,7 +91,7 @@ module.exports = (app, Model) => {
 
                 //separete child newly added item
                 let addedItems = []
-                DictionaryItem.foreach(i => {if (!(i.hasOwnProperty('id'))) addedItems.push({...i, DICT_ID:req.params.id} ) });
+                DictionaryItem.forEach(i => {if (!(i.hasOwnProperty('id'))) addedItems.push({...i, DICT_ID:req.params.id} ) });
                 //let addedItems = DictionaryItem.map(i => {if (!(i.hasOwnProperty('id'))) return {...i, DICT_ID:req.params.id} });
                 
                 //update and delete based on DB id

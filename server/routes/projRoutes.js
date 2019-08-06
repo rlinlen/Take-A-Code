@@ -80,7 +80,7 @@ module.exports = (app, Model) => {
 
                 //separete child newly added item
                 let addedItems = []
-                ProjectItem.foreach(i => {if (!(i.hasOwnProperty('id'))) addedItems.push({...i, PROJECT_ID:req.params.id} ) });
+                ProjectItem.forEach(i => {if (!(i.hasOwnProperty('id'))) addedItems.push({...i, PROJECT_ID:req.params.id} ) });
                 //let addedItems = DictionaryItem.map(i => {if (!(i.hasOwnProperty('id'))) return {...i, DICT_ID:req.params.id} });
                 
                 //update and delete based on DB id
@@ -107,6 +107,7 @@ module.exports = (app, Model) => {
                 res.send({result:"ok"});
             }
             catch (err){
+                console.log(err);
                 res.send(err);
             }
     });
