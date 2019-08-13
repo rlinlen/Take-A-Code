@@ -1,7 +1,9 @@
 import React from 'react';
 import axios from 'axios';
-import DictionaryCards from './DictionaryCards';
+import {connect} from 'react-redux';
 
+import DictionaryCards from './DictionaryCards';
+import {resetDictValue} from '../../actions';
 
 class ProjectItems extends React.Component {
 
@@ -12,6 +14,7 @@ class ProjectItems extends React.Component {
 
     componentDidMount(){
         //this.fetchData(this.props.projectId);
+        this.props.resetDictValue();
     }
 
     componentDidUpdate(prevProps) {
@@ -31,14 +34,15 @@ class ProjectItems extends React.Component {
         );
     }
 
+    
+
     render() {
         //console.log(this.props.projectId)
         if (!this.props.projectId) {
             return <div>Please select a project.</div>;
         }
 
-        if ( 
-            (Object.entries(this.state.project).length === 0 && this.state.project.constructor === Object)) {
+        if  (Object.entries(this.state.project).length === 0 && this.state.project.constructor === Object) {
             return <div>Loading...</div>;
         }
 
@@ -61,4 +65,7 @@ class ProjectItems extends React.Component {
     }
 }
 
-export default ProjectItems;
+
+
+
+export default connect(null,{resetDictValue})(ProjectItems);

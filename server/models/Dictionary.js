@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
+        DICT_RULE: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
     }, {
         timestamps: false,
         freezeTableName: true,

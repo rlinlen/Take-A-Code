@@ -1,0 +1,2 @@
+export const SET_DICTVALUE = 'SET_DICTVALUE';
+export const RESET_DICTVALUE = 'RESET_DICTVALUE';

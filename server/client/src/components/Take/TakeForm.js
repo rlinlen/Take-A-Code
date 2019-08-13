@@ -38,10 +38,11 @@ class TakeForm extends React.Component {
             <div className="row justify-content-center">
               <div className="col-lg-9">
                 <h3>Select Project</h3>
-                <select value={this.state.selectedProj} onChange={this.handlePorjChange}>
+                <select className="form-control" value={this.state.selectedProj} onChange={this.handlePorjChange}>
                     <option value="">----</option>
                     {this.state.projs.map(i => <option key={i.id} value={i.id}>{i.NAME}</option>)}
                 </select>
+                <hr/>
                 <ProjectItems projectId={this.state.selectedProj}/>
               </div>
             </div>
