@@ -39,7 +39,7 @@ class App extends React.Component {
                         </Switch>
                     </>
                 </Router>
-                <ToastContainer />
+                <ToastContainer autoClose={1000}/>
             </div>
             );
     }

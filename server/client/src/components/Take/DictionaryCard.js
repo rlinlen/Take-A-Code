@@ -37,7 +37,7 @@ class DictionaryCard extends React.Component {
     setFieldValue(name, e.target.value);
 
     //console.log(this.props.projItemId + ',' + this.props.dictId + ',' + e.target.value)
-    this.props.setDictValue(this.props.projItemId, this.props.dictSEQ, this.props.dictId, e.target.value, this.state.dict.DICT_TYPE, this.state.dict.DICT_RULE);
+    this.props.setDictValue(this.props.projItemId, this.props.dictSEQ, this.props.dictId, e.target.value, this.state.dict.DICT_TYPE, this.state.dict.DICT_RULE, this.state.dict.DICT_CURRENT);
   }
 
   renderText = ({
@@ -107,9 +107,14 @@ class DictionaryCard extends React.Component {
   renderInput = () => {
     switch(this.state.dict.DICT_TYPE) {
       case 'select':
-        return <Field name="item" component={this.renderSelect} id="PROJECTITEM_ID" options={this.state.dict.DictionaryItem} />
+        return <Field name="item" component={this.renderSelect} id="PROJECTITEM_ID" options={this.state.dict.DictionaryItem || 0} />
       case 'number':
-        return <Field name="item" component={this.renderNumber} id="PROJECTITEM_ID" min="0" />
+        return (
+          <>
+            <Field type="text" readOnly={true} className="form-control" value={this.state.dict.DICT_CURRENT || 0}/>
+            <Field name="item" component={this.renderNumber} id="PROJECTITEM_ID" min={1}/>
+          </>
+        )
       case 'text':
         return <Field name="item" component={this.renderText} id="PROJECTITEM_ID" />
       default:

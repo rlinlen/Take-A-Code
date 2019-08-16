@@ -64,6 +64,38 @@ module.exports = (app, Model) => {
             }
     });
 
+    app.patch('/api/dict/current/:id',
+        async (req, res) => { 
+            try{
+               
+                //Get Form items
+                let {value} = req.body;
+
+                //make sure it's always update from db to avoid lock
+                const Dictionary = await Model.Parent.findByPk(req.params.id);
+
+                //initilize
+                Dictionary.DICT_CURRENT = Dictionary.DICT_CURRENT || 0
+                let newCurrent = +Dictionary.DICT_CURRENT + +value;
+
+                //Update Parent items
+                 Model.Parent.update({DICT_CURRENT: newCurrent}, {
+                    where: {
+                        id: req.params.id
+                    }
+                })
+
+                console.log(Dictionary);
+                console.log(value);
+
+                res.send({result:"ok"});
+            }
+            catch (err){
+                res.send(err);
+            }
+    });
+
+
     app.patch('/api/dict/:id',
         async (req, res) => { 
             try{

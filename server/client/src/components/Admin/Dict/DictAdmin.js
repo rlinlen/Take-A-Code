@@ -63,6 +63,10 @@ class DictAdmin extends React.Component {
                 Header: 'Dictionary Rule',
                 accessor: 'DICT_RULE',
                 style: { 'whiteSpace': 'unset' }
+            },{
+                Header: 'Dictionary Current',
+                accessor: 'DICT_CURRENT',
+                style: { 'whiteSpace': 'unset' }
             }]
         }
     }

@@ -12,6 +12,7 @@ const dictValueReducer = (state=init,action) => {
     } */
     switch (action.type){
         case SET_DICTVALUE:
+            //console.log(state);
             let merged = {...state}
             for (var att in action.payload){
                 merged[att] = {...merged[att],...action.payload[att]};

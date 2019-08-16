@@ -54,7 +54,7 @@ class DictionaryCards extends React.Component {
     //<p>{Object.entries(this.props.dictValue[id]).sort((a, b) => a[1].seq - b[1].seq).map(i => i[1].value).join('-')}</p>
         //ASC
         <div>
-            <h4>Generated Code:</h4>
+            <h4>Generated Code Preview:</h4>
             <p>{this.props.dictValue[id].code}</p>
         </div>
         
