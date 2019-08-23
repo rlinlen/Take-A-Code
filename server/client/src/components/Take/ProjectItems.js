@@ -40,8 +40,9 @@ class ProjectItems extends React.Component {
     handleSubmitClick = async () => {
         for (let item = 0; item < this.state.project.ProjectItem.length ; item++){
             //skip non-created code -> actuaaly should not happen because every field should be filled
-            if(this.props.dictValue[this.state.project.ProjectItem[item].id]){
-                let kv = Object.entries(this.props.dictValue[this.state.project.ProjectItem[item].id]);
+            let projectItemId = this.state.project.ProjectItem[item].id
+            if(this.props.dictValue[projectItemId]){
+                let kv = Object.entries(this.props.dictValue[projectItemId]);
                 for (let i = 0; i < kv.length ; i++){
                     if (kv[i][1].type === 'number')
                     {
@@ -49,8 +50,9 @@ class ProjectItems extends React.Component {
                     }
                     //post other API if audit
                 }
+                //post single create
+                await axios.post(`/api/taken/new/${projectItemId}`,this.props.dictValue[projectItemId]);
             }
-            
         }
 
         toast.success("Done!");

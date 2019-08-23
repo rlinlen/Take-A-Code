@@ -1,4 +1,4 @@
-module.exports = (app, Model, Project) => {
+module.exports = (app, Model) => {
     
     //list studies
     app.get('/api/projItemDicts/:projectItemId',

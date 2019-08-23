@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-import { Form, Field } from 'react-final-form'
 import {connect} from 'react-redux';
 
 import DictionaryCard from './DictionaryCard'
@@ -30,6 +29,7 @@ class DictionaryCards extends React.Component {
     //if all field is filled in a projectitem
     if (this.verifyFill(this.props.projItemId, this.state.projItemDict.Dictionaries.length)) {
       //console.log(Object.entries(prevProps.dictValue[id]).reduce((a,c) => a + +Number.isInteger(+c[0]),0) !== (dictNum))
+      //if previous verifynull is 0 -> avoid infinite loop
       if (Object.entries(prevProps.dictValue[prevProps.projItemId]).reduce((a,c) => a + +Number.isInteger(+c[0]),0) !== (this.state.projItemDict.Dictionaries.length))
         this.props.finishDictValue(this.props.projItemId)
     }
@@ -45,16 +45,12 @@ class DictionaryCards extends React.Component {
       return 0;
     }
 
-    //must fill all the dictionary, plus 1 for generated code and 1 for set note
-    /* if (Object.entries(this.props.dictValue[id]).length !== (dictNum + 1)){
-      return 0;
-    } */
     //must fill all the dictionary, filter if the key is integer only to avoid other flag.
-    if (Object.entries(this.props.dictValue[id]).reduce((a,c) => a + +Number.isInteger(+c[0]),0) !== (dictNum)){
-      return 0;
+    if (Object.entries(this.props.dictValue[id]).reduce((a,c) => a + +Number.isInteger(+c[0]),0) === (dictNum)){
+      return 1;
     }
 
-    return 1;
+    return 0;
 
   }
 
@@ -72,8 +68,6 @@ class DictionaryCards extends React.Component {
     if (Object.entries(this.props.dictValue[id]).length !== (dictNum + 1)){
       return <></>;
     } */
-    console.log(this.verifyFill(id, dictNum))
-    console.log(this.props.dictValue)
     if (!this.verifyFill(id, dictNum)){
       return <></>;
     }

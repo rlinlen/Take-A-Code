@@ -16,6 +16,7 @@ import DictAdminNew from './Admin/Dict/DictAdminNew';
 import DictAdminEdit from './Admin/Dict/DictAdminEdit';
 import ProjItemDictAdminEdit from './Admin/Project/ProjItemDict/ProjItemDictAdminEdit';
 import TakeForm from './Take/TakeForm';
+import BrowseForm from './Browse/BrowseForm';
 
 class App extends React.Component {
 
@@ -36,6 +37,7 @@ class App extends React.Component {
                             <Route path='/admin/dict/:id' exact component={DictAdminEdit}  />
                             <Route path='/admin/projItemDict/:projItemId' exact component={ProjItemDictAdminEdit} />
                             <Route path='/take/new' exact component={TakeForm} />
+                            <Route path='/browse' exact component={BrowseForm} />
                         </Switch>
                     </>
                 </Router>

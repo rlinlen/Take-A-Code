@@ -36,10 +36,10 @@ class DictionaryCard extends React.Component {
     const { setFieldValue } = form;
     const { name, value } = e.target;
     //console.log(e);
-    setFieldValue(name, e.target.value);
+    setFieldValue(name, value);
 
     //this.props.setDictValue(this.props.projItemId, this.props.dictSEQ, this.props.dictId, e.target.value, this.state.dict.DICT_TYPE, this.state.dict.DICT_RULE, this.state.dict.DICT_CURRENT);
-    this.handleSetDictField(e.target.value);
+    this.handleSetDictField(value);
   }
 
   handleDatePickerChange = (date,name,form) => {

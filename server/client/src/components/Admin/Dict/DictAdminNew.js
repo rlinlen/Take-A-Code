@@ -6,9 +6,6 @@ import DictAdminForm from './DictAdminForm';
 import history from '../../../history';
 
 class DictAdminNew extends React.Component {
-    constructor(props){
-      super(props);
-    }
 
     onSubmit = formValues => {
         //console.log(formValues);

@@ -7,6 +7,7 @@ class Header extends React.Component {
         //console.log(this.props.auth);
         return [
             <li key="take" className="nav-item"><Link className="nav-link" to="/take/new">Take!</Link></li>,
+            <li key="browse" className="nav-item"><Link className="nav-link" to="/browse">Browse</Link></li>,
             <li key="admin" className="nav-item"><Link className="nav-link" to="/admin">Admin</Link></li>,
             ];
     }

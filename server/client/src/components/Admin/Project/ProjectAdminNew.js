@@ -6,9 +6,6 @@ import ProjectAdminForm from './ProjectAdminForm';
 import history from '../../../history';
 
 class ProjectAdminNew extends React.Component {
-    constructor(props){
-      super(props);
-    }
 
     onSubmit = formValues => {
         //console.log(formValues);

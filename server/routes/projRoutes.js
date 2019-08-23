@@ -5,6 +5,7 @@ module.exports = (app, Model) => {
         async (req, res, next) => { 
             try{
                 const response = await Model.Parent.findAll();
+                console.log(response);
                 res.send(response);
             }
             catch (err){

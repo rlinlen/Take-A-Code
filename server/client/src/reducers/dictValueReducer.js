@@ -8,7 +8,8 @@ const dictValueReducer = (state=init,action) => {
         {[dictId]:{
             seq:seq,
             value:value
-        }}
+        },
+        code:}
     } */
     let merged = {...state}
     switch (action.type){

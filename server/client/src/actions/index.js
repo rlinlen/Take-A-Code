@@ -34,11 +34,11 @@ export const setDictValue = (projectItemId, seq, dictId, value, type, rule, curr
             else{
                 //generate based on rule
                 fValue = [...rule].map(f => {
-                    if(f == 'M' || f == 'm'){
+                    if(f === 'M' || f === 'm'){
                         return (value.getMonth() + 1).toString().padStart(2, "0");
-                    }else if (f == 'D' || f == 'd'){
+                    }else if (f === 'D' || f === 'd'){
                         return value.getDate().toString().padStart(2, "0")
-                    }else if(f == 'Y' || f == 'y'){
+                    }else if(f === 'Y' || f === 'y'){
                         return (value.getYear() + 1900).toString().padStart(4, "0")
                     }
                 }).join('');
