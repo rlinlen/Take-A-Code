@@ -4,6 +4,7 @@ import { Form, Field } from 'react-final-form'
 import {connect} from 'react-redux';
 
 import DictionaryCard from './DictionaryCard'
+import {finishDictValue} from '../../actions'
 
 class DictionaryCards extends React.Component {
 
@@ -19,14 +20,46 @@ class DictionaryCards extends React.Component {
   fetchData = (projectItemId) => {
     axios.get(`/api/projItemDict/${projectItemId}`).then(
         res => {
-            console.log(res.data)
+            //console.log(res.data)
             this.setState({projItemDict: res.data})
         }
     );
   }
 
-  renderGenCode(id, dictNum){
+  componentDidUpdate(prevProps){
+    //if all field is filled in a projectitem
+    if (this.verifyFill(this.props.projItemId, this.state.projItemDict.Dictionaries.length)) {
+      //console.log(Object.entries(prevProps.dictValue[id]).reduce((a,c) => a + +Number.isInteger(+c[0]),0) !== (dictNum))
+      if (Object.entries(prevProps.dictValue[prevProps.projItemId]).reduce((a,c) => a + +Number.isInteger(+c[0]),0) !== (this.state.projItemDict.Dictionaries.length))
+        this.props.finishDictValue(this.props.projItemId)
+    }
+  }
+  
+  verifyFill(id, dictNum){
+    //must fill all the dictionary, plus one for generated code
     if (Object.entries(this.props.dictValue).length === 0 && this.props.dictValue.constructor === Object){
+      return 0;
+    }
+    //undefined or {}
+    if (!this.props.dictValue[id] || (Object.entries(this.props.dictValue[id]).length === 0 && this.props.dictValue[id].constructor === Object)){
+      return 0;
+    }
+
+    //must fill all the dictionary, plus 1 for generated code and 1 for set note
+    /* if (Object.entries(this.props.dictValue[id]).length !== (dictNum + 1)){
+      return 0;
+    } */
+    //must fill all the dictionary, filter if the key is integer only to avoid other flag.
+    if (Object.entries(this.props.dictValue[id]).reduce((a,c) => a + +Number.isInteger(+c[0]),0) !== (dictNum)){
+      return 0;
+    }
+
+    return 1;
+
+  }
+
+  renderGenCode(id, dictNum){
+    /* if (Object.entries(this.props.dictValue).length === 0 && this.props.dictValue.constructor === Object){
         return <></>;
     }
 
@@ -38,21 +71,14 @@ class DictionaryCards extends React.Component {
     //must fill all the dictionary, plus one for generated code
     if (Object.entries(this.props.dictValue[id]).length !== (dictNum + 1)){
       return <></>;
+    } */
+    console.log(this.verifyFill(id, dictNum))
+    console.log(this.props.dictValue)
+    if (!this.verifyFill(id, dictNum)){
+      return <></>;
     }
 
-    //console.log(this.props.dictValue);
-    //console.log(Object.entries(this.props.dictValue[id]).sort((a, b) => a[1].seq > b[1].seq));
     return (
-        //get value
-        //{[projectItemId]:
-        //{[dictId]:{
-         //   seq:seq,
-          //  value:value
-       // }}
-    //}
-
-    //<p>{Object.entries(this.props.dictValue[id]).sort((a, b) => a[1].seq - b[1].seq).map(i => i[1].value).join('-')}</p>
-        //ASC
         <div>
             <h4>Generated Code Preview:</h4>
             <p>{this.props.dictValue[id].code}</p>
@@ -68,7 +94,7 @@ class DictionaryCards extends React.Component {
 
     return (
       <>
-        <div className="card-group">
+        <div className="card-deck">
           {this.state.projItemDict.Dictionaries.sort((a,b) => a.SEQ - b.SEQ).map(i => <DictionaryCard key={i.DICTIONARY_ID} dictId={i.DICTIONARY_ID} projItemId={this.props.projItemId} dictSEQ={i.SEQ}/>) }
         </div>
         <div>
@@ -84,4 +110,4 @@ const mapStateToProps = (state) => {
   return { dictValue: state.dictValue };
 };
 
-export default connect(mapStateToProps)(DictionaryCards);
+export default connect(mapStateToProps, {finishDictValue})(DictionaryCards);

@@ -36,7 +36,7 @@ class TakeForm extends React.Component {
         return (
           <div className="container">
             <div className="row justify-content-center">
-              <div className="col-lg-9">
+              <div className="col-lg-12">
                 <h3>Select Project</h3>
                 <select className="form-control" value={this.state.selectedProj} onChange={this.handleProjChange}>
                     <option value="">----</option>

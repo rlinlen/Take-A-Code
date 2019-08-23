@@ -57,6 +57,19 @@ class ProjectItems extends React.Component {
         history.goBack();
     }
 
+    renderTakeButton(){
+        let disabled = true;
+        //here count the projectItem with set = 1
+        if (this.state.project.ProjectItem.length === Object.entries(this.props.dictValue).reduce((a,c,i) => a + +c[1]['set'],0))
+            disabled = false;
+
+        return (
+            <button type="submit" className="btn btn-primary btn-block" onClick={this.handleSubmitClick} disabled={disabled}>
+                Take!
+            </button>
+        )
+    }
+
     render() {
         //console.log(this.props.projectId)
         if (!this.props.projectId) {
@@ -69,7 +82,7 @@ class ProjectItems extends React.Component {
 
         return (
             <div>
-                <ul className="list-group">
+                {/* <ul className="list-group">
                     {this.state.project.ProjectItem.map(i => (
                         <>
                             <li key={i.id} className="list-group-item">
@@ -80,10 +93,19 @@ class ProjectItems extends React.Component {
                             </li>
                         </>
                     ))}
-                </ul>
-                <button type="submit" className="btn btn-primary btn-block" onClick={this.handleSubmitClick}>
-                  Take!
-                </button>
+                </ul> */}
+                {this.state.project.ProjectItem.map(i => (
+                    <div key={i.id}>
+                        <div className="card">
+                            <h5 className="card-header">{i.NAME}</h5>
+                            <div className="card-body">
+                                <DictionaryCards projItemId={i.id}/>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+                
+                {this.renderTakeButton()}
             </div>
         )
     }
