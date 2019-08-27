@@ -5,6 +5,7 @@ import history from '../history';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import {fetchUser} from '../actions';
 import Header from './Header';
 import Landing from './Landing';
 import Admin from './Admin/Admin';
@@ -20,8 +21,14 @@ import BrowseForm from './Browse/BrowseForm';
 import UserAdmin from './Admin/User/UserAdmin';
 import UserAdminEdit from './Admin/User/UserAdminEdit';
 import UserAdminNew from './Admin/User/UserAdminNew';
+import Login from './Login';
+import LoginLocal from './LoginLocal';
 
 class App extends React.Component {
+
+    async componentDidMount(){
+        await this.props.fetchUser();
+    }
 
     render(){
         return (
@@ -44,6 +51,8 @@ class App extends React.Component {
                             <Route path='/admin/users' exact component={UserAdmin} />
                             <Route path='/admin/user/new' exact component={UserAdminNew} />
                             <Route path='/admin/user/:upn' exact component={UserAdminEdit} />
+                            <Route path='/login' exact component={Login} />
+                            <Route path='/login/local' exact component={LoginLocal} />
                         </Switch>
                     </>
                 </Router>
@@ -54,10 +63,10 @@ class App extends React.Component {
 };
 
 const mapStateToProps = (state) => {
-    return {};
+    return { auth: state.auth };
 };
 
-export default connect(mapStateToProps,null)(App);
+export default connect(mapStateToProps,{fetchUser})(App);
 // <AuthenticationRoute path='/study' exact component={Authorization(this.props.auth,'app')(SearchApp)} />
 //<AuthenticationRoute path='/study/:id' component={AuthMatch(this.props.auth)(SearchApp)} />
 

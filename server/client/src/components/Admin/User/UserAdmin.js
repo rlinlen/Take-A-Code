@@ -41,7 +41,7 @@ class UserAdmin extends React.Component {
 
 		if (this.state.selectAll === 0) {
 			this.state.users.forEach(x => {
-				newSelected[x.upn] = true;
+				newSelected[x.UPN] = true;
 			});
 		}
 
@@ -75,8 +75,8 @@ class UserAdmin extends React.Component {
                     <input
                         type="checkbox"
                         className="checkbox"
-                        checked={this.state.selected[original.upn] === true}
-                        onChange={() => this.toggleRow(original.upn)}
+                        checked={this.state.selected[original.UPN] === true}
+                        onChange={() => this.toggleRow(original.UPN)}
                     />
                 );
             },

@@ -60,6 +60,7 @@ module.exports = (app, Model) => {
     //create bulk takens given projectItemId
     app.post("/api/taken/new/:projectItemId",
         async (req, res) => {
+            console.log(req.user)
             /* {[dictId]:{
                 seq:seq,
                 value:(+value + +numCurrent).toString().padStart(rule, "0"),
@@ -72,7 +73,8 @@ module.exports = (app, Model) => {
                 let takenItem = {
                     PROJECTITEM_ID:req.params.projectItemId,
                     VALUE:code,
-                    CREATEDTIME:new Date()
+                    CREATEDTIME:new Date(),
+                    UPN:req.user.UPN
                 }
                 const taken = await Model.Child.create(takenItem);
 

@@ -47,11 +47,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 ////Routing
+require('./routes/authRoutes')(app);
+require('./routes/userRoutes')(app, User);
 require('./routes/projRoutes')(app, Proj);
 require('./routes/dictRoutes')(app, Dict);
 require('./routes/projItemDictRoutes')(app, ProjItemDict);
 require('./routes/takenRoutes')(app, ProjectItemTaken);
-require('./routes/userRoutes')(app, User);
 ////Start Server
   
 const PORT = process.env.PORT || 5001;

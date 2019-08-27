@@ -1,7 +1,21 @@
 import axios from 'axios';
 
-import {SET_DICTVALUE, RESET_DICTVALUE, FINISH_DICTVALUE} from './types';
+import {FETCH_USER, SET_DICTVALUE, RESET_DICTVALUE, FINISH_DICTVALUE} from './types';
 
+///////User///////
+export const fetchUser = () => {
+        return async (dispatch) => {
+            return new Promise(async (resolve, reject) => {
+                const res = await axios.get('/api/me');
+    
+                dispatch({ type: FETCH_USER, payload: res.data});
+          
+                resolve();
+              })
+        }
+    }
+
+///////Take///////
 export const setDictValue = (projectItemId, seq, dictId, value, type, rule, current) => {
     //console.log('hi')
     switch (type){

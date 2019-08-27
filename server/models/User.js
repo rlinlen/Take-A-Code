@@ -1,5 +1,7 @@
+const bcrypt = require("bcrypt");
+
 module.exports = (sequelize, DataTypes) => {
-    const User = sequelize.define('taken', {
+    const User = sequelize.define('user', {
         id:{
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -21,6 +23,17 @@ module.exports = (sequelize, DataTypes) => {
         },
         STATUS: {
             type: DataTypes.INTEGER,
+        },
+        PASSWORD: {
+            type: DataTypes.VIRTUAL,
+            set: function (val) {
+            // Remember to set the data value, otherwise it won't be validated
+                //this.setDataValue('password', val);
+                this.setDataValue('PASSWORDHASH', bcrypt.hashSync(val, 12));
+            },
+            get: function (val) {
+                this.getDataValue('PASSWORDHASH');
+            }
         }
     }, {
         timestamps: false,

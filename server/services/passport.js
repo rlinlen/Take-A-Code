@@ -1,5 +1,6 @@
 
 const passport = require('passport');
+const bcrypt = require("bcrypt");
 ///Local
 const LocalStrategy = require('passport-local').Strategy;
 ///
@@ -24,8 +25,19 @@ module.exports = (User) => {
   ///Local
   passport.use(new LocalStrategy(
     function(username, password, done) {
+
+      validPassword = function(password, passwordHash) {
+        // might have other SSO register
+        if (passwordHash){
+            return bcrypt.compareSync(password, passwordHash);
+        }
+        else {
+            return false
+        }
+      };
+
       User.findOne({ where: {UPN: username} }).then(user=>{
-        if (!user || (user.PASSWORDHASH != password)) {
+        if (!user || !validPassword(password, user.PASSWORDHASH)) {
           return done(null, false);
         } 
         return done(null, user);

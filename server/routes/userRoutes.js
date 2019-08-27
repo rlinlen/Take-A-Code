@@ -27,37 +27,71 @@ module.exports = (app, Model) => {
   );
 
   //edit user
-  /* app.patch('/api/user/:upn',
+  app.patch('/api/user/:upn',
     async (req, res) => { 
-        let user = await User.findOne({ upn: req.params.upn}).exec();
-        Object.entries(req.body).map(p => {user[p[0]] = p[1]});
-        //console.log(user);
-        const result = await user.save();
-        res.send(result);
-  }); */
+        //let user = await Model.findOne({ where: {UPN: req.params.upn} });
+        //Object.entries(req.body).map(p => {user[p[0]] = p[1]});
+        console.log({...req.body});
+        let userBody = {
+          PASSWORD:req.body.password,
+          NAME:req.body.name
+        }
+        await Model.update(userBody, {
+          where: {
+            UPN: req.params.upn
+          }
+        })
+        //const result = await user.save();
+        res.send({result:"ok"});
+  });
 
   //create local user
   app.post("/api/user/new",
     async (req, res, next) => {
-      console.log(req.body);
+      //console.log(req.body);
       //const { upn, password, name, role } = req.body;
       //const userBody = {...req.body};
       let userBody = {
         UPN:req.body.upn,
-        PASSWORDHASH:req.body.password,
+        PASSWORD:req.body.password,
         NAME:req.body.name,
         STATUS:1
       }
       try{
         //const user = await new User({ name: name, upn: upn, password: password, role: role}).save();
-        const user = await Model.create(userBody);
-        res.send(user);
+        let user = await Model.findOne({
+          where: {
+            UPN: userBody.UPN
+          }
+        })
+        if(user){
+          //user already exits!
+          res.status(503).send({
+            message: 'This is an error!'
+         });
+          //throw new Error('BROKEN')
+        } else {
+          const newUser = await Model.create(userBody);
+          res.send(newUser);
+        }
       }
       catch (err){
+        //res.sendStatus(400).json({message:'Category must be unique!'});
         if (err.name === "ValidationError") {
           //req.flash("Sorry, that username is already taken.");
           res.redirect("/");
         } else next(err);
       }
   });
+
+  //delete user
+  app.delete('/api/user/:upn',
+    async (req, res) => { 
+        try{
+          await Model.destroy({ where: {UPN: req.params.upn} });
+        }
+        catch (err){
+          res.send(err);
+        }
+    });
 }

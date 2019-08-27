@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 import UserAdminForm from './UserAdminForm';
 import history from '../../../history';
@@ -22,12 +23,34 @@ class UserAdminEdit extends React.Component {
 
     onSubmit = formValues => {
         //console.log(formValues);
-        axios.patch(`/api/user/${this.props.match.params.upn}`, formValues, {headers: { "Content-Type": "application/json"}}).then(
-            res => {
-                //console.log(res);
-                history.goBack();
+        /* try{
+          let res = await axios.patch(`/api/user/${this.props.match.params.upn}`, formValues, {headers: { "Content-Type": "application/json"}})
+          console.log(res);
+          history.goBack();
+        }
+        catch(error){
+          console.error(error);
+          console.log('123')
+          console.log(error.response.status)
+          toast.error(error.response);
+        } */
+        axios.patch(`/api/user/${this.props.match.params.upn}`, formValues, {headers: { "Content-Type": "application/json"}})
+          .then(function (response) {
+            if(response.status === 503){
+              toast.error(response.data.message);
             }
-        );
+            else{
+              history.goBack();
+            }
+            
+          })
+          .catch(error => {
+            //don't know how to handle error status.
+            console.error(error);
+            console.log('123')
+            console.log(error.response.status)
+            toast.error(error.response);
+          } )
     };
 
     render() {

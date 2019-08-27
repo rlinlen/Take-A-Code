@@ -1,3 +1,4 @@
 export const SET_DICTVALUE = 'SET_DICTVALUE';
 export const RESET_DICTVALUE = 'RESET_DICTVALUE';
 export const FINISH_DICTVALUE = 'FINISH_DICTVALUE';
+export const FETCH_USER = 'FETCH_USER';
