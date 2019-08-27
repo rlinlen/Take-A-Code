@@ -11,44 +11,48 @@ const fs = require('fs');
 const keys = require('./config/keys');
 const conf = require('./config/conf');
 
-const {sequelize, Proj, Dict, ProjItemDict, ProjectItemTaken} = require('./services/sequelize');
+const {sequelize, Proj, Dict, ProjItemDict, ProjectItemTaken, User} = require('./services/sequelize');
 // initalize sequelize with session store
 const SequelizeStore = require('connect-session-sequelize')(expressSession.Store);
+
 
 ////Init express
 const app = express();
 
-  app.use(helmet());
-  app.set('trust proxy', false);
+require('./services/passport')(User);
 
-  //app.use(cookieParser(keys.cookieEncryptionKeys[0]));
+app.use(helmet());
+app.set('trust proxy', false);
 
-  app.use(bodyParser.urlencoded({ extended : true  }));
-  app.use(bodyParser.json());
+//app.use(cookieParser(keys.cookieEncryptionKeys[0]));
 
-  app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended : true  }));
+app.use(bodyParser.json());
 
-  var myStore = new SequelizeStore({
-    db: sequelize
-    })
-  app.use(expressSession({
-    secret: keys.cookieEncryptionKeys[0],
-    cookie: {maxAge: 24*60*60 * 1000},
-    store: myStore,
-    resave: false,
-    saveUninitialized: false
-  }));
-  myStore.sync();
+app.use(cookieParser());
 
-  app.use(passport.initialize());
-  app.use(passport.session());
+var myStore = new SequelizeStore({
+  db: sequelize
+  })
+app.use(expressSession({
+  secret: keys.cookieEncryptionKeys[0],
+  cookie: {maxAge: 24*60*60 * 1000},
+  store: myStore,
+  resave: false,
+  saveUninitialized: false
+}));
+myStore.sync();
 
-  ////Routing
-  require('./routes/projRoutes')(app, Proj);
-  require('./routes/dictRoutes')(app, Dict);
-  require('./routes/projItemDictRoutes')(app, ProjItemDict);
-  require('./routes/takenRoutes')(app, ProjectItemTaken);
-  ////Start Server
+app.use(passport.initialize());
+app.use(passport.session());
+
+////Routing
+require('./routes/projRoutes')(app, Proj);
+require('./routes/dictRoutes')(app, Dict);
+require('./routes/projItemDictRoutes')(app, ProjItemDict);
+require('./routes/takenRoutes')(app, ProjectItemTaken);
+require('./routes/userRoutes')(app, User);
+////Start Server
   
 const PORT = process.env.PORT || 5001;
 

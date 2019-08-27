@@ -24,8 +24,13 @@ module.exports = (app, Model) => {
                 //console.log(kv)
                 for(i = 0; i < ProjectItems.length; i++){
                     //console.log(ProjectItems[i].dataValues.id)
-                    const ProjectItemTakens = await Model.Child.findAll({ where: { PROJECTITEM_ID: ProjectItems[i].dataValues.id } });
-                    console.log(ProjectItemTakens)
+                    const ProjectItemTakens = await Model.Child.findAll({ 
+                        include: [{// Notice `include` takes an ARRAY
+                            model: Model.Parent
+                        }],
+                        where: { PROJECTITEM_ID: ProjectItems[i].dataValues.id } 
+                    });
+                    //console.log(ProjectItemTakens)
                     response = [...response, ...ProjectItemTakens]
                 }
 

@@ -1,32 +1,33 @@
-module.exports = (sequelize, DataTypes, ProjectItem) => {
-    const Taken = sequelize.define('taken', {
+module.exports = (sequelize, DataTypes) => {
+    const User = sequelize.define('taken', {
         id:{
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true,
             field: 'ID'   //in DB it's ID. Specify it so that when created one can get the returned id.
         },
-        PROJECTITEM_ID: {
-            type: DataTypes.INTEGER,
+        UPN: {
+            type: DataTypes.STRING,
             allowNull: false
         },
-        VALUE: {
+        ROLE: {
             type: DataTypes.STRING
         },
-        CREATEDTIME: {
-            type: DataTypes.DATE
-        },
-        UPN: {
+        NAME: {
             type: DataTypes.STRING
         },
+        PASSWORDHASH: {
+            type: DataTypes.STRING
+        },
+        STATUS: {
+            type: DataTypes.INTEGER,
+        }
     }, {
         timestamps: false,
         freezeTableName: true,
-        tableName: 'TAC_Taken',
+        tableName: 'TAC_User',
         // options
     });
 
-    Taken.belongsTo(ProjectItem, {foreignKey: 'PROJECTITEM_ID'});
-
-    return Taken;
+    return User;
 }

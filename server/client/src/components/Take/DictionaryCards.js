@@ -27,26 +27,34 @@ class DictionaryCards extends React.Component {
 
   componentDidUpdate(prevProps){
     //if all field is filled in a projectitem
-    if (this.verifyFill(this.props.projItemId, this.state.projItemDict.Dictionaries.length)) {
-      //console.log(Object.entries(prevProps.dictValue[id]).reduce((a,c) => a + +Number.isInteger(+c[0]),0) !== (dictNum))
-      //if previous verifynull is 0 -> avoid infinite loop
+    if (this.verifyFill(this.props.dictValue, this.props.projItemId, this.state.projItemDict.Dictionaries.length)) {
+      //avoid infinite loop
+      
+      //if previous is null (not set any dictionary)
+      //console.log(prevProps.projItemId)
+      /* if (!prevProps.dictValue[prevProps.projItemId])
+        this.props.finishDictValue(this.props.projItemId)
+
+      //if previous verifynull is 0
       if (Object.entries(prevProps.dictValue[prevProps.projItemId]).reduce((a,c) => a + +Number.isInteger(+c[0]),0) !== (this.state.projItemDict.Dictionaries.length))
+          this.props.finishDictValue(this.props.projItemId) */
+      if(!this.verifyFill(prevProps.dictValue, this.props.projItemId, this.state.projItemDict.Dictionaries.length))
         this.props.finishDictValue(this.props.projItemId)
     }
   }
   
-  verifyFill(id, dictNum){
+  verifyFill(obj, id, dictNum){
     //must fill all the dictionary, plus one for generated code
-    if (Object.entries(this.props.dictValue).length === 0 && this.props.dictValue.constructor === Object){
+    if (Object.entries(obj).length === 0 && obj.constructor === Object){
       return 0;
     }
     //undefined or {}
-    if (!this.props.dictValue[id] || (Object.entries(this.props.dictValue[id]).length === 0 && this.props.dictValue[id].constructor === Object)){
+    if (!obj[id] || (Object.entries(obj[id]).length === 0 && obj[id].constructor === Object)){
       return 0;
     }
 
     //must fill all the dictionary, filter if the key is integer only to avoid other flag.
-    if (Object.entries(this.props.dictValue[id]).reduce((a,c) => a + +Number.isInteger(+c[0]),0) === (dictNum)){
+    if (Object.entries(obj[id]).reduce((a,c) => a + +Number.isInteger(+c[0]),0) === (dictNum)){
       return 1;
     }
 
@@ -68,7 +76,7 @@ class DictionaryCards extends React.Component {
     if (Object.entries(this.props.dictValue[id]).length !== (dictNum + 1)){
       return <></>;
     } */
-    if (!this.verifyFill(id, dictNum)){
+    if (!this.verifyFill(this.props.dictValue, id, dictNum)){
       return <></>;
     }
 

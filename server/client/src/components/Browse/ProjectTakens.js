@@ -42,15 +42,11 @@ class ProjectTakens extends React.Component {
               Header: 'Items ID',
               accessor: 'id',
               style: { 'whiteSpace': 'unset' },
-              Cell: row => {
-                  //console.log(row);
-                  if(row.value){
-                      return(
-                          <Link to={`/admin/dict/${row.value}`}>{row.value}</Link>
-                      )
-                  }
-                  return null;
-                  }
+            },{
+                id: 'projectItem.NAME',
+                Header: 'NAME',
+                accessor: i => i.projectItem.NAME,
+                style: { 'whiteSpace': 'unset' }
             },{
                 Header: 'VALUE',
                 accessor: 'VALUE',
@@ -151,6 +147,12 @@ class ProjectTakens extends React.Component {
                             defaultFilterMethod={(item, row) =>
                                 String(row[item.id]).toLowerCase().indexOf(item.value.toLowerCase())!==-1}
                             className="-striped -highlight"
+                            defaultSorted={[
+                                {
+                                  id: "CREATEDTIME",
+                                  desc: true
+                                }
+                              ]}
                         />
                     </div>
                 </>

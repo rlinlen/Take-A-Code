@@ -37,7 +37,7 @@ const Admin = () => {
                 <Link to="/admin/projs" style={style.LinkStyle}>
                     <div className="card-body" onMouseEnter={handleCardEnter} onMouseLeave={handleCardLeave}>
                         <h5 className="card-title">Project Admin</h5>
-                        <div className="mb-2"><i className="fas fa-users text-primary" style={style.IconStyle}></i></div>
+                        <div className="mb-2"><i className="fas fa-file-medical text-danger" style={style.IconStyle}></i></div>
                         <p className="card-text">Manage Project Detail</p>
                     </div> 
                 </Link>
@@ -46,21 +46,22 @@ const Admin = () => {
                 <Link to="/admin/dicts" style={style.LinkStyle}>
                     <div className="card-body" onMouseEnter={handleCardEnter} onMouseLeave={handleCardLeave}>
                         <h5 className="card-title">Dictionary Admin</h5>
-                        <div className="mb-2"><i className="fas fa-file-medical text-danger" style={style.IconStyle}></i></div>
+                        <div className="mb-2"><i className="fas fa-book text-info" style={style.IconStyle}></i></div>
                         <p className="card-text">Manage Dictionary Detail</p>
                     </div>    
                 </Link>
             </div>
             <div className="w-100 d-none d-lg-block my-1"></div>
-            {/*<div className="card text-center mt-3 border-warning">
-                <Link to="/admin/news" style={style.LinkStyle}>
+            <div className="card text-center mt-3 border-warning">
+                <Link to="/admin/users" style={style.LinkStyle}>
                     <div className="card-body" onMouseEnter={handleCardEnter} onMouseLeave={handleCardLeave}>
-                        <h5 className="card-title">News Admin</h5>
-                        <div className="mb-2"><i className="fas fa-rss text-warning" style={style.IconStyle}></i></div>
-                        <p className="card-text">Manage News Detail</p>
-                    </div>   
+                        <h5 className="card-title">User Admin</h5>
+                        <div className="mb-2"><i className="fas fa-users text-primary" style={style.IconStyle}></i></div>
+                        <p className="card-text">Manage User Accounts Detail</p>
+                    </div> 
                 </Link>
             </div>
+            {/*
             <div className="card text-center mt-3 border-info">
                 <Link to="/admin/dicts" style={style.LinkStyle}>
                     <div className="card-body" onMouseEnter={handleCardEnter} onMouseLeave={handleCardLeave}>
