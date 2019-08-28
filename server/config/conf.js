@@ -3,7 +3,7 @@ module.exports = {
     webPrivateKey: '/config/selfsigned.key',
     webCertificate:'/config/selfsigned.crt',
     frontendServer: 'https://192.168.100.27:3000',
-    backendServer: 'https://192.168.100.27:5000',
+    backendServer: 'https://192.168.100.27:5001',
 
     ////Azure AD
     // Required

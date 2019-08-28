@@ -42,14 +42,15 @@ class ProjectItems extends React.Component {
             //skip non-created code -> actuaaly should not happen because every field should be filled
             let projectItemId = this.state.project.ProjectItem[item].id
             if(this.props.dictValue[projectItemId]){
-                let kv = Object.entries(this.props.dictValue[projectItemId]);
+                //move patch dict current to backen signle API
+                /* let kv = Object.entries(this.props.dictValue[projectItemId]);
                 for (let i = 0; i < kv.length ; i++){
                     if (kv[i][1].type === 'number')
                     {
                         await axios.patch(`/api/dict/current/${kv[i][0]}`,{value:kv[i][1].inc});
                     }
                     //post other API if audit
-                }
+                } */
                 //post single create
                 await axios.post(`/api/taken/new/${projectItemId}`,this.props.dictValue[projectItemId]);
             }

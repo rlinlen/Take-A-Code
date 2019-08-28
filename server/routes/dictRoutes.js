@@ -85,10 +85,10 @@ module.exports = (app, Model) => {
                     }
                 })
 
-                console.log(Dictionary);
-                console.log(value);
+                //console.log(Dictionary);
+                //console.log(value);
 
-                res.send({result:"ok"});
+                res.send({result:"ok", originalCurrent: Dictionary.DICT_CURRENT, rule: Dictionary.DICT_RULE});
             }
             catch (err){
                 res.send(err);

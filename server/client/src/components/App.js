@@ -23,6 +23,7 @@ import UserAdminEdit from './Admin/User/UserAdminEdit';
 import UserAdminNew from './Admin/User/UserAdminNew';
 import Login from './Login';
 import LoginLocal from './LoginLocal';
+import UserPreferenceEdit from './UserPreference/UserPreferenceEdit';
 
 class App extends React.Component {
 
@@ -53,6 +54,7 @@ class App extends React.Component {
                             <Route path='/admin/user/:upn' exact component={UserAdminEdit} />
                             <Route path='/login' exact component={Login} />
                             <Route path='/login/local' exact component={LoginLocal} />
+                            <Route path='/user' exact component={UserPreferenceEdit} />
                         </Switch>
                     </>
                 </Router>
