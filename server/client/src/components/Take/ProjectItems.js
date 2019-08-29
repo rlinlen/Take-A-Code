@@ -38,10 +38,11 @@ class ProjectItems extends React.Component {
     }
 
     handleSubmitClick = async () => {
+        let codes = {}
         for (let item = 0; item < this.state.project.ProjectItem.length ; item++){
             //skip non-created code -> actuaaly should not happen because every field should be filled
             let projectItemId = this.state.project.ProjectItem[item].id
-            if(this.props.dictValue[projectItemId]){
+            if(this.props.dictValue[projectItemId] && this.props.dictValue[projectItemId]['set']){
                 //move patch dict current to backen signle API
                 /* let kv = Object.entries(this.props.dictValue[projectItemId]);
                 for (let i = 0; i < kv.length ; i++){
@@ -52,19 +53,28 @@ class ProjectItems extends React.Component {
                     //post other API if audit
                 } */
                 //post single create
-                await axios.post(`/api/taken/new/${projectItemId}`,this.props.dictValue[projectItemId]);
+                let code = await axios.post(`/api/taken/new/${projectItemId}`,this.props.dictValue[projectItemId]);
+                codes = {...codes, [projectItemId]:[code.data.codes,this.state.project.ProjectItem[item].NAME]}
             }
         }
 
         toast.success("Done!");
-        history.goBack();
+        history.push({
+            pathname: '/take/result',
+            state: { codes: codes }
+          })
     }
 
     renderTakeButton(){
+        
         let disabled = true;
-        //here count the projectItem with set = 1
-        if (this.state.project.ProjectItem.length === Object.entries(this.props.dictValue).reduce((a,c,i) => a + +c[1]['set'],0))
+
+        //can parital sent, at least one projectItem must be set = 1
+        if (Object.entries(this.props.dictValue).filter(kv => kv[1]['set']===1).length)
             disabled = false;
+        /* //here count the projectItem with set = 1, if all projectItem must be set
+        if (this.state.project.ProjectItem.length === Object.entries(this.props.dictValue).reduce((a,c,i) => a + +c[1]['set'],0))
+            disabled = false; */
 
         return (
             <button type="submit" className="btn btn-primary btn-block" onClick={this.handleSubmitClick} disabled={disabled}>

@@ -53,6 +53,7 @@ class ProjectAdminEdit extends React.Component {
                 <ProjectAdminForm
                   initialValues={init}
                   onSubmit={this.onSubmit}
+                  mode='EDIT'
                 />
               </div>
             </div>

@@ -24,6 +24,7 @@ import UserAdminNew from './Admin/User/UserAdminNew';
 import Login from './Login';
 import LoginLocal from './LoginLocal';
 import UserPreferenceEdit from './UserPreference/UserPreferenceEdit';
+import TakeResult from './Take/TakeResult';
 
 class App extends React.Component {
 
@@ -55,6 +56,7 @@ class App extends React.Component {
                             <Route path='/login' exact component={Login} />
                             <Route path='/login/local' exact component={LoginLocal} />
                             <Route path='/user' exact component={UserPreferenceEdit} />
+                            <Route path='/take/result' exact component={TakeResult} />
                         </Switch>
                     </>
                 </Router>

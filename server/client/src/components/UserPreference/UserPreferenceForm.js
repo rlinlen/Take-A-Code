@@ -5,7 +5,7 @@ class UserPreferenceForm extends React.Component {
     constructor(props){
         super(props);
         this.state = { isLoading: false };
-        this.init = {name:'',password:'',roles:[],upn:''}
+        this.init = {name:'',password:'',role:'',upn:''}
     }
 
     validate = (values) => {
@@ -21,7 +21,7 @@ class UserPreferenceForm extends React.Component {
       return errors;
   };
 
-      renderFieldArray = ({ push, remove, form }) => (
+      /* renderFieldArray = ({ push, remove, form }) => (
         <ul className="list-group">
             <label>User Role:</label>
           {form.values.roles ? form.values.roles.map((member, index) => (
@@ -35,7 +35,7 @@ class UserPreferenceForm extends React.Component {
             </li>
           )) : <></>}
         </ul>
-      )
+      ) */
 
 
       renderText = ({
@@ -75,7 +75,7 @@ class UserPreferenceForm extends React.Component {
                 <Field name="name" component={this.renderText} label="User Name: " />
                 <Field name="upn" component={this.renderText} label="User UPN: " readonly={true}/>
                 <Field name="password" component={this.renderText} label="User password: "/>
-                <FieldArray name="roles" component={this.renderFieldArray} />
+                <Field name="role" component={this.renderText} label="User role: " readonly={true}/>
                 <button type="submit" className="btn btn-primary" disabled={this.state.isLoading}>Submit</button>
               </Form>
             )}

@@ -3,6 +3,13 @@ import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 class Header extends React.Component {
+    adminRender(){
+        if(this.props.auth && this.props.auth.ROLE && this.props.auth.ROLE.includes('admin'))
+        {
+            return <li key="admin" className="nav-item"><Link className="nav-link" to="/admin">Admin</Link></li>
+        }
+        return <li key="admin" className="nav-item"></li>
+    }
     logoutRender(){
         // determine if needs to SSO logout
         if(this.props.auth && this.props.auth.azureId)
@@ -22,7 +29,7 @@ class Header extends React.Component {
               return [
                 <li key="take" className="nav-item"><Link className="nav-link" to="/take/new">Take!</Link></li>,
                 <li key="browse" className="nav-item"><Link className="nav-link" to="/browse">Browse</Link></li>,
-                <li key="admin" className="nav-item"><Link className="nav-link" to="/admin">Admin</Link></li>,
+                this.adminRender(),
                 <li key="user" className="nav-item">
                   <Link to="/user" className="nav-link"><b>{this.props.auth.UPN}</b></Link>
                 </li>,

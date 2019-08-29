@@ -6,7 +6,7 @@ class UserAdminForm extends React.Component {
     constructor(props){
         super(props);
         this.state = { isLoading: false };
-        this.init = {name:'',password:'',roles:[],upn:''}
+        this.init = {name:'',password:'',role:'',upn:''}
     }
 
   validate = (values) => {
@@ -22,7 +22,7 @@ class UserAdminForm extends React.Component {
       return errors;
   };
 
-    renderFieldArray = ({ push, remove, form }) => (
+   /*  renderFieldArray = ({ push, remove, form }) => (
         <ul className="list-group">
             <label>User Role:</label>
           <li className="list-group-item">
@@ -45,7 +45,7 @@ class UserAdminForm extends React.Component {
             </li>
           )) : <></>}
         </ul>
-      )
+      ) */
 
 
       renderText = ({
@@ -85,7 +85,7 @@ class UserAdminForm extends React.Component {
                 <Field name="name" component={this.renderText} label="User Name: " />
                 <Field name="upn" component={this.renderText} label="User UPN: " readonly={this.props.mode==='EDIT' ? true : false}/>
                 <Field name="password" component={this.renderText} label="User password: "/>
-                <FieldArray name="roles" component={this.renderFieldArray} />
+                <Field name="role" component={this.renderText} label="User role: "/>
                 <button type="submit" className="btn btn-primary" disabled={this.state.isLoading}>Submit</button>
               </Form>
             )}

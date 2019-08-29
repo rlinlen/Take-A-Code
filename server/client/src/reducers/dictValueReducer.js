@@ -17,6 +17,14 @@ const dictValueReducer = (state=init,action) => {
             //console.log(state);
             for (var att in action.payload){
                 merged[att] = {...merged[att],...action.payload[att]};
+                /* Object.entries(merged[att]).filter(i => Number.isInteger(+i[0])).sort((a, b) => a[1].seq - b[1].seq).map(kv => {
+                    if(kv[1]['type']==='number'){
+                        return [kv[1].,kv[1].inc]
+                    }else{
+                        return kv[1].value
+                    }
+                }) */
+
                 merged[att]['code'] = Object.entries(merged[att]).filter(i => Number.isInteger(+i[0])).sort((a, b) => a[1].seq - b[1].seq).map(i => i[1].value).join('-')
             }
             //console.log(merged);

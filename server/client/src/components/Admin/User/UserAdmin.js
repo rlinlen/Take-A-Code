@@ -117,17 +117,7 @@ class UserAdmin extends React.Component {
           },{
             Header: 'User Permission',
             accessor: 'ROLE',
-            style: { 'whiteSpace': 'unset' },
-            Cell: row => {
-                if(row.value){
-                    return(
-                        <ul>
-                            {row.value.map(x => <li key={x}>{x}</li>)}
-                        </ul>
-                    )
-                }
-                return null;
-                }
+            style: { 'whiteSpace': 'unset' }
           },{
             Header: 'Status',
             accessor: 'STATUS',

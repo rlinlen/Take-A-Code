@@ -34,7 +34,8 @@ module.exports = (app, Model) => {
         console.log({...req.body});
         let userBody = {
           PASSWORD:req.body.password,
-          NAME:req.body.name
+          NAME:req.body.name,
+          ROLE:req.body.role,
         }
         await Model.update(userBody, {
           where: {
@@ -55,6 +56,7 @@ module.exports = (app, Model) => {
         UPN:req.body.upn,
         PASSWORD:req.body.password,
         NAME:req.body.name,
+        ROLE:req.body.role,
         STATUS:1
       }
       try{

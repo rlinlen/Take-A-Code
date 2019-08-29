@@ -27,7 +27,8 @@ class DictionaryCards extends React.Component {
 
   componentDidUpdate(prevProps){
     //if all field is filled in a projectitem
-    if (this.verifyFill(this.props.dictValue, this.props.projItemId, this.state.projItemDict.Dictionaries.length)) {
+    //console.log(this.state.projItemDict)
+    if (this.state.projItemDict && this.state.projItemDict.Dictionaries && this.verifyFill(this.props.dictValue, this.props.projItemId, this.state.projItemDict.Dictionaries.length)) {
       //avoid infinite loop
       
       //if previous is null (not set any dictionary)

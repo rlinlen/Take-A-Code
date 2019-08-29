@@ -60,7 +60,7 @@ class UserAdminEdit extends React.Component {
 
         let {NAME, UPN, ROLE} = this.state.user;
 
-        let init = {'name': NAME, 'upn': UPN, 'roles': [], 'password':''};
+        let init = {'name': NAME, 'upn': UPN, 'role': ROLE, 'password':''};
         //console.log(init);
 
         return (

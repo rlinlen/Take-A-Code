@@ -155,8 +155,10 @@ module.exports = (app, Model) => {
                 }
                 //console.log(flatArray);
                 //codePromise.reduce((a,c)=>{},[])
+                let codes = [];
                 for(let i = 0; i< flatArray.length; i++){
                     code = flatArray[i].join('-')
+                    codes = [...codes, code]
 
                     let takenItem = {
                         PROJECTITEM_ID:req.params.projectItemId,
@@ -168,7 +170,7 @@ module.exports = (app, Model) => {
                 }
                
 
-                res.send({result:"ok"});
+                res.send({result:"ok", codes:codes});
             }
             catch (err){
                 console.log(err);

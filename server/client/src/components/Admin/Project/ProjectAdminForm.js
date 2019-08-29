@@ -75,7 +75,7 @@ class ProjectAdminForm extends React.Component {
               name={`${member}.id`}
               render={({ input, meta }) => (
                 <div>
-                   <Link to={`/admin/projItemDict/${input.value}`} className="btn btn-secondary">Manage ProjectItem Definition</Link>
+                  {this.props.mode==='EDIT'? <Link to={`/admin/projItemDict/${input.value}`} className="btn btn-secondary">Manage ProjectItem Definition</Link> : <></>}
                 </div>
               )}
               readOnly={true}
