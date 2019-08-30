@@ -1,7 +1,9 @@
+const requireAuthenticated = require('../middlewares/requireAuthenticated');
+
 module.exports = (app, Model) => {
     
     //list studies
-    app.get('/api/dicts',
+    app.get('/api/dicts',requireAuthenticated,
         async (req, res, next) => { 
             try{
                 const response = await Model.Parent.findAll();
@@ -13,7 +15,7 @@ module.exports = (app, Model) => {
         }
     );
 
-    app.get('/api/dict/:id',
+    app.get('/api/dict/:id',requireAuthenticated,
         async (req, res) => { 
             try{
                 const Dictionary = await Model.Parent.findByPk(req.params.id);
@@ -34,7 +36,7 @@ module.exports = (app, Model) => {
     });
 
     //create
-    app.post("/api/dict/new",
+    app.post("/api/dict/new",requireAuthenticated,
         async (req, res) => {
             //console.log(req.body);
             try{
@@ -64,7 +66,7 @@ module.exports = (app, Model) => {
             }
     });
 
-    app.patch('/api/dict/current/:id',
+    app.patch('/api/dict/current/:id',requireAuthenticated,
         async (req, res) => { 
             try{
                
@@ -96,7 +98,7 @@ module.exports = (app, Model) => {
     });
 
 
-    app.patch('/api/dict/:id',
+    app.patch('/api/dict/:id',requireAuthenticated,
         async (req, res) => { 
             try{
                 //Get DB Child items
@@ -158,7 +160,7 @@ module.exports = (app, Model) => {
     });
 
     //delete
-    app.delete('/api/dict/:id',
+    app.delete('/api/dict/:id',requireAuthenticated,
         async (req, res) => { 
             try{
                 //delete child first then parent

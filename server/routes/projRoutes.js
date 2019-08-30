@@ -1,7 +1,9 @@
+const requireAuthenticated = require('../middlewares/requireAuthenticated');
+
 module.exports = (app, Model) => {
     
     //list studies
-    app.get('/api/projs',
+    app.get('/api/projs',requireAuthenticated,
         async (req, res, next) => { 
             try{
                 const response = await Model.Parent.findAll();
@@ -14,7 +16,7 @@ module.exports = (app, Model) => {
         }
     );
 
-    app.get('/api/proj/:id',
+    app.get('/api/proj/:id',requireAuthenticated,
         async (req, res) => { 
             try{
                 const Project = await Model.Parent.findByPk(req.params.id);
@@ -32,7 +34,7 @@ module.exports = (app, Model) => {
     });
 
     //create audit
-    app.post("/api/proj/new",
+    app.post("/api/proj/new",requireAuthenticated,
         async (req, res) => {
             //console.log(req.body);
             try{
@@ -54,7 +56,7 @@ module.exports = (app, Model) => {
             }
     });
 
-    app.patch('/api/proj/:id',
+    app.patch('/api/proj/:id',requireAuthenticated,
         async (req, res) => { 
             try{
                 //Get DB Child items
@@ -113,8 +115,8 @@ module.exports = (app, Model) => {
             }
     });
 
-    //delete audit
-    app.delete('/api/proj/:id',
+    //delete
+    app.delete('/api/proj/:id',requireAuthenticated,
         async (req, res) => { 
             try{
                 //delete child first then parent

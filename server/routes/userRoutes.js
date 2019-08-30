@@ -1,7 +1,10 @@
+const requireAuthenticated = require('../middlewares/requireAuthenticated');
+const requireAdmin = require('../middlewares/requireAdmin');
+
 module.exports = (app, Model) => {
 
   //list users
-    app.get('/api/users',
+    app.get('/api/users',requireAuthenticated,requireAdmin,
       async (req, res, next) => { 
         try{
             const response = await Model.findAll();
@@ -14,7 +17,7 @@ module.exports = (app, Model) => {
     )
 
   //list single user
-  app.get('/api/user/:upn',
+  app.get('/api/user/:upn',requireAuthenticated,requireAdmin,
     async (req, res, next) => { 
       try{
           const response = await Model.findOne({ where: {UPN: req.params.upn} });
@@ -27,7 +30,7 @@ module.exports = (app, Model) => {
   );
 
   //edit user
-  app.patch('/api/user/:upn',
+  app.patch('/api/user/:upn',requireAuthenticated,requireAdmin,
     async (req, res) => { 
         //let user = await Model.findOne({ where: {UPN: req.params.upn} });
         //Object.entries(req.body).map(p => {user[p[0]] = p[1]});
@@ -47,7 +50,7 @@ module.exports = (app, Model) => {
   });
 
   //create local user
-  app.post("/api/user/new",
+  app.post("/api/user/new",requireAuthenticated,requireAdmin,
     async (req, res, next) => {
       //console.log(req.body);
       //const { upn, password, name, role } = req.body;
@@ -87,7 +90,7 @@ module.exports = (app, Model) => {
   });
 
   //delete user
-  app.delete('/api/user/:upn',
+  app.delete('/api/user/:upn',requireAuthenticated,requireAdmin,
     async (req, res) => { 
         try{
           await Model.destroy({ where: {UPN: req.params.upn} });

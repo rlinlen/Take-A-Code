@@ -2,6 +2,8 @@ const axios = require('axios');
 const conf = require('../config/conf')
 const https = require('https')
 
+const requireAuthenticated = require('../middlewares/requireAuthenticated');
+
 const axiosAPI = axios.create({
     baseURL: conf.backendServer,
     headers: { "Content-Type": "application/json"},
@@ -13,7 +15,7 @@ const axiosAPI = axios.create({
 module.exports = (app, Model) => {
     
     //list all items
-    app.get('/api/takens',
+    app.get('/api/takens',requireAuthenticated,
         async (req, res, next) => { 
             try{
                 const response = await Model.Child.findAll();
@@ -26,7 +28,7 @@ module.exports = (app, Model) => {
     );
 
     //list all items with Project
-    app.get('/api/takens/project/:projectId',
+    app.get('/api/takens/project/:projectId',requireAuthenticated,
         async (req, res, next) => { 
             try{
                 let response = [];
@@ -55,7 +57,7 @@ module.exports = (app, Model) => {
     );
 
     //list all items with ProjectItem
-    app.get('/api/takens/projectItem/:projectItemId',
+    app.get('/api/takens/projectItem/:projectItemId',requireAuthenticated,
         async (req, res, next) => { 
             try{
                 const response = await Model.Child.findAll({where: {
@@ -70,7 +72,7 @@ module.exports = (app, Model) => {
     );
 
     //create bulk takens given projectItemId
-    app.post("/api/taken/new/:projectItemId",
+    app.post("/api/taken/new/:projectItemId",requireAuthenticated,
         async (req, res) => {
             //console.log(req.user)
             /* {[dictId]:{

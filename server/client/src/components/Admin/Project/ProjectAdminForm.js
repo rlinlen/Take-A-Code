@@ -2,11 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom'
 import { Formik, Field, Form, ErrorMessage, FieldArray } from 'formik';
 
+import {DEFAULT_JOIN_CHAR} from '../../../appConstant'
+
 class ProjectAdminForm extends React.Component {
     constructor(props){
         super(props);
 
-        this.init = {'NAME':'',ProjectItem:[]}
+        this.init = {'NAME':'',ProjectItem:[{'NAME':'',PROJECTITEM_RULE:DEFAULT_JOIN_CHAR,SEQ:''}]}
     }
 
     validate = (values) => {
@@ -14,7 +16,12 @@ class ProjectAdminForm extends React.Component {
       if(!values.NAME){
         errors.NAME = 'Required';
       }
-      errors.ProjectItem = values.ProjectItem.map(i => i.SEQ ? undefined : 'Required SEQ');
+      let e = values.ProjectItem.map(i => i.SEQ ? undefined : 'Required SEQ');
+      if(!e.every(typeof something === "undefined"))
+      {
+        errors.ProjectItem = e
+      }
+      //console.log(errors)
         
       return errors;
     };
@@ -68,7 +75,7 @@ class ProjectAdminForm extends React.Component {
       <ul className="list-group">
           <label>{name} </label>
         <li className="list-group-item">
-          <button type="button" className="btn btn-info" onClick={() => push({Display:'', Value:''})}>
+          <button type="button" className="btn btn-info" onClick={() => push({NAME:'', PROJECTITEM_RULE:DEFAULT_JOIN_CHAR, SEQ:''})}>
             Add {name}
           </button>
         </li>

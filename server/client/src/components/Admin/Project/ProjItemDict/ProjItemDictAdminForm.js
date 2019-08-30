@@ -13,11 +13,16 @@ class ProjectItemAdminForm extends React.Component {
       if(!values.NAME){
         errors.NAME = 'Required';
       }
-      errors.Dictionaries = values.Dictionaries.map(i => {
+      let e = values.Dictionaries.map(i => {
         if(!i.SEQ) return  'Required SEQ'
         if(!i.DICTIONARY_ID) return 'Required Dictionary'
         return undefined
       })
+      if(!e.every(typeof something === "undefined"))
+      {
+        errors.Dictionaries = e
+      }
+      
       return errors;
     };
 

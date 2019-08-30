@@ -1,7 +1,9 @@
+const requireAuthenticated = require('../middlewares/requireAuthenticated');
+
 module.exports = (app, Model) => {
     
     //list studies
-    app.get('/api/projItemDicts/:projectItemId',
+    app.get('/api/projItemDicts/:projectItemId',requireAuthenticated,
         async (req, res, next) => { 
             try{
                 const response = await Model.Child.findAll({where: {
@@ -16,7 +18,7 @@ module.exports = (app, Model) => {
     );
 
     //Currently same with project -> creating Form concept in the future @ 20190723
-    app.get('/api/projItemDict/:projectItemId',
+    app.get('/api/projItemDict/:projectItemId',requireAuthenticated,
         async (req, res, next) => { 
             try{
                 const ProjItemDicts = await Model.Child.findAll({where: {
@@ -53,7 +55,7 @@ module.exports = (app, Model) => {
     );
 
     //create
-    app.post("/api/projItemDict/:projectItemId/new",
+    app.post("/api/projItemDict/:projectItemId/new",requireAuthenticated,
         async (req, res) => {
 /*             { PROJECT_ID: 4,
                 PROJECT_NAME: 't12312321',
@@ -74,7 +76,7 @@ module.exports = (app, Model) => {
             }
     });
 
-    app.patch('/api/projItemDict/:projectItemId',
+    app.patch('/api/projItemDict/:projectItemId',requireAuthenticated,
         async (req, res) => { 
             try{
                 //Get DB items
