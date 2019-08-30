@@ -11,6 +11,7 @@ const dictValueReducer = (state=init,action) => {
         },
         code:}
     } */
+    
     let merged = {...state}
     switch (action.type){
         case SET_DICTVALUE:
@@ -24,8 +25,8 @@ const dictValueReducer = (state=init,action) => {
                         return kv[1].value
                     }
                 }) */
-
-                merged[att]['code'] = Object.entries(merged[att]).filter(i => Number.isInteger(+i[0])).sort((a, b) => a[1].seq - b[1].seq).map(i => i[1].value).join('-')
+                let joinChar = (merged[att]['join'] === 'N') ? '' : merged[att]['join'];
+                merged[att]['code'] = Object.entries(merged[att]).filter(i => Number.isInteger(+i[0])).sort((a, b) => a[1].seq - b[1].seq).map(i => i[1].value).join(joinChar)
             }
             //console.log(merged);
             return merged;

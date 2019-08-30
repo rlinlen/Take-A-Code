@@ -51,7 +51,16 @@ class DictionaryCard extends React.Component {
 
   handleSetDictField = (value) => {
     //console.log(this.props.projItemId + ',' + this.props.dictId + ',' + e.target.value)
-    this.props.setDictValue(this.props.projItemId, this.props.dictSEQ, this.props.dictId, value, this.state.dict.DICT_TYPE, this.state.dict.DICT_RULE, this.state.dict.DICT_CURRENT);
+    //console.log(this.props.projectItemRule)
+    this.props.setDictValue(this.props.projItemId, 
+      this.props.dictSEQ, 
+      this.props.dictId, 
+      value, 
+      this.state.dict.DICT_TYPE, 
+      this.state.dict.DICT_RULE, 
+      this.state.dict.DICT_CURRENT, 
+      this.props.projectItemRule,
+      );
   }
 
   renderText = ({

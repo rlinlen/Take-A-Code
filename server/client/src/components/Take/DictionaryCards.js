@@ -91,6 +91,7 @@ class DictionaryCards extends React.Component {
 }
 
   render(){
+
     if ( (Object.entries(this.state.projItemDict).length === 0 && this.state.projItemDict.constructor === Object)) {
       return <div>Loading...</div>;
     }
@@ -98,7 +99,12 @@ class DictionaryCards extends React.Component {
     return (
       <>
         <div className="card-deck">
-          {this.state.projItemDict.Dictionaries.sort((a,b) => a.SEQ - b.SEQ).map(i => <DictionaryCard key={i.DICTIONARY_ID} dictId={i.DICTIONARY_ID} projItemId={this.props.projItemId} dictSEQ={i.SEQ}/>) }
+          {this.state.projItemDict.Dictionaries.sort((a,b) => a.SEQ - b.SEQ).map(i => <DictionaryCard 
+            key={i.DICTIONARY_ID} 
+            dictId={i.DICTIONARY_ID} 
+            projItemId={this.props.projItemId} 
+            dictSEQ={i.SEQ}
+            projectItemRule={this.state.projItemDict.PROJECTITEM_RULE}/>) }
         </div>
         <div>
           {this.renderGenCode(this.props.projItemId, this.state.projItemDict.Dictionaries.length)}

@@ -1,111 +1,131 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
-import { Form, Field } from 'react-final-form'
-import arrayMutators from 'final-form-arrays'
-import { FieldArray } from 'react-final-form-arrays'
+import { Formik, Field, Form, ErrorMessage, FieldArray } from 'formik';
 
 class ProjectAdminForm extends React.Component {
     constructor(props){
         super(props);
 
-        this.required = value => (value ? undefined : 'Required')
-        this.number = value => (value && !/^[0-9]*$/i.test(value)
-                                ? 'Invalid Number!'
-                                : undefined)
+        this.init = {'NAME':'',ProjectItem:[]}
     }
+
+    validate = (values) => {
+      let errors = {};
+      if(!values.NAME){
+        errors.NAME = 'Required';
+      }
+      errors.ProjectItem = values.ProjectItem.map(i => i.SEQ ? undefined : 'Required SEQ');
+        
+      return errors;
+    };
 
     onSubmit = formValues => {
         this.props.onSubmit(formValues);
     };
   
-    renderInput = ({ input, label, meta, id , placeholder}) => {
-        return (
-          <div className="form-group">
-            <label htmlFor={id}>{label}</label>
-            <input {...input} className="form-control" type="text" id={id} autoComplete="off" placeholder={placeholder}/>
-            {meta.error && meta.touched && <span className="text-danger">{meta.error}</span>}
-          </div>
-        );
-    };
-
-    renderNumber = ({ input, label, meta, id , placeholder, readonly, min, max}) => {
+    renderText = ({
+      field, // { name, value, onChange, onBlur }
+      form, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+      label,
+      readonly,
+      id,
+      placeholder,
+      ...props
+    }) => {
       return (
         <div className="form-group">
           <label htmlFor={id}>{label}</label>
-          <input {...input} className="form-control" type="number" id={id} autoComplete="off" readOnly={readonly} min={min} max={max}/>
-          {meta.error && meta.touched && <span className="text-danger">{meta.error}</span>}
+          <input type="text" {...field} className="form-control" id={id} autoComplete="off" placeholder={placeholder} readOnly={readonly}/>
+          <ErrorMessage name={field.name}>
+            {errorMessage => <div className="text-danger">{errorMessage}</div>}
+          </ErrorMessage>
         </div>
       );
     };
 
-    renderFieldArray = ({ fields, meta }) => (
+    renderNumber = ({
+      field, // { name, value, onChange, onBlur }
+      form, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+      label,
+      readonly,
+      id,
+      min,
+      max,
+      ...props
+    }) => {
+      return (
+        <div className="form-group">
+          <label htmlFor={id}>{label}</label>
+          <input type="number" {...field} className="form-control" id={id} readOnly={readonly} min={min} max={max}/>
+          <ErrorMessage name={field.name}>
+            {errorMessage => <div className="text-danger">{errorMessage}</div>}
+          </ErrorMessage>
+        </div>
+      );
+    };
+
+    renderFieldArray = ({ push, remove, form, name }) => (
       <ul className="list-group">
-          <label>{fields.name} </label>
+          <label>{name} </label>
         <li className="list-group-item">
-          <button type="button" className="btn btn-info" onClick={() => fields.push({Display:'', Value:''})}>
-            Add {fields.name}
+          <button type="button" className="btn btn-info" onClick={() => push({Display:'', Value:''})}>
+            Add {name}
           </button>
         </li>
-        {fields.map((member, index) => (
+        {form.values[name] ? form.values[name].map((member, index) => {
+          return (
           <li key={index} className="list-group-item">
             <button
               type="button"
               className="btn btn-danger"
-              onClick={() => fields.remove(index)}>Remove {member}</button>
+              onClick={() => remove(index)}>Remove {name}</button>
             <Field
-              name={`${member}.NAME`}
-              component={this.renderInput}
+              name={`${name}.${index}.NAME`}
+              component={this.renderText}
               label={`#${index + 1} NAME`}
               placeholder="Input NAME"
             />
             <Field
-              name={`${member}.PROJECTITEM_RULE`}
-              component={this.renderInput}
+              name={`${name}.${index}.PROJECTITEM_RULE`}
+              component={this.renderText}
               label={`#${index + 1} PROJECTITEM_RULE`}
-              placeholder="Input PROJECTITEM_RULE"
+              placeholder="Join Character, default '-'. Enter 'N' for no join character"
             />
             <Field
-              name={`${member}.SEQ`}
+              name={`${name}.${index}.SEQ`}
               component={this.renderNumber}
               label={`#${index + 1} SEQ`}
               min="1"
-              validate={this.required}
             />
             <Field
-              name={`${member}.id`}
-              render={({ input, meta }) => (
+              name={`${name}.${index}.id`}
+              render={({ field, form }) => (
                 <div>
-                  {this.props.mode==='EDIT'? <Link to={`/admin/projItemDict/${input.value}`} className="btn btn-secondary">Manage ProjectItem Definition</Link> : <></>}
+                  {this.props.mode==='EDIT'? <Link to={`/admin/projItemDict/${field.value}`} className="btn btn-secondary">Manage ProjectItem Definition</Link> : <></>}
                 </div>
               )}
-              readOnly={true}
             />
+            <ErrorMessage name={`${name}.${index}`}>
+              {errorMessage => <div className="text-danger">{errorMessage}</div>}
+            </ErrorMessage>
           </li>
-        ))}
+          )}) : <></>}
       </ul>
     )
 
     render() {
       return (
-        <Form
+        <Formik
+          initialValues={this.props.initialValues || this.init}  
           onSubmit={this.onSubmit}
-          initialValues={this.props.initialValues}  
-          mutators={{
-            ...arrayMutators
-          }}
-          render={({ handleSubmit, form, submitting, pristine, values }) => (
-            <form onSubmit={handleSubmit}>
-              {/* <div className="form-group">
-                <label for="projectName">Name</label>
-                <Field className="form-control" id="projectName" name="Name" component="input" type="text" placeholder="Input Project Name"/>
-              </div> */}
-              <Field name="NAME" component={this.renderInput} label="Name" id="projectName" placeholder="Input Project Name" validate={this.required}/>
-
+          validate={this.validate}
+          enableReinitialize={true}
+          render={({ errors, status, touched, isSubmitting }) => (
+            <Form>
+              <Field name="NAME" component={this.renderText} label="Name" id="projectName" placeholder="Input Project Name"/>
               <FieldArray name="ProjectItem" component={this.renderFieldArray}/>
-
-              <button className="btn btn-primary" type="submit" disabled={submitting || pristine} >Submit</button>
-              
-            </form>
+              <button type="submit" className="btn btn-primary" disabled={isSubmitting}>Submit</button>
+            </Form>
           )}
         />
       );

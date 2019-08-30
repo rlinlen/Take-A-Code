@@ -106,7 +106,9 @@ module.exports = (app, Model) => {
                 code = codePromise.join('-') */
 
                 //multiple code for dict type-number
-                let codePromise = await Promise.all(Object.entries(req.body)
+                let projectItem = {...req.body}
+
+                let codePromise = await Promise.all(Object.entries(projectItem)
                     .filter(i => Number.isInteger(+i[0]))
                     .sort((a, b) => a[1].seq - b[1].seq)
                     .map(async kv => {
@@ -157,7 +159,7 @@ module.exports = (app, Model) => {
                 //codePromise.reduce((a,c)=>{},[])
                 let codes = [];
                 for(let i = 0; i< flatArray.length; i++){
-                    code = flatArray[i].join('-')
+                    code = flatArray[i].join(projectItem.join)
                     codes = [...codes, code]
 
                     let takenItem = {

@@ -13,8 +13,25 @@ class DictAdminForm extends React.Component {
         this.dictType = [{value:'select',label:'select'},{value:'number',label:'number'},{value:'text',label:'text'},{value:'date',label:'date'}]
     }
 
+    isArrayDuplicate = (array) => {
+      return (new Set(array)).size !== array.length;
+    }
+
     validate = (values) => {
       let errors = {};
+      if(!values.NAME){
+        errors.NAME = 'Required';
+      }
+      if(!values.DICT_TYPE){
+        errors.DICT_TYPE = 'Required';
+      }
+      if(this.isArrayDuplicate(values.DictionaryItem.map(o => o.VALUE))){
+       //dict value must be unique 
+        errors.DictionaryItem = 'DictionaryItem value must be unique';
+      }
+
+    
+
       /* if (!values.upn) {
         errors.upn = 'Required';
       } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.upn)) {
@@ -107,6 +124,9 @@ class DictAdminForm extends React.Component {
               />
             </li>
           )}) : <></>}
+          <ErrorMessage name={name}>
+            {errorMessage => <div className="text-danger">{errorMessage}</div>}
+          </ErrorMessage>
       </ul>
       )
     }
