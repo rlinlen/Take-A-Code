@@ -122,6 +122,18 @@ class UserAdmin extends React.Component {
             Header: 'Status',
             accessor: 'STATUS',
             style: { 'whiteSpace': 'unset' }
+            },{
+                Header: 'Read Project',
+                accessor: 'READPROJECT',
+                style: { 'whiteSpace': 'unset' }
+            },{
+                Header: 'Edit Project',
+                accessor: 'EDITPROJECT',
+                style: { 'whiteSpace': 'unset' }
+            },{
+                Header: 'Take Project',
+                accessor: 'TAKEPROJECT',
+                style: { 'whiteSpace': 'unset' }
             }
         ];
 

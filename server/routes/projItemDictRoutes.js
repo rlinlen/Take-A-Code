@@ -71,7 +71,7 @@ module.exports = (app, Model) => {
                 res.send({result:"ok"});
             }
             catch (err){
-                console.log(err);
+                //console.log(err);
                 res.send(err);
             }
     });
@@ -83,7 +83,7 @@ module.exports = (app, Model) => {
                 const Items = await Model.Child.findAll({ where: { PROJECTITEM_ID: req.params.projectItemId } });
                 let dbItems = Items.map(i => {return i.dataValues})
                 
-                console.log(req.body);
+                //console.log(req.body);
 
                 //Get Form items
                 let {Dictionaries, ...rest} = req.body;
@@ -117,7 +117,7 @@ module.exports = (app, Model) => {
                 res.send({result:"ok"});
             }
             catch (err){
-                console.log(err);
+                //console.log(err);
                 res.send(err);
             }
     });

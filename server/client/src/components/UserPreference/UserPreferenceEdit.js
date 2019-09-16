@@ -15,7 +15,7 @@ class UserPreferenceEdit extends React.Component {
   componentDidMount() {
       axios.get(`/api/user/${this.props.auth.UPN}`).then(
           res => {
-              console.log(res);
+              //console.log(res);
               this.setState({user: res.data})
           }
       );

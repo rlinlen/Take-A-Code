@@ -47,8 +47,8 @@ class UserAdminEdit extends React.Component {
           .catch(error => {
             //don't know how to handle error status.
             console.error(error);
-            console.log('123')
-            console.log(error.response.status)
+            //console.log('123')
+            //console.log(error.response.status)
             toast.error(error.response);
           } )
     };

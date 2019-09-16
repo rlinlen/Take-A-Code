@@ -55,6 +55,10 @@ class ProjectAdmin extends React.Component {
                 Header: 'Project Name',
                 accessor: 'NAME',
                 style: { 'whiteSpace': 'unset' }
+            },{
+                Header: 'NOTE',
+                accessor: 'NOTE',
+                style: { 'whiteSpace': 'unset' }
             }/* ,{
                 Header: 'Manage',
                 accessor: 'id',
@@ -83,7 +87,7 @@ class ProjectAdmin extends React.Component {
     fetchList = () => {
         axios.get('/api/projs').then(
             res => {
-                //console.log(res);
+                console.log(res);
                 this.setState({projects: res.data, selected: {}, selectAll: 0}, 
                         () => {this.setState({ isLoading: false })});
             }

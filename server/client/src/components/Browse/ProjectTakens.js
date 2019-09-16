@@ -2,7 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import ReactTable from "react-table";
 import 'react-table/react-table.css'
-import { Link } from 'react-router-dom'
+
+import {leaf} from '../Util/Util';
 
 class ProjectTakens extends React.Component {
     constructor(props){
@@ -46,7 +47,19 @@ class ProjectTakens extends React.Component {
                 id: 'projectItem.NAME',
                 Header: 'NAME',
                 accessor: i => i.projectItem.NAME,
-                style: { 'whiteSpace': 'unset' }
+                style: { 'whiteSpace': 'unset' },
+                filterMethod: (filter, row) => {
+                    return filter.value === "all" ? true : (row[filter.id] === filter.value)
+                },
+                Filter: ({ filter, onChange }) =>
+                  <select
+                    onChange={event => onChange(event.target.value)}
+                    style={{ width: "100%" }}
+                    value={filter ? filter.value : "all"}
+                  >
+                    <option value="all">All</option>
+                    {this.fetchUniqueItems('projectItem.NAME')}
+                  </select>
             },{
                 Header: 'VALUE',
                 accessor: 'VALUE',
@@ -54,11 +67,24 @@ class ProjectTakens extends React.Component {
             },{
                 Header: 'CREATEDTIME',
                 accessor: 'CREATEDTIME',
-                style: { 'whiteSpace': 'unset' }
+                style: { 'whiteSpace': 'unset' },
+                Cell: (row) => row.value ? row.value.split('T')[0] : ''
             },{
                 Header: 'UPN',
                 accessor: 'UPN',
-                style: { 'whiteSpace': 'unset' }
+                style: { 'whiteSpace': 'unset' },
+                filterMethod: (filter, row) => {
+                    return filter.value === "all" ? true : (row[filter.id] === filter.value)
+                },
+                Filter: ({ filter, onChange }) =>
+                  <select
+                    onChange={event => onChange(event.target.value)}
+                    style={{ width: "100%" }}
+                    value={filter ? filter.value : "all"}
+                  >
+                    <option value="all">All</option>
+                    {this.fetchUniqueItems('UPN')}
+                  </select>
             }]
         }
     }
@@ -79,11 +105,18 @@ class ProjectTakens extends React.Component {
     fetchList = (projectId) => {
         axios.get(`/api/takens/project/${projectId}`).then(
             res => {
-                console.log(res);
+                //console.log(res);
                 this.setState({items: res.data, selected: {}, selectAll: 0}, 
                         () => {this.setState({ isLoading: false })});
             }
         );        
+    }
+
+    fetchUniqueItems = (itemName) => {
+        let itemsArray = this.state.items.map(i => leaf(i,itemName));
+        let uniqueArray = [...new Set(itemsArray)]
+        //console.log(uniqueArray)
+        return uniqueArray.map(i => <option value={i} key={i}>{i}</option>)
     }
 
     toggleRow = (id) => {
@@ -142,7 +175,7 @@ class ProjectTakens extends React.Component {
                             data={this.state.items}
                             columns={this.state.columns}
                             filterable={true}
-                            defaultPageSize = {50}
+                            defaultPageSize = {20}
                             pageSizeOptions = {[10, 20, 50, 100]}
                             defaultFilterMethod={(item, row) =>
                                 String(row[item.id]).toLowerCase().indexOf(item.value.toLowerCase())!==-1}

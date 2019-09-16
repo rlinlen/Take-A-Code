@@ -34,6 +34,18 @@ module.exports = (sequelize, DataTypes) => {
             get: function (val) {
                 this.getDataValue('PASSWORDHASH');
             }
+        },
+        READPROJECT: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+        EDITPROJECT: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+        TAKEPROJECT: {
+            type: DataTypes.STRING,
+            allowNull: true
         }
     }, {
         timestamps: false,

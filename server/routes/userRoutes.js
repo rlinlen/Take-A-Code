@@ -34,7 +34,7 @@ module.exports = (app, Model) => {
     async (req, res) => { 
         //let user = await Model.findOne({ where: {UPN: req.params.upn} });
         //Object.entries(req.body).map(p => {user[p[0]] = p[1]});
-        console.log({...req.body});
+        //console.log({...req.body});
         let userBody = {
           PASSWORD:req.body.password,
           NAME:req.body.name,

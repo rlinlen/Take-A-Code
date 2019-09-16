@@ -11,6 +11,7 @@ const axiosAPI = axios.create({
         rejectUnauthorized: false
       })
 });
+const {Dict} = require('../services/sequelize');
 
 module.exports = (app, Model) => {
     
@@ -116,8 +117,29 @@ module.exports = (app, Model) => {
                     .map(async kv => {
                         if(kv[1]['type']==='number'){
                             //patach dict current and get up-to-date current
-                            let dictPatch = await axiosAPI.patch(`/api/dict/current/${kv[0]}`,{value:kv[1].inc});
-                            let {originalCurrent, rule} = dictPatch.data;
+                            //kv[1] = { seq: 4, value: '003', inc: '2', type: 'number' }
+                            
+                            //let dictPatch = await axiosAPI.patch(`/api/dict/current/${kv[0]}`,{value:kv[1].inc});
+                            //// replace direct http call for no req.user
+                            //make sure it's always update from db to avoid lock
+                            let Model = Dict;
+                            const Dictionary = await Model.Parent.findByPk(kv[0]);
+                            
+                            //initilize
+                            Dictionary.DICT_CURRENT = Dictionary.DICT_CURRENT || 0
+                            let newCurrent = +Dictionary.DICT_CURRENT + +kv[1].inc;
+            
+                            //Update Parent items
+                             Model.Parent.update({DICT_CURRENT: newCurrent}, {
+                                where: {
+                                    id: kv[0]
+                                }
+                            })
+                            let originalCurrent = Dictionary.DICT_CURRENT;
+                            let rule = Dictionary.DICT_RULE;
+                            ////
+
+                            //let {originalCurrent, rule} = dictPatch.data;
 
                             let r = [];
                             for(let i = 1; i <= kv[1].inc; i++){

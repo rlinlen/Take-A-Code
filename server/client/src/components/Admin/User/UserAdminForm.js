@@ -1,13 +1,28 @@
 import React from 'react';
+import axios from 'axios';
 import { Formik, Field, Form, ErrorMessage, FieldArray } from 'formik';
+import Select from 'react-select'
 
 
 class UserAdminForm extends React.Component {
     constructor(props){
         super(props);
-        this.state = { isLoading: false };
+        this.state = { projects: [] };
         this.init = {name:'',password:'',role:'',upn:''}
     }
+
+    componentDidMount(){
+      this.fetchProj();
+    }
+
+    fetchProj = () => {
+      axios.get('/api/projs').then(
+          res => {
+            console.log(res.data)
+            this.setState({projects: res.data})
+          }
+      )        
+  }
 
   validate = (values) => {
       let errors = {};
@@ -46,7 +61,81 @@ class UserAdminForm extends React.Component {
           )) : <></>}
         </ul>
       ) */
+      /* renderMultiSelect = ({
+        field, // { name, value, onChange, onBlur }
+        form, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+        label,
+        id,
+        options,
+        ...props
+      }) => {
+        return (
+          <div className="form-group">
+            <label htmlFor={id}>{label}</label>
+            <select {...field} className="form-control" id={id} autoComplete="off">
+              <option>----</option>
+              {options.map(i => {
+                return <option key={i.id} value={i.id}>{i.NAME}</option>
+              })}
+            </select>
+            <ErrorMessage name={field.name}>
+              {errorMessage => <div className="text-danger">{errorMessage}</div>}
+            </ErrorMessage>
+          </div>
+        );
+      }; */
 
+      getMultiSelectValue = (field, options) => {
+          console.log('get select')
+          console.log(field.value)
+
+          return Array.isArray(field.value) ? options.filter(option => field.value.indexOf(option.id) >= 0) : options.filter(option => field.value == option.id)
+          //if(field.value)
+            //return options.filter(option => field.value.indexOf(option.id) >= 0)
+          //return []
+          
+      };
+
+      handleMultiSelectChange = (selectedOption, field, form) => {
+        //selectedOption: [{NAME:,NOTE:,id:},]
+
+        //e.persist();
+        const { setFieldValue } = form;
+        //const { name, value } = e.target;
+        console.log('handle select')
+        console.log(selectedOption);
+        let output = selectedOption ? selectedOption.map(i => i.id) :  null
+        setFieldValue(field.name, output);
+      }
+
+      
+      renderMultiSelect = ({
+        field, // { name, value, onChange, onBlur }
+        form, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+        label,
+        id,
+        options,
+        ...props
+      }) => {
+        return (
+          <div className="form-group">
+            <label htmlFor={id}>{label}</label>
+            <Select
+              name={field.name}
+              value={this.getMultiSelectValue(field,options)}
+              onChange={selectedOption => this.handleMultiSelectChange(selectedOption, field, form)}
+              options={options}
+              isMulti
+              isSearchable
+              getOptionValue={option => option['id']}
+              getOptionLabel={option => option['NAME']}
+            />
+            <ErrorMessage name={field.name}>
+              {errorMessage => <div className="text-danger">{errorMessage}</div>}
+            </ErrorMessage>
+          </div>
+        );
+      };
 
       renderText = ({
         field, // { name, value, onChange, onBlur }
@@ -86,7 +175,10 @@ class UserAdminForm extends React.Component {
                 <Field name="upn" component={this.renderText} label="User UPN: " readonly={this.props.mode==='EDIT' ? true : false}/>
                 <Field name="password" component={this.renderText} label="User password: "/>
                 <Field name="role" component={this.renderText} label="User role: "/>
-                <button type="submit" className="btn btn-primary" disabled={this.state.isLoading}>Submit</button>
+                <Field name="READPROJECT" component={this.renderMultiSelect} label="READ PROJECT" id="READPROJECT" options={this.state.projects}/>
+                <Field name="EDITPROJECT" component={this.renderMultiSelect} label="EDIT PROJECT" id="EDITPROJECT" options={this.state.projects}/>
+                <Field name="TAKEPROJECT" component={this.renderMultiSelect} label="TAKE PROJECT" id="TAKEPROJECT" options={this.state.projects}/>
+                <button type="submit" className="btn btn-primary" disabled={isSubmitting}>Submit</button>
               </Form>
             )}
           />

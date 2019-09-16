@@ -21,7 +21,7 @@ class DictionaryCard extends React.Component {
   fetchData = (dictId) => {
     axios.get(`/api/dict/${dictId}`).then(
         res => {
-            console.log(res.data)
+            //console.log(res.data)
             this.setState({dict: res.data})
         }
     );
@@ -119,7 +119,7 @@ class DictionaryCard extends React.Component {
     return (
       <div className="form-group">
         <label htmlFor={id}>{label}</label>
-        <input type="number" {...field} className="form-control" id={id} readOnly={readonly} min={min} max={max} onChange={e => this.handleInputChange(e, form)}/>
+        <input type="number" step="1" {...field} className="form-control" id={id} readOnly={readonly} min={min} max={max} onChange={e => this.handleInputChange(e, form)}/>
         <ErrorMessage name={field.name}>
           {errorMessage => <div className="text-danger">{errorMessage}</div>}
         </ErrorMessage>
@@ -161,7 +161,9 @@ class DictionaryCard extends React.Component {
       case 'number':
         return (
           <>
+            Taken Number:
             <Field type="text" readOnly={true} className="form-control" value={this.state.dict.DICT_CURRENT || 0}/>
+            Number to take:
             <Field name="item" component={this.renderNumber} id="PROJECTITEM_ID" min={1}/>
           </>
         )

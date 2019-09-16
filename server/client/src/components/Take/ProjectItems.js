@@ -83,6 +83,16 @@ class ProjectItems extends React.Component {
         )
     }
 
+    renderRule = (rule) => {
+        if (rule) {
+          return (
+            <button type="button" className="btn btn-secondary" disabled>
+              Rule <span className="badge badge-light">{rule}</span>
+            </button>
+          )
+        }
+    }
+
     render() {
         //console.log(this.props.projectId)
         if (!this.props.projectId) {
@@ -95,22 +105,13 @@ class ProjectItems extends React.Component {
 
         return (
             <div>
-                {/* <ul className="list-group">
-                    {this.state.project.ProjectItem.map(i => (
-                        <>
-                            <li key={i.id} className="list-group-item">
-                                {i.NAME}
-                            </li>
-                            <li key={`${i.id}-Dict`} className="list-group-item">
-                                <DictionaryCards projItemId={i.id}/>
-                            </li>
-                        </>
-                    ))}
-                </ul> */}
+                <div className="p-3 mb-2 bg-light text-dark">
+                    Notes:{this.state.project.NOTE}
+                </div>
                 {this.state.project.ProjectItem.map(i => (
                     <div key={i.id}>
                         <div className="card">
-                            <h5 className="card-header">{i.NAME}</h5>
+                            <h5 className="card-header">{i.NAME} <div className="float-right">{this.renderRule(i.PROJECTITEM_RULE)}</div></h5>
                             <div className="card-body">
                                 <DictionaryCards projItemId={i.id}/>
                             </div>

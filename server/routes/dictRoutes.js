@@ -69,13 +69,12 @@ module.exports = (app, Model) => {
     app.patch('/api/dict/current/:id',requireAuthenticated,
         async (req, res) => { 
             try{
-               
                 //Get Form items
                 let {value} = req.body;
 
                 //make sure it's always update from db to avoid lock
                 const Dictionary = await Model.Parent.findByPk(req.params.id);
-
+                
                 //initilize
                 Dictionary.DICT_CURRENT = Dictionary.DICT_CURRENT || 0
                 let newCurrent = +Dictionary.DICT_CURRENT + +value;
@@ -93,7 +92,7 @@ module.exports = (app, Model) => {
                 res.send({result:"ok", originalCurrent: Dictionary.DICT_CURRENT, rule: Dictionary.DICT_RULE});
             }
             catch (err){
-                res.send(err);
+                res.send(err.message);
             }
     });
 

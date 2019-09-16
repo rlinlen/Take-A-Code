@@ -110,7 +110,7 @@ module.exports = (app, Model) => {
                 res.send({result:"ok"});
             }
             catch (err){
-                console.log(err);
+                //console.log(err);
                 res.send(err);
             }
     });

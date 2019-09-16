@@ -8,7 +8,7 @@ class ProjectAdminForm extends React.Component {
     constructor(props){
         super(props);
 
-        this.init = {'NAME':'',ProjectItem:[{'NAME':'',PROJECTITEM_RULE:DEFAULT_JOIN_CHAR,SEQ:''}]}
+        this.init = {'NAME':'','NOTE':'',ProjectItem:[{'NAME':'',PROJECTITEM_RULE:DEFAULT_JOIN_CHAR,SEQ:''}]}
     }
 
     validate = (values) => {
@@ -130,6 +130,7 @@ class ProjectAdminForm extends React.Component {
           render={({ errors, status, touched, isSubmitting }) => (
             <Form>
               <Field name="NAME" component={this.renderText} label="Name" id="projectName" placeholder="Input Project Name"/>
+              <Field name="NOTE" component={this.renderText} label="NOTE" id="NOTE" placeholder="Input Project NOTE"/>
               <FieldArray name="ProjectItem" component={this.renderFieldArray}/>
               <button type="submit" className="btn btn-primary" disabled={isSubmitting}>Submit</button>
             </Form>
