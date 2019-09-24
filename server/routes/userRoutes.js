@@ -39,6 +39,9 @@ module.exports = (app, Model) => {
           PASSWORD:req.body.password,
           NAME:req.body.name,
           ROLE:req.body.role,
+          READPROJECT:req.body.readproject,
+          EDITPROJECT:req.body.editproject,
+          TAKEPROJECT:req.body.takeproject,
         }
         await Model.update(userBody, {
           where: {
@@ -52,7 +55,7 @@ module.exports = (app, Model) => {
   //create local user
   app.post("/api/user/new",requireAuthenticated,requireAdmin,
     async (req, res, next) => {
-      //console.log(req.body);
+      console.log(req.body);
       //const { upn, password, name, role } = req.body;
       //const userBody = {...req.body};
       let userBody = {
@@ -60,6 +63,7 @@ module.exports = (app, Model) => {
         PASSWORD:req.body.password,
         NAME:req.body.name,
         ROLE:req.body.role,
+        READPROJECT:req.body.readproject,
         STATUS:1
       }
       try{

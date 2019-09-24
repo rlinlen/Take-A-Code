@@ -158,9 +158,8 @@ class UserAdminForm extends React.Component {
       };
     
       onSubmit = formValues => {
-        this.setState({isLoading:true}, 
-          ()=>{this.props.onSubmit(formValues);})
-      };
+          this.props.onSubmit(formValues)
+      ;}
     
       render() {
         return (
@@ -175,9 +174,9 @@ class UserAdminForm extends React.Component {
                 <Field name="upn" component={this.renderText} label="User UPN: " readonly={this.props.mode==='EDIT' ? true : false}/>
                 <Field name="password" component={this.renderText} label="User password: "/>
                 <Field name="role" component={this.renderText} label="User role: "/>
-                <Field name="READPROJECT" component={this.renderMultiSelect} label="READ PROJECT" id="READPROJECT" options={this.state.projects}/>
-                <Field name="EDITPROJECT" component={this.renderMultiSelect} label="EDIT PROJECT" id="EDITPROJECT" options={this.state.projects}/>
-                <Field name="TAKEPROJECT" component={this.renderMultiSelect} label="TAKE PROJECT" id="TAKEPROJECT" options={this.state.projects}/>
+                <Field name="readproject" component={this.renderMultiSelect} label="READ PROJECT" id="READPROJECT" options={this.state.projects}/>
+                <Field name="takeproject" component={this.renderMultiSelect} label="TAKE PROJECT" id="TAKEPROJECT" options={this.state.projects}/>
+                <Field name="editproject" component={this.renderMultiSelect} label="EDIT PROJECT" id="EDITPROJECT" options={this.state.projects}/>
                 <button type="submit" className="btn btn-primary" disabled={isSubmitting}>Submit</button>
               </Form>
             )}

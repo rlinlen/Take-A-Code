@@ -17,7 +17,7 @@ const Login = () => {
               <p className="card-text text-muted p-4">Welcome to Take-A-Code! Please choose a method to sign in.</p>
       
               <div className="p-2">
-                  <a href="/api/login/azuread" className="btn btn-outline-primary btn-block mb-2" style={btnRound}><i className="fab fa-windows"></i> Sign in with Microsoft</a>
+                  {/* <a href="/api/login/azuread" className="btn btn-outline-primary btn-block mb-2" style={btnRound}><i className="fab fa-windows"></i> Sign in with Microsoft</a> */}
                   <Link to="/login/local" className="btn btn-outline-secondary btn-block mb-2" style={btnRound}><i className="far fa-envelope"></i> Sign in with Email</Link>
               </div>
                 

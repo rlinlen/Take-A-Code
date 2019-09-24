@@ -5,7 +5,7 @@ const https = require('https')
 const requireAuthenticated = require('../middlewares/requireAuthenticated');
 
 const axiosAPI = axios.create({
-    baseURL: conf.backendServer,
+    baseURL: conf().backendServer,
     headers: { "Content-Type": "application/json"},
     httpsAgent: new https.Agent({  
         rejectUnauthorized: false

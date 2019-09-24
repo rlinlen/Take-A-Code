@@ -37,15 +37,36 @@ module.exports = (sequelize, DataTypes) => {
         },
         READPROJECT: {
             type: DataTypes.STRING,
-            allowNull: true
+            allowNull: true,
+            set: function (val) {
+                this.setDataValue('READPROJECT', val.toString());
+            },
+            get: function (val) {
+                let pid = this.getDataValue('READPROJECT');
+                return pid ? pid.split(',').map(i => +i) : [] //key in int
+            }
         },
         EDITPROJECT: {
             type: DataTypes.STRING,
-            allowNull: true
+            allowNull: true,
+            set: function (val) {
+                this.setDataValue('EDITPROJECT', val.toString());
+            },
+            get: function (val) {
+                let pid = this.getDataValue('EDITPROJECT');
+                return pid ? pid.split(',').map(i => +i) : [] //key in int
+            }
         },
         TAKEPROJECT: {
             type: DataTypes.STRING,
-            allowNull: true
+            allowNull: true,
+            set: function (val) {
+                this.setDataValue('TAKEPROJECT', val.toString());
+            },
+            get: function (val) {
+                let pid = this.getDataValue('TAKEPROJECT');
+                return pid ? pid.split(',').map(i => +i) : [] //key in int
+            }
         }
     }, {
         timestamps: false,

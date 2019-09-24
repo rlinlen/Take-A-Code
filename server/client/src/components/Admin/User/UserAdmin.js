@@ -14,6 +14,7 @@ class UserAdmin extends React.Component {
     
     componentDidMount() {
         this.fetchList();
+        this.fetchProj();
     }
 
     fetchList = ()=>{
@@ -24,6 +25,15 @@ class UserAdmin extends React.Component {
                                 () => {this.setState({ isLoading: false })});
             }
         );
+    }
+
+    fetchProj = () => {
+        axios.get('/api/projs').then(
+            res => {
+              //console.log(res.data)
+              this.setState({projects: res.data})
+            }
+        )        
     }
 
     toggleRow = (id) => {
@@ -122,19 +132,46 @@ class UserAdmin extends React.Component {
             Header: 'Status',
             accessor: 'STATUS',
             style: { 'whiteSpace': 'unset' }
-            },{
-                Header: 'Read Project',
-                accessor: 'READPROJECT',
-                style: { 'whiteSpace': 'unset' }
-            },{
-                Header: 'Edit Project',
-                accessor: 'EDITPROJECT',
-                style: { 'whiteSpace': 'unset' }
-            },{
-                Header: 'Take Project',
-                accessor: 'TAKEPROJECT',
-                style: { 'whiteSpace': 'unset' }
-            }
+          },{
+            Header: 'Read Project',
+            accessor: 'READPROJECT',
+            style: { 'whiteSpace': 'unset' },
+            Cell: row => {
+                if(row.value && this.state.projects){
+                    return (
+                        <ul>
+                            {row.value.map(i => <li key={i}>{this.state.projects.find(p => p.id===i).NAME}</li>)}
+                        </ul>
+                    )}
+                return null;
+                }
+          },{
+            Header: 'Take Project',
+            accessor: 'TAKEPROJECT',
+            style: { 'whiteSpace': 'unset' },
+            Cell: row => {
+                if(row.value && this.state.projects){
+                    return (
+                        <ul>
+                            {row.value.map(i => <li key={i}>{this.state.projects.find(p => p.id===i).NAME}</li>)}
+                        </ul>
+                    )}
+                return null;
+                }
+          },{
+            Header: 'Edit Project',
+            accessor: 'EDITPROJECT',
+            style: { 'whiteSpace': 'unset' },
+            Cell: row => {
+                if(row.value && this.state.projects){
+                    return (
+                        <ul>
+                            {row.value.map(i => <li key={i}>{this.state.projects.find(p => p.id===i).NAME}</li>)}
+                        </ul>
+                    )}
+                return null;
+                }
+          }
         ];
 
         return (

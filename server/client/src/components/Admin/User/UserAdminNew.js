@@ -10,7 +10,7 @@ class UserAdminNew extends React.Component {
         //console.log(formValues);
         axios.post('/api/user/new', formValues, {headers: { "Content-Type": "application/json"}}).then(
             res => {
-                //console.log(res);
+                console.log(res);
                 history.goBack();
             }
         );

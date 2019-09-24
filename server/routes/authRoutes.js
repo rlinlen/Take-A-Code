@@ -4,7 +4,7 @@ module.exports = (app) => {
 
 
       //AzureAD
-      app.get('/',(req,res) => {
+      app.get('/session',(req,res) => {
         //console.log(req.cookies);
         res.send(req.session);
       });

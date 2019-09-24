@@ -54,12 +54,33 @@ require('./routes/dictRoutes')(app, Dict);
 require('./routes/projItemDictRoutes')(app, ProjItemDict);
 require('./routes/takenRoutes')(app, ProjectItemTaken);
 ////Start Server
+
+if (process.env.NODE_ENV === 'production') {
+  console.log('hi')
+  console.log(conf().webPrivateKey)
+  console.log(__dirname)
+
+  const path = require('path');
+  // Express will serve up production assets
+  // like our main.js file, or main.css file!
+  //app.use(express.static('client/build'));
+  app.use(express.static(path.join(__dirname, 'client','build')));
+
+  // Express will serve up the index.html file
+  // if it doesn't recognize the route
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
+
+
+
   
 const PORT = process.env.PORT || 5001;
 
 // Certificate
-const privateKey = fs.readFileSync(__dirname + conf.webPrivateKey, 'utf8');
-const certificate = fs.readFileSync(__dirname + conf.webCertificate, 'utf8');
+const privateKey = fs.readFileSync(__dirname + conf().webPrivateKey, 'utf8');
+const certificate = fs.readFileSync(__dirname + conf().webCertificate, 'utf8');
 //const ca = fs.readFileSync('/etc/letsencrypt/live/yourdomain.com/chain.pem', 'utf8');
 
 const credentials = {
@@ -71,5 +92,5 @@ const credentials = {
 const httpsServer = https.createServer(credentials, app);
 
 httpsServer.listen(PORT, () => {
-    console.log('HTTPS Server running on port 5001');
+    console.log('HTTPS Server running on port' + PORT);
 })

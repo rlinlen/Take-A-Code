@@ -15,7 +15,7 @@ class UserAdminEdit extends React.Component {
     componentDidMount() {
         axios.get(`/api/user/${this.props.match.params.upn}`).then(
             res => {
-                //console.log(res);
+                console.log(res);
                 this.setState({user: res.data})
             }
         );
@@ -58,9 +58,16 @@ class UserAdminEdit extends React.Component {
           return <div>Loading...</div>;
         }
 
-        let {NAME, UPN, ROLE} = this.state.user;
+        let {NAME, UPN, ROLE, READPROJECT, TAKEPROJECT, EDITPROJECT} = this.state.user;
 
-        let init = {'name': NAME, 'upn': UPN, 'role': ROLE, 'password':''};
+        let init = {'name': NAME, 
+          'upn': UPN, 
+          'role': ROLE, 
+          'password':'', 
+          'readproject':READPROJECT,
+          'takeproject':TAKEPROJECT,
+          'editproject':EDITPROJECT,
+        };
         //console.log(init);
 
         return (
