@@ -163,7 +163,7 @@ class DictionaryCard extends React.Component {
           <>
             Taken Number:
             <Field type="text" readOnly={true} className="form-control" value={this.state.dict.DICT_CURRENT || 0}/>
-            Number to take:
+            How many Number to take:
             <Field name="item" component={this.renderNumber} id="PROJECTITEM_ID" min={1}/>
           </>
         )

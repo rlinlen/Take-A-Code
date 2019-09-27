@@ -11,7 +11,7 @@ class ProjectItems extends React.Component {
 
     constructor(props){
         super(props);
-        this.state = { project:{} };
+        this.state = { project:{}, comment:"" };
     }
 
     componentDidMount(){
@@ -53,7 +53,8 @@ class ProjectItems extends React.Component {
                     //post other API if audit
                 } */
                 //post single create
-                let code = await axios.post(`/api/taken/new/${projectItemId}`,this.props.dictValue[projectItemId]);
+                let wrappedItem = {items: this.props.dictValue[projectItemId], comment: this.state.comment}
+                let code = await axios.post(`/api/taken/new/${projectItemId}`,wrappedItem);
                 codes = {...codes, [projectItemId]:[code.data.codes,this.state.project.ProjectItem[item].NAME]}
             }
         }
@@ -113,6 +114,10 @@ class ProjectItems extends React.Component {
             <div>
                 <div className="p-3 mb-2 bg-light text-dark">
                     Notes:{this.state.project.NOTE}
+                </div>
+                <div className="form-group"> 
+                    <label htmlFor="comment">Comment:</label>
+                    <textarea className="form-control" id="comment" rows="3" value={this.state.comment} onChange={(event) => this.setState({comment: event.target.value})}></textarea>
                 </div>
                 {this.state.project.ProjectItem.map(i => (
                     <div key={i.id}>

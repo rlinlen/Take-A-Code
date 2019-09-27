@@ -5,7 +5,7 @@ const https = require('https')
 const requireAuthenticated = require('../middlewares/requireAuthenticated');
 const requireReadAuthorized = require('../middlewares/requireReadAuthorized');
 const requireEditAuthorized = require('../middlewares/requireEditAuthorized');
-const requireTakeAuthorized = require('../middlewares/requireTakeAuthorized');
+
 
 const axiosAPI = axios.create({
     baseURL: conf().backendServer,
@@ -112,7 +112,7 @@ module.exports = (app, Model) => {
                 code = codePromise.join('-') */
 
                 //multiple code for dict type-number
-                let projectItem = {...req.body}
+                let projectItem = {...req.body.items}
 
                 let codePromise = await Promise.all(Object.entries(projectItem)
                     .filter(i => Number.isInteger(+i[0]))
@@ -193,7 +193,8 @@ module.exports = (app, Model) => {
                         PROJECTITEM_ID:req.params.projectItemId,
                         VALUE:code,
                         CREATEDTIME:new Date(),
-                        UPN:req.user.UPN
+                        UPN:req.user.UPN,
+                        COMMENT:req.body.comment
                     }
                     await Model.Child.create(takenItem);
                 }

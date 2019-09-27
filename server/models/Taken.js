@@ -19,6 +19,9 @@ module.exports = (sequelize, DataTypes, ProjectItem) => {
         UPN: {
             type: DataTypes.STRING
         },
+        COMMENT: {
+            type: DataTypes.STRING
+        }
     }, {
         timestamps: false,
         freezeTableName: true,

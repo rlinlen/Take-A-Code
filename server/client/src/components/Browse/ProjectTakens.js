@@ -86,6 +86,10 @@ class ProjectTakens extends React.Component {
                     <option value="all">All</option>
                     {this.fetchUniqueItems('UPN')}
                   </select>
+            },{
+                Header: 'COMMENT',
+                accessor: 'COMMENT',
+                style: { 'whiteSpace': 'unset' }
             }]
         }
     }
@@ -106,9 +110,13 @@ class ProjectTakens extends React.Component {
     fetchList = (projectId) => {
         axios.get(`/api/takens/project/${projectId}`).then(
             res => {
-                console.log(res);
+                //console.log(res);
                 this.setState({items: res.data, selected: {}, selectAll: 0}, 
                         () => {this.setState({ isLoading: false })});
+            }
+        ).catch(
+            res => {
+                this.setState({items: {'error':'Try again later.'}})
             }
         );        
     }
