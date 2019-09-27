@@ -39,7 +39,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: true,
             set: function (val) {
-                this.setDataValue('READPROJECT', val.toString());
+                if(val) this.setDataValue('READPROJECT', val.toString());
             },
             get: function (val) {
                 let pid = this.getDataValue('READPROJECT');
@@ -50,7 +50,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: true,
             set: function (val) {
-                this.setDataValue('EDITPROJECT', val.toString());
+                if(val) this.setDataValue('EDITPROJECT', val.toString());
             },
             get: function (val) {
                 let pid = this.getDataValue('EDITPROJECT');
@@ -61,7 +61,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: true,
             set: function (val) {
-                this.setDataValue('TAKEPROJECT', val.toString());
+                if(val) this.setDataValue('TAKEPROJECT', val.toString());
             },
             get: function (val) {
                 let pid = this.getDataValue('TAKEPROJECT');

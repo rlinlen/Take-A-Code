@@ -40,6 +40,12 @@ class ProjectAdminEdit extends React.Component {
           return <div>Loading...</div>;
         }
 
+        if (this.state.project && this.state.project.error ){
+          return (
+              this.state.project.error
+          )
+        }
+
         //let {name, upn, role} = this.state.Project;
         //let init = {'name': name, 'upn': upn, 'role': role};
         //console.log(init);

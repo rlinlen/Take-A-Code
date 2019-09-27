@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import ReactTable from "react-table";
 import 'react-table/react-table.css'
+import {CSVLink} from "react-csv";
 
 import {leaf} from '../Util/Util';
 
@@ -9,7 +10,7 @@ class ProjectTakens extends React.Component {
     constructor(props){
         super(props);
         //this.state = {};
-        this.state = { selected: {}, selectAll: 0, items: [], isLoading: true, columns: [{
+        this.state = { dataToDownload:[], selected: {}, selectAll: 0, items: [], isLoading: true, columns: [{
               accessor: "",
               Cell: ({original}) => {
                   //console.log(original);
@@ -105,7 +106,7 @@ class ProjectTakens extends React.Component {
     fetchList = (projectId) => {
         axios.get(`/api/takens/project/${projectId}`).then(
             res => {
-                //console.log(res);
+                console.log(res);
                 this.setState({items: res.data, selected: {}, selectAll: 0}, 
                         () => {this.setState({ isLoading: false })});
             }
@@ -165,13 +166,64 @@ class ProjectTakens extends React.Component {
         
     }
 
+    onDownloadClick = () => {
+        const currentRecords = this.reactTable.getResolvedState().sortedData;
+        //console.log(currentRecords)
+        var data_to_download = []
+        for (var index = 0; index < currentRecords.length; index++) {
+           let record_to_download = {}
+           for(var colIndex = 0; colIndex < this.state.columns.length ; colIndex ++) {
+                if (this.state.columns[colIndex].id){ //if accessor is arrow function
+                    record_to_download[this.state.columns[colIndex].Header] = currentRecords[index][this.state.columns[colIndex].id]
+                }
+                else if (this.state.columns[colIndex].accessor){ //if accessor is not null
+                    record_to_download[this.state.columns[colIndex].Header] = currentRecords[index][this.state.columns[colIndex].accessor]
+                }
+           }
+           data_to_download.push(record_to_download)
+        }
+        //console.log(data_to_download)
+        this.setState({ dataToDownload: data_to_download }, () => {
+           // click the CSVLink component to trigger the CSV download
+           this.csvLink.link.click()
+        })
+    }
+
+    renderDownload(){
+        return (
+            <div>
+                <div>
+                    <button onClick={this.onDownloadClick}>
+                        Download
+                    </button>
+                 </div>
+                 <div>
+                    <CSVLink
+                        data={this.state.dataToDownload}
+                        filename="data.csv"
+                        className="hidden"
+                        ref={(r) => this.csvLink = r}
+                        target="_blank"/>
+
+                 </div>
+            </div>
+        )
+    }
+
     renderList (){
+        if (this.state.items && this.state.items.error ){
+            return (
+                this.state.items.error
+            )
+        }
         if (this.state.items && this.state.columns){
             return (
                 <>
                     <h4> Total items: {this.state.items.length}</h4>
+                    {this.renderDownload()}
                     <div>
                         <ReactTable 
+                            ref={(r) => this.reactTable = r}
                             data={this.state.items}
                             columns={this.state.columns}
                             filterable={true}

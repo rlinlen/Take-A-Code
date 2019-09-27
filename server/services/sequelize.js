@@ -3,12 +3,12 @@ const keys = require('../config/keys');
 
 //// create database
 const sequelize = new Sequelize(
-    keys.dbInstance,
-    keys.dbAccount,
-    keys.dbPassword, 
+    keys().dbInstance,
+    keys().dbAccount,
+    keys().dbPassword, 
     {
-        "dialect": keys.dbType,
-        "host": keys.dbHost,
+        "dialect": keys().dbType,
+        "host": keys().dbHost,
     }
 );
 

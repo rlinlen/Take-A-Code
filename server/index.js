@@ -35,7 +35,7 @@ var myStore = new SequelizeStore({
   db: sequelize
   })
 app.use(expressSession({
-  secret: keys.cookieEncryptionKeys[0],
+  secret: (keys()).cookieEncryptionKeys[0],
   cookie: {maxAge: 24*60*60 * 1000},
   store: myStore,
   resave: false,
@@ -92,5 +92,5 @@ const credentials = {
 const httpsServer = https.createServer(credentials, app);
 
 httpsServer.listen(PORT, () => {
-    console.log('HTTPS Server running on port' + PORT);
+    console.log('HTTPS Server running on port ' + PORT);
 })

@@ -99,6 +99,12 @@ class ProjectItems extends React.Component {
             return <div>Please select a project.</div>;
         }
 
+        if (this.state.project && this.state.project.error ){
+            return (
+                <div>{this.state.project.error}</div>
+            )
+        }
+
         if  (Object.entries(this.state.project).length === 0 && this.state.project.constructor === Object) {
             return <div>Loading...</div>;
         }

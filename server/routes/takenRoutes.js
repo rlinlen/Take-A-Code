@@ -3,6 +3,9 @@ const conf = require('../config/conf')
 const https = require('https')
 
 const requireAuthenticated = require('../middlewares/requireAuthenticated');
+const requireReadAuthorized = require('../middlewares/requireReadAuthorized');
+const requireEditAuthorized = require('../middlewares/requireEditAuthorized');
+const requireTakeAuthorized = require('../middlewares/requireTakeAuthorized');
 
 const axiosAPI = axios.create({
     baseURL: conf().backendServer,
@@ -29,7 +32,7 @@ module.exports = (app, Model) => {
     );
 
     //list all items with Project
-    app.get('/api/takens/project/:projectId',requireAuthenticated,
+    app.get('/api/takens/project/:projectId',requireAuthenticated,requireReadAuthorized,
         async (req, res, next) => { 
             try{
                 let response = [];

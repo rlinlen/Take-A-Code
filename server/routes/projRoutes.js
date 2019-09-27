@@ -1,4 +1,5 @@
 const requireAuthenticated = require('../middlewares/requireAuthenticated');
+const requireTakeAuthorized = require('../middlewares/requireTakeAuthorized');
 
 module.exports = (app, Model) => {
     
@@ -16,7 +17,7 @@ module.exports = (app, Model) => {
         }
     );
 
-    app.get('/api/proj/:id',requireAuthenticated,
+    app.get('/api/proj/:id',requireAuthenticated,requireTakeAuthorized,
         async (req, res) => { 
             try{
                 const Project = await Model.Parent.findByPk(req.params.id);

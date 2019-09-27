@@ -35,14 +35,19 @@ module.exports = (app, Model) => {
         //let user = await Model.findOne({ where: {UPN: req.params.upn} });
         //Object.entries(req.body).map(p => {user[p[0]] = p[1]});
         //console.log({...req.body});
+
         let userBody = {
-          PASSWORD:req.body.password,
           NAME:req.body.name,
           ROLE:req.body.role,
           READPROJECT:req.body.readproject,
           EDITPROJECT:req.body.editproject,
           TAKEPROJECT:req.body.takeproject,
         }
+
+        if (req.body.password){
+          userBody = {...userBody, PASSWORD:req.body.password}
+        }
+
         await Model.update(userBody, {
           where: {
             UPN: req.params.upn
@@ -64,6 +69,8 @@ module.exports = (app, Model) => {
         NAME:req.body.name,
         ROLE:req.body.role,
         READPROJECT:req.body.readproject,
+        EDITPROJECT:req.body.editproject,
+        TAKEPROJECT:req.body.takeproject,
         STATUS:1
       }
       try{
