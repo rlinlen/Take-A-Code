@@ -26,6 +26,11 @@ class TakeForm extends React.Component {
         this.setState({selectedProj: event.target.value});
     }
 
+    renderSelectedProject(){
+      if(this.state.selectedProj) 
+        return <ProjectItems projectId={this.state.selectedProj}/>
+    }
+
     render() {
       //console.log(this.state.projs)
       if ( 
@@ -43,7 +48,7 @@ class TakeForm extends React.Component {
                     {this.state.projs.map(i => <option key={i.id} value={i.id}>{i.NAME}</option>)}
                 </select>
                 <hr/>
-                <ProjectItems projectId={this.state.selectedProj}/>
+                {this.renderSelectedProject()}
               </div>
             </div>
           </div>

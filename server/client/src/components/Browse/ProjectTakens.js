@@ -201,7 +201,7 @@ class ProjectTakens extends React.Component {
         return (
             <div>
                 <div>
-                    <button onClick={this.onDownloadClick}>
+                    <button type="button" class="btn btn-info" onClick={this.onDownloadClick}>
                         Download
                     </button>
                  </div>

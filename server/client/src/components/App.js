@@ -5,6 +5,7 @@ import history from '../history';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import AuthenticationRoute from './AuthenticationRoute';
 import {fetchUser} from '../actions';
 import Header from './Header';
 import Landing from './Landing';
@@ -40,23 +41,23 @@ class App extends React.Component {
                         <Header />
                         <Switch>
                             <Route path='/' exact component={Landing} />
-                            <Route path='/admin' exact component={Admin} />
-                            <Route path='/admin/projs' exact component={ProjectAdmin} />
-                            <Route path='/admin/proj/new' exact component={ProjectAdminNew} />
-                            <Route path='/admin/proj/:id' exact component={ProjectAdminEdit}  />
-                            <Route path='/admin/dicts' exact component={DictAdmin} />
-                            <Route path='/admin/dict/new' exact component={DictAdminNew} />
-                            <Route path='/admin/dict/:id' exact component={DictAdminEdit}  />
-                            <Route path='/admin/projItemDict/:projItemId' exact component={ProjItemDictAdminEdit} />
-                            <Route path='/take/new' exact component={TakeForm} />
-                            <Route path='/browse' exact component={BrowseForm} />
-                            <Route path='/admin/users' exact component={UserAdmin} />
-                            <Route path='/admin/user/new' exact component={UserAdminNew} />
-                            <Route path='/admin/user/:upn' exact component={UserAdminEdit} />
+                            <AuthenticationRoute path='/admin' exact component={Admin} />
+                            <AuthenticationRoute path='/admin/projs' exact component={ProjectAdmin} />
+                            <AuthenticationRoute path='/admin/proj/new' exact component={ProjectAdminNew} />
+                            <AuthenticationRoute path='/admin/proj/:id' exact component={ProjectAdminEdit}  />
+                            <AuthenticationRoute path='/admin/dicts' exact component={DictAdmin} />
+                            <AuthenticationRoute path='/admin/dict/new' exact component={DictAdminNew} />
+                            <AuthenticationRoute path='/admin/dict/:id' exact component={DictAdminEdit}  />
+                            <AuthenticationRoute path='/admin/projItemDict/:projItemId' exact component={ProjItemDictAdminEdit} />
+                            <AuthenticationRoute path='/take/new' exact component={TakeForm} />
+                            <AuthenticationRoute path='/browse' exact component={BrowseForm} />
+                            <AuthenticationRoute path='/admin/users' exact component={UserAdmin} />
+                            <AuthenticationRoute path='/admin/user/new' exact component={UserAdminNew} />
+                            <AuthenticationRoute path='/admin/user/:upn' exact component={UserAdminEdit} />
                             <Route path='/login' exact component={Login} />
                             <Route path='/login/local' exact component={LoginLocal} />
-                            <Route path='/user' exact component={UserPreferenceEdit} />
-                            <Route path='/take/result' exact component={TakeResult} />
+                            <AuthenticationRoute path='/user' exact component={UserPreferenceEdit} />
+                            <AuthenticationRoute path='/take/result' exact component={TakeResult} />
                         </Switch>
                     </>
                 </Router>

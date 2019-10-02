@@ -23,7 +23,7 @@ const Login = () => {
                 
             </div>
             <div className="card-footer" style={{borderColor:"transparent", backgroundColor:"transparent"}}><small>No account?</small>
-              <a href = "https://www.google.com"><small>Apply here</small></a>
+              <a href = "mailto:it-support@aprinoia.com"><small>Apply here</small></a>
             </div>
           </div>
         </div>

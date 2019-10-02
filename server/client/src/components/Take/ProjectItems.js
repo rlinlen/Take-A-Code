@@ -17,6 +17,7 @@ class ProjectItems extends React.Component {
     componentDidMount(){
         //this.fetchData(this.props.projectId);
         this.props.resetDictValue();
+        this.fetchData(this.props.projectId);
     }
 
     componentDidUpdate(prevProps) {

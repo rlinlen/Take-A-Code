@@ -23,7 +23,7 @@ class LoginLocal extends React.Component {
             //console.log(res);
             if (res.status === 200){
                 await this.props.fetchUser();
-                this.props.history.push('/study');
+                this.props.history.push('/browse');
             }
         } catch (error){
             //console.log(error.response);

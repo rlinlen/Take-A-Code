@@ -4,8 +4,11 @@ const Landing = () => {
   return (
     <div style={{ textAlign: 'center' }}>
       <h1>
-        Take-A-Code Landing Page. Please login to continue.
+        Welcome to Take-A-Code Landing Page. 
       </h1>
+      <p>
+        Please login to continue.
+      </p>
       Developed by APRINOIA, 2019
     </div>
   );

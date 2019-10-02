@@ -26,6 +26,11 @@ class BrowseForm extends React.Component {
         this.setState({selectedProj: event.target.value});
     }
 
+    renderProjectTakens(){
+      if(this.state.selectedProj) 
+        return <ProjectTakens projectId={this.state.selectedProj}/>
+    }
+
     render() {
       //console.log(this.state.projs)
       if ( 
@@ -43,7 +48,7 @@ class BrowseForm extends React.Component {
                     {this.state.projs.map(i => <option key={i.id} value={i.id}>{i.NAME}</option>)}
                 </select>
                 <hr/>
-                <ProjectTakens projectId={this.state.selectedProj}/>
+                {this.renderProjectTakens()}
               </div>
             </div>
           </div>
