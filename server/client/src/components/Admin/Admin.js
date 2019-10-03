@@ -61,6 +61,15 @@ const Admin = () => {
                     </div> 
                 </Link>
             </div>
+            <div className="card text-center mt-3 border-success">
+                <Link to="/admin/takens" style={style.LinkStyle}>
+                    <div className="card-body" onMouseEnter={handleCardEnter} onMouseLeave={handleCardLeave}>
+                        <h5 className="card-title">Takens Admin</h5>
+                        <div className="mb-2"><i className="fas fa-edit text-primary" style={style.IconStyle}></i></div>
+                        <p className="card-text">Manage Takens Detail</p>
+                    </div> 
+                </Link>
+            </div>
             {/*
             <div className="card text-center mt-3 border-info">
                 <Link to="/admin/dicts" style={style.LinkStyle}>

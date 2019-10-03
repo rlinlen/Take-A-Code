@@ -21,6 +21,11 @@ module.exports = (sequelize, DataTypes, ProjectItem) => {
         },
         COMMENT: {
             type: DataTypes.STRING
+        },
+        STATUS: {
+            type: DataTypes.INTEGER,
+            defaultValue:1
+            //0:disabled, 1:enabled
         }
     }, {
         timestamps: false,

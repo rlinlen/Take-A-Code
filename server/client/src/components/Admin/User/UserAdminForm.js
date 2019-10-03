@@ -86,8 +86,8 @@ class UserAdminForm extends React.Component {
       }; */
 
       getMultiSelectValue = (field, options) => {
-          console.log('get select')
-          console.log(field.value)
+          //console.log('get select')
+          //console.log(field.value)
 
           return Array.isArray(field.value) ? options.filter(option => field.value.indexOf(option.id) >= 0) : options.filter(option => field.value == option.id)
           //if(field.value)
@@ -102,8 +102,8 @@ class UserAdminForm extends React.Component {
         //e.persist();
         const { setFieldValue } = form;
         //const { name, value } = e.target;
-        console.log('handle select')
-        console.log(selectedOption);
+        //console.log('handle select')
+        //console.log(selectedOption);
         let output = selectedOption ? selectedOption.map(i => i.id) :  null
         setFieldValue(field.name, output);
       }

@@ -2,6 +2,7 @@ const axios = require('axios');
 const conf = require('../config/conf')
 const https = require('https')
 
+const requireAdmin = require('../middlewares/requireAdmin')
 const requireAuthenticated = require('../middlewares/requireAuthenticated');
 const requireReadAuthorized = require('../middlewares/requireReadAuthorized');
 const requireEditAuthorized = require('../middlewares/requireEditAuthorized');
@@ -206,6 +207,18 @@ module.exports = (app, Model) => {
                 console.log(err);
                 res.send(err);
             }
+    });
+
+    app.delete('/api/taken/:id',requireAuthenticated,requireAdmin,
+    async (req, res) => { 
+        try{
+            body = {STATUS:0}
+          await Model.Child.update(body, { where: {id: req.params.id} });
+          res.send({result:"ok"});
+        }
+        catch (err){
+          res.send(err);
+        }
     });
 
 }

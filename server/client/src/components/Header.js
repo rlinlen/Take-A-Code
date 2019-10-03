@@ -46,12 +46,10 @@ class Header extends React.Component {
                 <Link to="/browse" className="navbar-brand">
                     <img src={logo} className="float-left mx-1" alt="APRINOIA" height="50"/><h3 className="mt-1">Take-A-Code</h3> 
                 </Link>
-                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
                 <div className="collapse navbar-collapse" id="navbarNav">
-                    <ul className="nav navbar-nav ">
-                    </ul>
                     <ul className="nav navbar-nav ml-auto">
                         {this.loginRender()}
                     </ul>

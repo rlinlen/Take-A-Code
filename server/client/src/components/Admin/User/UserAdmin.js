@@ -62,13 +62,21 @@ class UserAdmin extends React.Component {
     }
 
     handleDelete = () => {
-        this.setState({isLoading: true},  () => {
+        /* this.setState({isLoading: true},  () => {
             Object.entries(this.state.selected).forEach(
                 ([key, value]) => { if(value===true) { axios.delete(`/api/user/${key}`)}}
             )
             this.fetchList();
-        })
-        ;
+        }) */
+        let kv = Object.entries(this.state.selected);
+            //async version
+            for (let i = 0; i < kv.length; i++){
+                if(kv[i][1]===true){
+                    await axios.delete(`/api/user/${kv[i][0]}`)
+                }
+            }
+        this.fetchList();
+
     }
 
     render(){

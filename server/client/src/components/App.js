@@ -22,6 +22,7 @@ import BrowseForm from './Browse/BrowseForm';
 import UserAdmin from './Admin/User/UserAdmin';
 import UserAdminEdit from './Admin/User/UserAdminEdit';
 import UserAdminNew from './Admin/User/UserAdminNew';
+import TakenAdmin from './Admin/Taken/TakenAdmin';
 import Login from './Login';
 import LoginLocal from './LoginLocal';
 import UserPreferenceEdit from './UserPreference/UserPreferenceEdit';
@@ -52,6 +53,7 @@ class App extends React.Component {
                             <AuthenticationRoute path='/take/new' exact component={TakeForm} />
                             <AuthenticationRoute path='/browse' exact component={BrowseForm} />
                             <AuthenticationRoute path='/admin/users' exact component={UserAdmin} />
+                            <AuthenticationRoute path='/admin/takens' exact component={TakenAdmin} />
                             <AuthenticationRoute path='/admin/user/new' exact component={UserAdminNew} />
                             <AuthenticationRoute path='/admin/user/:upn' exact component={UserAdminEdit} />
                             <Route path='/login' exact component={Login} />
