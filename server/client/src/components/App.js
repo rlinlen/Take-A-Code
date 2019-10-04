@@ -27,6 +27,8 @@ import Login from './Login';
 import LoginLocal from './LoginLocal';
 import UserPreferenceEdit from './UserPreference/UserPreferenceEdit';
 import TakeResult from './Take/TakeResult';
+import DictView from './DictView/DictView';
+import DictViewDetail from './DictView/DictViewDetail';
 
 class App extends React.Component {
 
@@ -60,6 +62,8 @@ class App extends React.Component {
                             <Route path='/login/local' exact component={LoginLocal} />
                             <AuthenticationRoute path='/user' exact component={UserPreferenceEdit} />
                             <AuthenticationRoute path='/take/result' exact component={TakeResult} />
+                            <AuthenticationRoute path='/dictviews' exact component={DictView} />
+                            <AuthenticationRoute path='/dictview/:id' exact component={DictViewDetail} />
                         </Switch>
                     </>
                 </Router>
