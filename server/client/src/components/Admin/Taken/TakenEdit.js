@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import ReactTable from "react-table";
 import 'react-table/react-table.css'
+import { toast } from 'react-toastify';
 
 import {leaf} from '../../Util/Util';
 
@@ -9,7 +10,7 @@ class TakenEdit extends React.Component {
     constructor(props){
         super(props);
         //this.state = {};
-        this.state = { selected: {}, selectAll: 0, items: [], isLoading: true, columns: [{
+        this.state = { unlocked:false, selected: {}, selectAll: 0, items: [], isLoading: true, columns: [{
               accessor: "",
               Cell: ({original}) => {
                   //console.log(original);
@@ -43,6 +44,7 @@ class TakenEdit extends React.Component {
               Header: 'Items ID',
               accessor: 'id',
               style: { 'whiteSpace': 'unset' },
+              Cell : (row) => (this.state.unlocked) ? (<button type="button" className="btn btn-primary btn-sm" onClick={e => this.handleSaveClick(e, row)}>Save</button>) : row.value
             },{
                 id: 'projectItem.NAME',
                 Header: 'NAME',
@@ -88,7 +90,8 @@ class TakenEdit extends React.Component {
             },{
                 Header: 'COMMENT',
                 accessor: 'COMMENT',
-                style: { 'whiteSpace': 'unset' }
+                style: { 'whiteSpace': 'unset' },
+                Cell: this.renderComment
             },{
                 Header: 'STATUS',
                 accessor: 'STATUS',
@@ -145,6 +148,7 @@ class TakenEdit extends React.Component {
         return uniqueArray.map(i => <option value={i} key={i}>{i}</option>)
     }
 
+
     toggleRow = (id) => {
         //const newSelected = Object.assign({}, this.state.selected);
         const newSelected = {...this.state.selected};
@@ -191,7 +195,48 @@ class TakenEdit extends React.Component {
         
     }
 
-    
+    handleSaveClick = async (e, row) => {
+        //console.log(row)
+        await axios.patch(`/api/taken/comment/${row.value}`,{COMMENT: row.original.COMMENT}, {headers: { "Content-Type": "application/json"}})
+            .then(function (response) {
+                if(response.status !== 200){
+                    toast.error(response.data.message);
+                }
+                toast.success("Done!");
+            })
+            .catch(error => {
+                toast.error(error.response);
+            } )
+
+        this.fetchList(this.props.projectId);
+    }
+
+    renderComment = (cellInfo) => {
+        if (this.state.unlocked === false){
+            return (<div>{cellInfo.value}</div>)
+        }
+        else{
+            return (
+                <div>
+                    <div
+                        style={{ backgroundColor: "#fafafa" }}
+                        contentEditable
+                        suppressContentEditableWarning
+                        onBlur={e => {
+                        const items = [...this.state.items];
+                        items[cellInfo.index][cellInfo.column.id] = e.target.innerHTML;
+                        this.setState({ items });
+                        }}
+                        dangerouslySetInnerHTML={{
+                        __html: this.state.items[cellInfo.index][cellInfo.column.id]
+                        }}
+                    />
+                
+                </div>
+              )
+        }
+        
+    }
     
     renderList (){
         if (this.state.items && this.state.items.error ){
@@ -206,6 +251,10 @@ class TakenEdit extends React.Component {
                         className="btn btn-danger" 
                         disabled={this.state.isLoading} 
                         onClick={ this.handleDelete }>Disable Record</button>
+                    <button type="button" 
+                        className="btn btn-info" 
+                        disabled={this.state.isLoading} 
+                        onClick={ () => {this.setState({unlocked:!this.state.unlocked})}}>{this.state.unlocked? <>Lock</>: <>Unlock</>}</button>
                     <h4> Total items: {this.state.items.length}</h4>
                     <div>
                         <ReactTable 

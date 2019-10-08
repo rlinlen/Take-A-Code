@@ -210,15 +210,29 @@ module.exports = (app, Model) => {
     });
 
     app.delete('/api/taken/:id',requireAuthenticated,requireAdmin,
-    async (req, res) => { 
-        try{
-            body = {STATUS:0}
-          await Model.Child.update(body, { where: {id: req.params.id} });
-          res.send({result:"ok"});
-        }
-        catch (err){
-          res.send(err);
-        }
+        async (req, res) => { 
+            try{
+                body = {STATUS:0}
+                await Model.Child.update(body, { where: {id: req.params.id} });
+                res.send({result:"ok"});
+            }
+            catch (err){
+                res.send(err);
+            }
+    });
+
+    //update comment only
+    app.patch('/api/taken/comment/:id',requireAuthenticated,requireAdmin,
+        async (req, res) => { 
+            try{
+                c = req.body.COMMENT;
+                body = {COMMENT: c}
+                await Model.Child.update(body, { where: {id: req.params.id} });
+                res.send({result:"ok"});
+            }
+            catch (err){
+                res.send(err);
+            }
     });
 
 }
