@@ -216,22 +216,39 @@ class TakenEdit extends React.Component {
             return (<div>{cellInfo.value}</div>)
         }
         else{
+            //console.log(cellInfo.value)
             return (
-                <div>
+               /*  <div>
                     <div
                         style={{ backgroundColor: "#fafafa" }}
                         contentEditable
                         suppressContentEditableWarning
                         onBlur={e => {
-                        const items = [...this.state.items];
-                        items[cellInfo.index][cellInfo.column.id] = e.target.innerHTML;
-                        this.setState({ items });
+                            const items = [...this.state.items];
+                            items[cellInfo.index][cellInfo.column.id] = e.target.innerHTML;
+                            this.setState({ items });
                         }}
                         dangerouslySetInnerHTML={{
-                        __html: this.state.items[cellInfo.index][cellInfo.column.id]
+                            __html: this.state.items[cellInfo.index][cellInfo.column.id]
                         }}
                     />
                 
+                </div> */
+                <div>
+                    <input type="text" 
+                        value={cellInfo.value || ''} // if no '', the null value will not be replaced when switch pages 
+                        onChange={e => {
+                            const items = [...this.state.items];
+                            items[cellInfo.index][cellInfo.column.id] = e.target.value;
+                            this.setState({ items });
+                        }}
+                        /* onBlur={e => {
+                            const items = [...this.state.items];
+                            items[cellInfo.index][cellInfo.column.id] = e.target.value;
+                            this.setState({ items });
+                        }} */
+                        className="form-control"
+                    />
                 </div>
               )
         }
