@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
 import { Formik, Field, Form, ErrorMessage, FieldArray } from 'formik';
+import axios from 'axios';
 
 import {DEFAULT_JOIN_CHAR} from '../../../appConstant'
 
@@ -8,8 +9,24 @@ class ProjectAdminForm extends React.Component {
     constructor(props){
         super(props);
 
-        this.init = {'NAME':'','NOTE':'',ProjectItem:[{'NAME':'',PROJECTITEM_RULE:DEFAULT_JOIN_CHAR,SEQ:''}]}
+        this.state = {opt:[]}
+        this.init = {'NAME':'','NOTE':'',ProjectItem:[{'NAME':'','PROJECTITEM_RULE':DEFAULT_JOIN_CHAR,SEQ:'', 'PROJECTITEM_SPLITDICT':''}]}
     }
+
+    componentDidMount() {
+      //console.log(this.props.initialValues)
+      this.fetchDictList();
+   }
+
+    fetchDictList = () => {
+      axios.get('/api/dicts').then(
+          res => {
+              //console.log(res);
+              let opt = res.data.map(i => {return {label:i.NAME, value:i.id}})
+              this.setState({opt: opt})
+          }
+      );        
+  }
 
     validate = (values) => {
       let errors = {};
@@ -30,6 +47,29 @@ class ProjectAdminForm extends React.Component {
         this.props.onSubmit(formValues);
     };
   
+    renderSelect = ({
+      field, // { name, value, onChange, onBlur }
+      form, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+      label,
+      readonly,
+      id,
+      options,
+      ...props
+    }) => {
+      return (
+        <div className="form-group">
+          <label htmlFor={id}>{label}</label>
+          <select {...field} className="form-control" id={id} autoComplete="off">
+            <option>----</option>
+            {options.map((option, index) => <option key={index} value={option.value}>{option.label}</option>)}
+          </select>
+          <ErrorMessage name={field.name}>
+            {errorMessage => <div className="text-danger">{errorMessage}</div>}
+          </ErrorMessage>
+        </div>
+      );
+    };
+
     renderText = ({
       field, // { name, value, onChange, onBlur }
       form, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
@@ -103,6 +143,12 @@ class ProjectAdminForm extends React.Component {
               component={this.renderNumber}
               label={`#${index + 1} SEQ`}
               min="1"
+            />
+            <Field
+              name={`${name}.${index}.PROJECTITEM_SPLITDICT`}
+              component={this.renderSelect}
+              label={`#${index + 1} Split serial number dictionary (Each item can have only one serial dict and one split)`}
+              options={this.state.opt}
             />
             <Field
               name={`${name}.${index}.id`}

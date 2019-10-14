@@ -15,7 +15,7 @@ const axiosAPI = axios.create({
         rejectUnauthorized: false
       })
 });
-const {Dict} = require('../services/sequelize');
+const {Dict, DictSplit} = require('../services/sequelize');
 
 module.exports = (app, Model) => {
     
@@ -115,32 +115,87 @@ module.exports = (app, Model) => {
                 //multiple code for dict type-number
                 let projectItem = {...req.body.items}
 
+                //find split dict id 
+                const ProjectItem = await Model.Parent.findByPk(req.params.projectItemId);
+                let dictId = ProjectItem.PROJECTITEM_SPLITDICT;
+                let splitValue;
+                //get the split dict id value 
+                if (dictId){
+
+                    let splitValueKV = Object.entries(projectItem)
+                        .filter(kv => kv[0] == dictId)
+                    //splitValueKV: [ [ '2', { seq: 2, value: '102019', type: 'date' } ] ]
+
+                    //console.log(dictId)
+                    //console.log(splitValueKV)
+                    splitValue = splitValueKV[0][1].value
+                    //console.log('s')
+                    //console.log(splitValue)
+
+                }else{
+                    //if no choose split dict, represent dictId as 0
+                    dictId = 0
+                    splitValue = 'NOTAVAIABLE'
+                }
+
+                
+
                 let codePromise = await Promise.all(Object.entries(projectItem)
-                    .filter(i => Number.isInteger(+i[0]))
-                    .sort((a, b) => a[1].seq - b[1].seq)
+                    .filter(i => Number.isInteger(+i[0])) //key is dictId e.g. number
+                    .sort((a, b) => a[1].seq - b[1].seq) //for order seq in
                     .map(async kv => {
                         if(kv[1]['type']==='number'){
-                            //patach dict current and get up-to-date current
+                            //dict current should be seperated by dictsplit
+                            /* //patach dict current and get up-to-date current
                             //kv[1] = { seq: 4, value: '003', inc: '2', type: 'number' }
                             
                             //let dictPatch = await axiosAPI.patch(`/api/dict/current/${kv[0]}`,{value:kv[1].inc});
                             //// replace direct http call for no req.user
                             //make sure it's always update from db to avoid lock
-                            let Model = Dict;
-                            const Dictionary = await Model.Parent.findByPk(kv[0]);
+                            let DModel = Dict;
+                            const Dictionary = await DModel.Parent.findByPk(kv[0]);
                             
                             //initilize
                             Dictionary.DICT_CURRENT = Dictionary.DICT_CURRENT || 0
                             let newCurrent = +Dictionary.DICT_CURRENT + +kv[1].inc;
             
                             //Update Parent items
-                             Model.Parent.update({DICT_CURRENT: newCurrent}, {
+                             DModel.Parent.update({DICT_CURRENT: newCurrent}, {
                                 where: {
                                     id: kv[0]
                                 }
                             })
                             let originalCurrent = Dictionary.DICT_CURRENT;
                             let rule = Dictionary.DICT_RULE;
+                            ////
+
+                            //let {originalCurrent, rule} = dictPatch.data;
+
+                            let r = [];
+                            for(let i = 1; i <= kv[1].inc; i++){
+                                r.push((i + +originalCurrent).toString().padStart(rule , "0"))
+                            }
+                            return r
+                            //return (+kv[1]['inc'] + +numCurrent).toString().padStart(rule , "0") */
+
+                            
+
+
+                            let DModel = Dict;
+                            const DictSplitModelwithBoolean = await DictSplit.findOrCreate({where: {DICT_ID: +dictId, DICT_SPLITVALUE: splitValue}})
+                            let DictSplitModel = DictSplitModelwithBoolean[0]
+
+                            //initilize
+                            console.log(DictSplitModel.DICT_CURRENT)
+                            DictSplitModel.DICT_CURRENT = DictSplitModel.DICT_CURRENT || 0
+                            let newCurrent = +DictSplitModel.DICT_CURRENT + +kv[1].inc;
+            
+                            //Update Parent items
+                            DictSplit.update({DICT_CURRENT: newCurrent}, {
+                                where: {DICT_ID: dictId, DICT_SPLITVALUE: splitValue}
+                            })
+                            let originalCurrent = DictSplitModel.DICT_CURRENT;
+                            let rule = DModel.DICT_RULE;
                             ////
 
                             //let {originalCurrent, rule} = dictPatch.data;

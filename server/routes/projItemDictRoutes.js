@@ -41,6 +41,7 @@ module.exports = (app, Model) => {
                     PROJECTITEM_ID: req.params.projectItemId,
                     PROJECTITEM_NAME: ProjectItemModel.dataValues.NAME,
                     PROJECTITEM_RULE: ProjectItemModel.dataValues.PROJECTITEM_RULE,
+                    PROJECTITEM_SPLITDICT: ProjectItemModel.dataValues.PROJECTITEM_SPLITDICT,
                     Dictionaries: Dictionaries
                 }
                 //console.log(response);

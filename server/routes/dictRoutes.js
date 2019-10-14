@@ -1,6 +1,6 @@
 const requireAuthenticated = require('../middlewares/requireAuthenticated');
 
-module.exports = (app, Model) => {
+module.exports = (app, Model, DictSplit) => {
     
     //list studies
     app.get('/api/dicts',requireAuthenticated,

@@ -11,7 +11,7 @@ const fs = require('fs');
 const keys = require('./config/keys');
 const conf = require('./config/conf');
 
-const {sequelize, Proj, Dict, ProjItemDict, ProjectItemTaken, User} = require('./services/sequelize');
+const {sequelize, Proj, Dict, ProjItemDict, ProjectItemTaken, User, DictSplit} = require('./services/sequelize');
 // initalize sequelize with session store
 const SequelizeStore = require('connect-session-sequelize')(expressSession.Store);
 
@@ -51,6 +51,7 @@ require('./routes/authRoutes')(app);
 require('./routes/userRoutes')(app, User);
 require('./routes/projRoutes')(app, Proj);
 require('./routes/dictRoutes')(app, Dict);
+require('./routes/dictSplitRoutes')(app, DictSplit);
 require('./routes/projItemDictRoutes')(app, ProjItemDict);
 require('./routes/takenRoutes')(app, ProjectItemTaken);
 ////Start Server

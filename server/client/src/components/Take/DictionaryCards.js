@@ -83,7 +83,7 @@ class DictionaryCards extends React.Component {
 
     return (
         <div>
-            <h4>Generated Code Preview:</h4>
+            <h4>Generated Code Format Preview (Not the final code!):</h4>
             <p>{this.props.dictValue[id].code}</p>
         </div>
         

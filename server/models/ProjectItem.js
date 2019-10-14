@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        PROJECTITEM_CURRENT: {
+        PROJECTITEM_SPLITDICT: {
             type: DataTypes.INTEGER
         },
     }, {

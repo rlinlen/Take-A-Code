@@ -42,6 +42,33 @@ class DictionaryCard extends React.Component {
     this.handleSetDictField(value);
   }
 
+  handlePlusClick = (field, form) => {
+    const { setFieldValue } = form;
+    const { name, value } = field;
+    let v = +value + 1;
+    setFieldValue(name, v);
+
+    //this.props.setDictValue(this.props.projItemId, this.props.dictSEQ, this.props.dictId, e.target.value, this.state.dict.DICT_TYPE, this.state.dict.DICT_RULE, this.state.dict.DICT_CURRENT);
+    this.handleSetDictField(v);
+  }
+
+  handleMinusClick = (field, form) => {
+    const { setFieldValue } = form;
+    const { name, value } = field;
+    let v;
+    if (+value > 1) {
+      v = +value - 1;
+    } else {
+      v = 1;
+    }
+    //console.log(e);
+    setFieldValue(name, v);
+
+    //this.props.setDictValue(this.props.projItemId, this.props.dictSEQ, this.props.dictId, e.target.value, this.state.dict.DICT_TYPE, this.state.dict.DICT_RULE, this.state.dict.DICT_CURRENT);
+    this.handleSetDictField(v);
+  }
+
+
   handleDatePickerChange = (date,name,form) => {
     //console.log(date.format('MMMM'));
     const { setFieldValue } = form;
@@ -119,7 +146,15 @@ class DictionaryCard extends React.Component {
     return (
       <div className="form-group">
         <label htmlFor={id}>{label}</label>
-        <input type="number" step="1" {...field} className="form-control" id={id} readOnly={readonly} min={min} max={max} onChange={e => this.handleInputChange(e, form)}/>
+        <span className="input-group">
+          <button type="button" className="btn btn-primary btn-block" onClick={e => this.handlePlusClick(field,form)}>
+            +
+          </button>
+          <input type="number" step="1" {...field} className="form-control" id={id} readOnly={readonly} min={min} max={max} onChange={e => this.handleInputChange(e, form)}/>
+          <button type="button" className="btn btn-danger btn-block" onClick={e => this.handleMinusClick(field,form)}>
+            -
+          </button>
+        </span>
         <ErrorMessage name={field.name}>
           {errorMessage => <div className="text-danger">{errorMessage}</div>}
         </ErrorMessage>
@@ -161,8 +196,8 @@ class DictionaryCard extends React.Component {
       case 'number':
         return (
           <>
-            Taken Number:
-            <Field type="text" readOnly={true} className="form-control" value={this.state.dict.DICT_CURRENT || 0}/>
+            {/* Taken Number:
+            <Field type="text" readOnly={true} className="form-control" value={this.state.dict.DICT_CURRENT || 0}/> */}
             How many Number to take:
             <Field name="item" component={this.renderNumber} id="PROJECTITEM_ID" min={1}/>
           </>

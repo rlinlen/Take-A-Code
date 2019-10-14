@@ -44,6 +44,8 @@ const ProjectItemTaken = {Parent: ProjectItem, Child: Taken};
 
 const User = require("../models/User")(sequelize, Sequelize);
 
+const DictSplit = require("../models/DictionarySplit")(sequelize, Sequelize, Dictionary);
+
 ////Export
 module.exports = {
     sequelize,
@@ -51,6 +53,7 @@ module.exports = {
     Dict,
     ProjItemDict,
     ProjectItemTaken,
-    User
+    User,
+    DictSplit
 }
 
